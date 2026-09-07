@@ -7,14 +7,14 @@
 		class: className,
 		children,
 		...restProps
-	}: WithElementRef<HTMLAttributes<HTMLParagraphElement>> = $props();
+	}: WithElementRef<HTMLAttributes<HTMLUListElement>> = $props();
 </script>
 
-<p
+<ul
 	bind:this={ref}
-	data-slot="card-description"
-	class={cn('text-xs/relaxed text-muted-foreground', className)}
+	data-slot="pagination-content"
+	class={cn('flex items-center gap-0.5', className)}
 	{...restProps}
 >
 	{@render children?.()}
-</p>
+</ul>

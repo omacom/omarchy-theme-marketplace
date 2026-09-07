@@ -1,0 +1,56 @@
+<script lang="ts">
+	import { RiArrowRightLine } from 'remixicon-svelte';
+	import * as Card from '$lib/components/ui/card/index.js';
+
+	const steps = [
+		{
+			number: '01',
+			title: 'Learn how to make your own theme.',
+			cta: 'Read the guide',
+			href: 'https://omarchy.org/manual/making-your-own-theme/'
+		},
+		{
+			number: '02',
+			title: 'Submit by opening an issue on GitHub.',
+			cta: 'Open an issue',
+			href: '#'
+		}
+	];
+</script>
+
+<section id="submit" class="border-t border-border">
+	<div class="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+		<h2 class="font-heading text-2xl font-semibold tracking-tight sm:text-3xl">Submit a theme</h2>
+		<p class="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
+			Made a theme for Omarchy? Here's how to get it listed.
+		</p>
+
+		<ol class="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
+			{#each steps as step (step.number)}
+				<li>
+					<a
+						href={step.href}
+						class="group block h-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+					>
+						<Card.Root class="h-full transition-shadow hover:ring-primary/40">
+							<Card.Content class="flex h-full flex-col">
+								<span class="font-heading text-3xl font-semibold text-primary">
+									{step.number}
+								</span>
+								<span class="mt-3.5 text-[15px] font-medium">{step.title}</span>
+								<span
+									class="mt-auto flex items-center gap-1 pt-6 text-[13px] font-medium text-primary"
+								>
+									{step.cta}
+									<RiArrowRightLine
+										class="size-4 transition-transform duration-150 ease-out group-hover:translate-x-0.5"
+									/>
+								</span>
+							</Card.Content>
+						</Card.Root>
+					</a>
+				</li>
+			{/each}
+		</ol>
+	</div>
+</section>

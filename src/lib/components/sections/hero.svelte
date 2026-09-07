@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { RiSearchLine } from 'remixicon-svelte';
 	import { Input } from '$lib/components/ui/input/index.js';
-	import { Badge } from '$lib/components/ui/badge/index.js';
+	import OmarchyWordmark from '$lib/components/brand/omarchy-wordmark.svelte';
 	import { themes } from '$lib/data/themes';
 
 	let { query = $bindable('') }: { query?: string } = $props();
@@ -18,10 +18,13 @@
 	></div>
 
 	<div class="relative flex w-full max-w-lg flex-col items-center">
-		<Badge class="mb-5">{themes.length} themes</Badge>
+		<OmarchyWordmark label="Omarchy" class="mb-2 h-12 w-auto text-primary sm:h-24" />
+		<h1 class="text-xs font-medium tracking-[0.18em] text-primary uppercase sm:text-sm">
+			Community Themes
+		</h1>
 
-		<p class="max-w-md text-[15px] leading-relaxed text-muted-foreground">
-			Choose from the hundreds of community-created themes for Omarchy.
+		<p class="mt-4 max-w-md text-[15px] leading-relaxed text-muted-foreground">
+			Choose from <span class="text-primary">{themes.length}</span> community-created themes for Omarchy.
 		</p>
 
 		<div class="relative mt-6 w-full">

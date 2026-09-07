@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Pagination from '$lib/components/ui/pagination/index.js';
-	import ThemeCard from '$lib/components/theme-card.svelte';
+	import ThemeCard from '$lib/components/theme/theme-card.svelte';
 	import { themes, type ThemeColor } from '$lib/data/themes';
 
 	let { query = '' }: { query?: string } = $props();

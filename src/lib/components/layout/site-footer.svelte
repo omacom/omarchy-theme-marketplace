@@ -1,7 +1,7 @@
 <script lang="ts">
-	import OmarchyWordmark from '$lib/components/omarchy-wordmark.svelte';
-	import ThirtySevenSignalsMark from '$lib/components/thirty-seven-signals-mark.svelte';
-	import CloudflareMark from '$lib/components/cloudflare-mark.svelte';
+	import OmarchyWordmark from '$lib/components/brand/omarchy-wordmark.svelte';
+	import ThirtySevenSignalsMark from '$lib/components/brand/thirty-seven-signals-mark.svelte';
+	import CloudflareMark from '$lib/components/brand/cloudflare-mark.svelte';
 
 	const columns = [
 		{

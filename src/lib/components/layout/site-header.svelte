@@ -2,8 +2,8 @@
 	import { RiMenuLine } from 'remixicon-svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Sheet from '$lib/components/ui/sheet/index.js';
-	import ThemeToggle from '$lib/components/theme-toggle.svelte';
-	import OmarchyMark from '$lib/components/omarchy-mark.svelte';
+	import ThemeToggle from '$lib/components/layout/theme-toggle.svelte';
+	import OmarchyMark from '$lib/components/brand/omarchy-mark.svelte';
 
 	const navLinks = [
 		{ href: 'https://omarchy.org/manual/making-your-own-theme/', label: 'Make your own theme' }

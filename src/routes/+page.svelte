@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Hero from '$lib/components/hero.svelte';
-	import ThemeGallery from '$lib/components/theme-gallery.svelte';
-	import SubmitSteps from '$lib/components/submit-steps.svelte';
-	import Stats from '$lib/components/stats.svelte';
+	import Hero from '$lib/components/sections/hero.svelte';
+	import ThemeGallery from '$lib/components/sections/theme-gallery.svelte';
+	import SubmitSteps from '$lib/components/sections/submit-steps.svelte';
+	import Stats from '$lib/components/sections/stats.svelte';
 
 	let query = $state('');
 </script>

@@ -3,6 +3,11 @@
 - **Language**: TypeScript
 - **Package Manager**: pnpm
 - **Add-ons**: prettier, eslint, vitest, tailwindcss, sveltekit-adapter, ai-tools
+- **UI Components**: shadcn-svelte
+
+---
+
+Always use shadcn-svelte UI components for UI elements.
 
 ---
 

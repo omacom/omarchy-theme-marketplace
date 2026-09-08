@@ -3,8 +3,8 @@ class DocsController < ApplicationController
     "index" => "Documentation",
     "making-a-theme" => "Making a theme",
     "validation" => "What gets checked",
-    "installing" => "Installing themes",
-    "api" => "Catalog API"
+    "installing" => "Installing themes"
+    # "api" => "Catalog API" — hidden until the CDN moves to its production domain (page kept in docs/pages/api.md)
   }.freeze
 
   def show

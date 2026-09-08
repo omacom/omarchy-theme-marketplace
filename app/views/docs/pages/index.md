@@ -5,4 +5,3 @@ The Omarchy theme marketplace lists community-made themes for [Omarchy](https://
 - [Making a theme](/docs/making-a-theme) — what a theme repository contains and how to publish one.
 - [What gets checked](/docs/validation) — the rules a theme has to pass to be listed, and the notes shown on theme pages.
 - [Installing themes](/docs/installing) — installing, updating, and removing themes on Omarchy.
-- [Catalog API](/docs/api) — the public JSON the site and the Omarchy client read.

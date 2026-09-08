@@ -8,6 +8,7 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_select "turbo-frame#gallery"
     assert_select "[data-slot=card]", minimum: 1
     assert_select "footer"
+    assert_select "header nav a[href=?]", docs_path, text: "Docs"
   end
 
   test "home filters, searches and pages via params" do
@@ -64,6 +65,8 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "article h2", minimum: 2
     get doc_path("nope")
+    assert_response :not_found
+    get doc_path("api") # hidden for now
     assert_response :not_found
   end
 end

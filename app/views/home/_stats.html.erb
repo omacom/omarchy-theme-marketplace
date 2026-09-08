@@ -1,0 +1,14 @@
+<section id="figures" class="border-t border-border">
+  <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:py-24">
+    <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <% stats.each do |label, value| %>
+        <%= ui_card do %>
+          <%= ui_card_content class: "flex flex-col gap-1.5" do %>
+            <span class="font-heading text-3xl font-semibold text-primary"><%= number_with_delimiter(value) %></span>
+            <span class="text-[13px] text-muted-foreground"><%= label %></span>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</section>

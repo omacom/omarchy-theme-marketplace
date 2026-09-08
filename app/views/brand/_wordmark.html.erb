@@ -1,0 +1,11 @@
+<%# Omarchy wordmark: SVG mask + banded brand gradient built from --primary. %>
+<% bands = [ [ "color-mix(in oklch, var(--primary) 55%, white)", 5 ], [ "color-mix(in oklch, var(--primary) 80%, white)", 2 ], [ "var(--primary)", 4 ], [ "color-mix(in oklch, var(--primary) 75%, black)", 3 ], [ "color-mix(in oklch, var(--primary) 50%, black)", 5 ] ]
+   total = bands.sum { |(_, rows)| rows }
+   css = []
+   rows = 0
+   pct = ->(n) { format("%.3f", n.to_f / total * 100) }
+   bands.each { |(color, band)| css << "#{color} #{pct.(rows)}%" << "#{color} #{pct.(rows + band)}%"; rows += band }
+   gradient = "linear-gradient(to bottom, #{css.join(', ')})"
+   label = local_assigns[:label] %>
+<div <% if label %>role="img" aria-label="<%= label %>"<% else %>aria-hidden="true"<% end %> class="<%= local_assigns[:class] %>"
+  style="aspect-ratio: 4131 / 950; background-color: currentColor; background-image: <%= gradient %>; mask-image: url(/brand/omarchy-wordmark.svg); mask-repeat: no-repeat; mask-size: 100% 100%; mask-mode: alpha; -webkit-mask-image: url(/brand/omarchy-wordmark.svg); -webkit-mask-repeat: no-repeat; -webkit-mask-size: 100% 100%;"></div>

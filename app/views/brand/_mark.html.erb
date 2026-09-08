@@ -1,0 +1,16 @@
+<%# Omarchy mark with the banded brand gradient built from --primary (follows light/dark mode). %>
+<% bands = [ [ "color-mix(in oklch, var(--primary) 55%, white)", 5 ], [ "color-mix(in oklch, var(--primary) 80%, white)", 2 ], [ "var(--primary)", 4 ], [ "color-mix(in oklch, var(--primary) 75%, black)", 3 ], [ "color-mix(in oklch, var(--primary) 50%, black)", 5 ] ]
+   total = bands.sum { |(_, rows)| rows }
+   stops = []
+   rows = 0
+   bands.each { |(color, band)| stops << [ rows.to_f / total, color ] << [ (rows + band).to_f / total, color ]; rows += band }
+   gradient_id = "omarchy-mark-gradient-#{SecureRandom.hex(4)}" %>
+<svg viewBox="0 0 1200 1200" fill="none" aria-hidden="true" class="<%= local_assigns[:class] %>">
+  <defs>
+    <linearGradient id="<%= gradient_id %>" x1="0" y1="0" x2="0" y2="1">
+      <% stops.each do |(offset, color)| %><stop offset="<%= offset %>" stop-color="<%= color %>" /><% end %>
+    </linearGradient>
+  </defs>
+  <path fill-rule="evenodd" clip-rule="evenodd" fill="url(#<%= gradient_id %>)"
+    d="m1200 1200h-480v-80h400v-1040h-479.996v160h-400v720h720v-720h-80v-80h159.996v880h-400v160h-640v-1200h1200zm-1120-80h480v-80h-400l.004-400h-80.004zm0-560h80.004v-400h400v-80h-480.004z" />
+</svg>

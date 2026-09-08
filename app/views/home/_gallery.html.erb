@@ -1,0 +1,53 @@
+<% filters = [ [ "featured", "Featured" ], [ "all", "All" ], [ "dark", "Dark" ], [ "light", "Light" ] ]
+   filters = filters.reject { |k, _| k == "featured" } unless catalog.any_featured? %>
+<section id="themes" class="mx-auto max-w-6xl px-4 pt-10 pb-20 sm:px-6">
+  <%= turbo_frame_tag "gallery" do %>
+    <%# Turbo swaps only the frame's children, so the current state lives on an element inside it. %>
+    <div id="gallery-state" hidden data-filter="<%= query.params_for[:filter] %>" data-sort="<%= query.params_for[:sort] %>"></div>
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      <div class="flex flex-wrap items-center gap-2">
+        <% filters.each do |key, label| %>
+          <%= ui_button label, href: root_path(query.params_for(filter: key).merge(anchor: "themes")), size: :sm,
+                variant: (query.filter == key ? :default : :outline), "aria-pressed": (query.filter == key).to_s,
+                data: { turbo_action: "advance" } %>
+        <% end %>
+
+        <span class="mx-1 h-5 w-px bg-border" aria-hidden="true"></span>
+
+        <% ThemeQuery::HUES.each do |hue| %>
+          <%= ui_button href: root_path(query.params_for(filter: hue).merge(anchor: "themes")), size: :sm, class: "gap-1.5",
+                variant: (query.filter == hue ? :default : :outline), "aria-pressed": (query.filter == hue).to_s,
+                data: { turbo_action: "advance" } do %>
+            <span class="size-2.5 rounded-full" style="background-color: <%= ThemeQuery::HUE_SWATCHES[hue] %>"></span>
+            <%= Theme::HUE_LABELS[hue] %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <label class="sr-only" for="gallery-sort">Sort by</label>
+        <%= form_with url: root_path(anchor: "themes"), method: :get, class: "contents", data: { turbo_frame: "gallery", turbo_action: "advance" } do |f| %>
+          <% query.params_for.except(:sort).each do |k, v| %><%= f.hidden_field k, value: v %><% end %>
+          <%= f.select :sort, options_for_select(ThemeQuery::SORTS.to_a.map { |k, v| [ v, k ] }, query.sort), {},
+                id: "gallery-sort", onchange: "this.form.requestSubmit()",
+                class: button_class(variant: :outline, size: :sm, class: "h-7 py-0 pr-8 pl-2.5 text-xs leading-none") %>
+        <% end %>
+        <span class="text-sm whitespace-nowrap text-muted-foreground"><%= pluralize(query.total, "theme") %></span>
+      </div>
+    </div>
+
+    <% if query.total.positive? %>
+      <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <% query.page_results.each do |theme| %>
+          <%= render "themes/card", theme: theme %>
+        <% end %>
+      </div>
+
+      <% if query.paginated? %>
+        <%= render "shared/pagination", query: query %>
+      <% end %>
+    <% else %>
+      <p class="mt-10 text-sm text-muted-foreground">No themes match your filters.</p>
+    <% end %>
+  <% end %>
+</section>

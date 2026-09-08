@@ -1,0 +1,54 @@
+<% nav_links = [ { href: "https://omarchy.org/manual/making-your-own-theme/", label: "Make your own theme" } ] %>
+<div class="contents" data-controller="sheet">
+<header class="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-lg">
+  <div class="mx-auto flex h-14 max-w-6xl items-center gap-3 px-4 sm:px-6">
+    <a href="<%= root_path %>" class="flex shrink-0 items-center gap-2" aria-label="Omarchy Themes home">
+      <%= render "brand/mark", class: "size-5 text-primary" %>
+      <span class="font-mono text-[15px] font-semibold tracking-tight text-foreground uppercase">
+        Theme Marketplace
+      </span>
+    </a>
+
+    <nav aria-label="Main" class="hidden items-center gap-1 sm:ml-4 sm:flex">
+      <% nav_links.each do |link| %>
+        <%= ui_button link[:label], href: link[:href], variant: :ghost, "aria-label": link[:label] %>
+      <% end %>
+    </nav>
+
+    <div class="ml-auto flex items-center gap-1.5">
+      <%= render "layouts/theme_toggle" %>
+      <%= ui_button "Submit a theme", href: root_path(anchor: "submit"), class: "hidden sm:inline-flex" %>
+
+      <%= ui_button variant: :ghost, size: :icon, class: "sm:hidden", "aria-label": "Menu", "aria-expanded": "false",
+            data: { action: "sheet#open", sheet_target: "trigger" } do %>
+        <%= icon :menu, class: "size-5" %>
+      <% end %>
+    </div>
+  </div>
+</header>
+
+  <%# Mobile menu (port of shadcn Sheet, side="right"). Lives outside <header>: its backdrop-filter
+      would otherwise become the containing block for these fixed elements. %>
+  <div data-sheet-target="overlay" data-state="closed" hidden
+       class="fixed inset-0 z-50 bg-black/10 text-xs/relaxed supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0"
+       data-action="click->sheet#close"></div>
+  <div data-sheet-target="panel" data-state="closed" data-side="right" hidden role="dialog" aria-modal="true" aria-label="Omarchy Themes"
+       class="fixed inset-y-0 right-0 z-50 flex h-full w-72 flex-col border-l bg-popover bg-clip-padding text-xs/relaxed text-popover-foreground shadow-lg transition duration-200 ease-in-out data-open:animate-in data-open:fade-in-0 data-open:slide-in-from-right-10 data-closed:animate-out data-closed:fade-out-0 data-closed:slide-out-to-right-10"
+       data-action="keydown.esc->sheet#close">
+    <div class="flex flex-col gap-0.5 p-4">
+      <h2 class="font-heading text-sm font-medium text-foreground">Omarchy Themes</h2>
+    </div>
+    <nav aria-label="Main" class="flex flex-col gap-1 px-4">
+      <% nav_links.each do |link| %>
+        <a href="<%= link[:href] %>" class="py-2.5 text-sm text-muted-foreground hover:text-foreground" data-action="sheet#close">
+          <%= link[:label] %>
+        </a>
+      <% end %>
+      <%= ui_button "Submit a theme", href: root_path(anchor: "submit"), class: "mt-2", data: { action: "sheet#close" } %>
+    </nav>
+    <%= ui_button variant: :ghost, size: :icon_sm, class: "absolute top-3 right-3", data: { action: "sheet#close" } do %>
+      <%= icon :close %>
+      <span class="sr-only">Close</span>
+    <% end %>
+  </div>
+</div>

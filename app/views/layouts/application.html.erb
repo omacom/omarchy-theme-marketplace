@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="text-scale" content="scale">
+    <title><%= content_for?(:title) ? yield(:title) : "Omarchy Themes — the Omarchy theme marketplace" %></title>
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Browse, preview, and install color themes for Omarchy. A community marketplace built on top of the Omarchy Linux desktop." %>">
+    <%= yield :head %>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <link rel="icon" href="/brand/omarchy-logo.svg" type="image/svg+xml">
+    <%# Apply the saved colour mode before first paint (mode-watcher equivalent). Default: dark. %>
+    <script>
+      (function () {
+        try {
+          var m = localStorage.getItem("theme") || "dark";
+          document.documentElement.classList.toggle("dark", m === "dark");
+          document.documentElement.style.colorScheme = m;
+        } catch (e) {}
+      })();
+    </script>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <div class="flex min-h-dvh flex-col">
+      <%= render "layouts/header" %>
+      <main class="flex-1">
+        <%= yield %>
+      </main>
+      <%= render "layouts/footer" %>
+    </div>
+  </body>
+</html>

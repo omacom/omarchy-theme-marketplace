@@ -1,0 +1,35 @@
+<% current = query.current_page; last = query.total_pages
+   link_opts = { data: { turbo_action: "advance" } }
+   page_url = ->(n) { root_path(query.params_for(page: (n unless n == 1)).merge(anchor: "themes")) } %>
+<nav aria-label="pagination" class="mx-auto mt-10 flex w-full justify-center" data-slot="pagination">
+  <ul class="flex items-center gap-0.5" data-slot="pagination-content">
+    <li data-slot="pagination-item">
+      <% if current > 1 %>
+        <%= link_to page_url.(current - 1), { class: button_class(variant: :ghost, class: "pl-1.5!"), "aria-label": "Go to previous page" }.merge(link_opts) do %>
+          <%= icon :arrow_left_s, class: "size-4" %><span>Previous</span>
+        <% end %>
+      <% else %>
+        <span class="<%= button_class(variant: :ghost, class: "pl-1.5! pointer-events-none opacity-50") %>" aria-disabled="true"><%= icon :arrow_left_s, class: "size-4" %><span>Previous</span></span>
+      <% end %>
+    </li>
+    <% query.page_items.each do |item| %>
+      <li data-slot="pagination-item">
+        <% if item == :ellipsis %>
+          <span aria-hidden="true" data-slot="pagination-ellipsis" class="flex size-8 items-center justify-center [&_svg:not([class*='size-'])]:size-4"><%= icon :more %><span class="sr-only">More pages</span></span>
+        <% else %>
+          <%= link_to item, page_url.(item), { class: button_class(variant: (item == current ? :outline : :ghost), size: :icon),
+                "aria-current": (item == current ? "page" : nil), data: { slot: "pagination-link", active: (item == current).to_s, turbo_action: "advance" } } %>
+        <% end %>
+      </li>
+    <% end %>
+    <li data-slot="pagination-item">
+      <% if current < last %>
+        <%= link_to page_url.(current + 1), { class: button_class(variant: :ghost, class: "pr-1.5!"), "aria-label": "Go to next page" }.merge(link_opts) do %>
+          <span>Next</span><%= icon :arrow_right_s, class: "size-4" %>
+        <% end %>
+      <% else %>
+        <span class="<%= button_class(variant: :ghost, class: "pr-1.5! pointer-events-none opacity-50") %>" aria-disabled="true"><span>Next</span><%= icon :arrow_right_s, class: "size-4" %></span>
+      <% end %>
+    </li>
+  </ul>
+</nav>

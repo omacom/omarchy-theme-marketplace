@@ -1,0 +1,47 @@
+# Kamal deployment for themes.omarchy.org.
+# Target: a single Digital Ocean droplet (Ubuntu, Docker installed by `kamal setup`),
+# with Cloudflare in front for TLS/CDN. Fill in the host and registry before `kamal setup`.
+service: omarchy-themes
+
+image: omacom/omarchy-themes
+
+servers:
+  web:
+    - <%= ENV.fetch("DEPLOY_HOST", "REPLACE_WITH_DROPLET_IP") %>
+
+# Cloudflare proxies the domain; let kamal-proxy terminate TLS with Let's Encrypt behind it
+# (set the Cloudflare SSL mode to "Full (strict)"), or set ssl: false and use an Origin Certificate.
+proxy:
+  ssl: true
+  host: themes.omarchy.org
+
+registry:
+  # Digital Ocean Container Registry (registry.digitalocean.com/<namespace>) or GHCR (ghcr.io).
+  server: <%= ENV.fetch("KAMAL_REGISTRY_SERVER", "ghcr.io") %>
+  username: <%= ENV.fetch("KAMAL_REGISTRY_USERNAME", "omacom") %>
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+env:
+  secret:
+    - RAILS_MASTER_KEY
+  clear:
+    SOLID_QUEUE_IN_PUMA: true
+    CATALOG_URL: https://pub-98465b4520f24f9a8f162c4f722a293f.r2.dev/v1/catalog.json
+    WEB_CONCURRENCY: 2
+    JOB_CONCURRENCY: 1
+
+aliases:
+  console: app exec --interactive --reuse "bin/rails console"
+  shell: app exec --interactive --reuse "bash"
+  logs: app logs -f
+  dbc: app exec --interactive --reuse "bin/rails dbconsole"
+
+# SQLite databases live on a persistent volume on the droplet.
+volumes:
+  - "omarchy_themes_storage:/rails/storage"
+
+asset_path: /rails/public/assets
+
+builder:
+  arch: amd64

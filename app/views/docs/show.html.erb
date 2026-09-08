@@ -1,0 +1,20 @@
+<% content_for :title, "#{@title} — Omarchy Themes" %>
+<section class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+  <div class="grid grid-cols-1 gap-10 lg:grid-cols-[220px_minmax(0,1fr)]">
+    <nav aria-label="Documentation" class="lg:sticky lg:top-20 lg:self-start">
+      <h2 class="font-heading text-xs tracking-widest text-muted-foreground uppercase">Docs</h2>
+      <ul class="mt-3.5 flex flex-col gap-1">
+        <% @pages.each do |slug, title| %>
+          <li>
+            <a href="<%= slug == "index" ? docs_path : doc_path(slug) %>"
+               class="block py-1.5 text-sm <%= slug == @page ? "text-primary" : "text-muted-foreground hover:text-foreground" %>"
+               <%= 'aria-current="page"'.html_safe if slug == @page %>><%= title %></a>
+          </li>
+        <% end %>
+      </ul>
+    </nav>
+    <article class="prose prose-sm max-w-[72ch] prose-headings:font-heading prose-headings:tracking-tight prose-a:text-primary prose-code:before:content-none prose-code:after:content-none prose-code:border prose-code:border-border prose-code:px-1 prose-code:py-0.5 prose-code:font-normal prose-pre:rounded-none prose-pre:border prose-pre:border-border prose-pre:bg-card prose-pre:text-card-foreground dark:prose-invert">
+      <%= @html.html_safe %>
+    </article>
+  </div>
+</section>

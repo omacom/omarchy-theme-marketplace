@@ -1,0 +1,76 @@
+<% columns = [
+  { title: "Explore", links: [
+    { label: "News", href: "https://omarchy.org/news/" },
+    { label: "Manual", href: "https://omarchy.org/manual/" },
+    { label: "Plugins", href: "https://plugins.omarchy.org" },
+    { label: "Themes", href: root_path(anchor: "themes") } ] },
+  { title: "Community", links: [
+    { label: "Discord", href: "https://discord.gg/tXFUdasqhY" },
+    { label: "Meetups", href: "https://omarchy.org/meetups/" },
+    { label: "Teams", href: "https://omarchy.org/teams/" },
+    { label: "Workstations", href: "https://omarchy.org/workstations" } ] },
+  { title: "Foundation", links: [
+    { label: "About", href: "https://omarchy.org/foundation" },
+    { label: "Patrons", href: "https://omarchy.org/patrons" },
+    { label: "Sponsorships", href: "https://omarchy.org/sponsorships" },
+    { label: "Artists in Residence", href: "https://omarchy.org/air" } ] },
+  { title: "Project", links: [
+    { label: "Security", href: "https://omarchy.org/security" },
+    { label: "GitHub", href: "https://github.com/omacom/omarchy" },
+    { label: "Brand", href: "https://omarchy.org/brand" },
+    { label: "Merch", href: "https://supply.37signals.com/collections/omarchy" } ] }
+] %>
+<footer class="border-t border-border">
+  <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+    <div class="flex flex-col gap-10 lg:flex-row lg:justify-between">
+      <div class="flex w-full shrink-0 flex-col sm:w-max lg:w-96">
+        <a href="<%= root_path %>" aria-label="Omarchy home" class="block w-fit">
+          <%= render "brand/wordmark", label: "Omarchy", class: "h-6 w-auto text-primary" %>
+        </a>
+        <p class="mt-4 text-sm leading-relaxed text-muted-foreground">
+          Beautiful, fun &amp; agentic Linux by
+          <a href="https://dhh.dk" class="font-semibold text-foreground hover:text-primary">DHH</a>
+          <br>
+          The malleable OS for the age of agents.
+        </p>
+
+        <div class="mt-8 flex flex-col text-sm leading-relaxed text-muted-foreground">
+          <p>
+            Incubated at
+            <a href="https://37signals.com" class="text-foreground hover:text-primary">
+              <%= render "brand/thirty_seven_signals", class: "mr-1 inline-block size-3.5 align-[-0.15em]" %>
+              37signals
+            </a>
+          </p>
+          <p>
+            Hosting by
+            <a href="https://cloudflare.com" class="text-foreground hover:text-primary">
+              <%= render "brand/cloudflare", class: "mr-1 inline-block h-2.5 w-auto align-[-0.05em]" %>
+              Cloudflare
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <div class="grid min-w-0 flex-1 grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4">
+        <% columns.each do |col| %>
+          <nav aria-label="<%= col[:title] %>">
+            <h2 class="font-heading text-xs tracking-widest text-muted-foreground uppercase"><%= col[:title] %></h2>
+            <ul class="mt-3.5 flex flex-col gap-2.5">
+              <% col[:links].each do |link| %>
+                <li>
+                  <a href="<%= link[:href] %>" class="text-sm text-muted-foreground transition-colors hover:text-foreground"><%= link[:label] %></a>
+                </li>
+              <% end %>
+            </ul>
+          </nav>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-col gap-2 border-t border-border pt-6 text-[13px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+      <p>Omarchy™. All rights reserved.</p>
+      <p>Partner inquiries: <a href="https://omarchy.org/#:~:text=foundation%40omarchy.org">foundation@omarchy.org</a></p>
+    </div>
+  </div>
+</footer>

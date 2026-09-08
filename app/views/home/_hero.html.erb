@@ -1,0 +1,23 @@
+<section id="home" class="relative flex flex-col items-center overflow-hidden border-b border-border px-6 py-14 text-center">
+  <div class="pointer-events-none absolute inset-0 opacity-40"
+       style="background: radial-gradient(60% 50% at 50% 0%, color-mix(in oklch, var(--primary) 18%, transparent), transparent 70%);"
+       aria-hidden="true"></div>
+
+  <div class="relative z-10 flex w-full max-w-lg flex-col items-center">
+    <%= render "brand/wordmark", label: "Omarchy", class: "h-12 w-auto text-primary sm:h-24" %>
+
+    <p class="mt-4 max-w-lg text-[15px] leading-relaxed text-muted-foreground">
+      Choose from <span class="font-medium tracking-[0.18em] text-primary uppercase"><%= catalog.size %> Community Themes</span> for Omarchy.
+    </p>
+
+    <%= form_with url: root_path(anchor: "themes"), method: :get, class: "relative mt-6 w-full",
+          data: { controller: "search", turbo_frame: "gallery", turbo_action: "advance" } do |f| %>
+      <%# Kept in sync with the gallery frame by the search controller, so a search keeps the active filter/sort. %>
+      <%= f.hidden_field :filter, value: query.params_for[:filter], data: { search_target: "filter" } %>
+      <%= f.hidden_field :sort, value: query.params_for[:sort], data: { search_target: "sort" } %>
+      <%= icon :search, class: "pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" %>
+      <%= f.search_field :q, value: query.query, placeholder: "Search themes…", "aria-label": "Search themes", autocomplete: "off",
+            class: input_class(class: "h-11 pl-9"), data: { action: "input->search#submit" } %>
+    <% end %>
+  </div>
+</section>

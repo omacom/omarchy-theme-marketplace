@@ -1,0 +1,176 @@
+<% content_for :title, "#{@theme.name} — Omarchy Themes" %>
+<% content_for :description, (@theme.description.presence || "#{@theme.name}, a #{@theme.mode} community theme for Omarchy by #{@theme.author_login}.") %>
+<% content_for :head do %>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="<%= @theme.name %> — Omarchy theme">
+  <meta property="og:description" content="<%= @theme.description.presence || "A #{@theme.mode} community theme for Omarchy by #{@theme.author_login}." %>">
+  <meta property="og:image" content="<%= @theme.image %>">
+  <meta property="og:image:width" content="<%= @theme.preview["width"] %>">
+  <meta property="og:image:height" content="<%= @theme.preview["height"] %>">
+  <meta property="og:url" content="<%= theme_url(@theme) %>">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="<%= theme_url(@theme) %>">
+<% end %>
+
+<section class="border-b border-border">
+  <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <nav aria-label="Breadcrumb" class="text-xs text-muted-foreground">
+      <a href="<%= root_path(anchor: "themes") %>" class="hover:text-foreground">Themes</a>
+      <span class="mx-1.5" aria-hidden="true">/</span>
+      <span class="text-foreground"><%= @theme.name %></span>
+    </nav>
+
+    <div class="mt-4 flex flex-wrap items-start justify-between gap-4">
+      <div class="min-w-0">
+        <h1 class="font-heading text-2xl font-semibold tracking-tight sm:text-3xl"><%= @theme.name %></h1>
+        <p class="mt-1.5 text-sm text-muted-foreground">
+          by <a href="<%= author_path(@theme.author_login) %>" class="text-foreground hover:text-primary"><%= @theme.author_login %></a>
+          <% if @theme.description.present? %><span class="mx-1.5" aria-hidden="true">·</span><%= @theme.description %><% end %>
+        </p>
+        <div class="mt-3 flex flex-wrap items-center gap-1.5">
+          <% if @theme.new? %><%= ui_badge "New" %><% end %>
+          <% if @theme.featured? %><%= ui_badge "Featured", variant: :secondary %><% end %>
+          <%= ui_badge @theme.mode.capitalize, variant: :outline %>
+          <%= ui_badge variant: :outline, class: "gap-1.5" do %>
+            <span class="size-2.5 rounded-full" style="background-color: <%= @theme.accent %>"></span><%= @theme.hue_label %>
+          <% end %>
+          <% @theme.tags.each do |tag| %><%= ui_badge tag, variant: :outline %><% end %>
+        </div>
+      </div>
+
+      <div class="flex shrink-0 items-center gap-1.5">
+        <%= ui_button href: @theme.repo, variant: :outline, class: "gap-1.5" do %>
+          <%= icon :github, class: "size-4" %> View on GitHub
+        <% end %>
+      </div>
+    </div>
+
+    <div class="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-3">
+      <div class="lg:col-span-2">
+        <%= ui_card class: "pt-0" do %>
+          <img src="<%= @theme.image %>" alt="<%= @theme.name %> theme preview" width="1200" height="675"
+               style="background-color: <%= @theme.placeholder %>" class="aspect-video w-full object-cover">
+        <% end %>
+      </div>
+
+      <div class="flex flex-col gap-5">
+        <%= ui_card do %>
+          <%= ui_card_header do %>
+            <%= ui_card_title "Install" %>
+            <%= ui_card_description "Paste this in a terminal (Super + Return) to install and apply the theme." %>
+          <% end %>
+          <%= ui_card_content do %>
+            <div class="flex items-stretch gap-1.5" data-controller="copy" data-copy-text-value="<%= @theme.install %>">
+              <code class="min-w-0 flex-1 overflow-x-auto border border-input bg-input/30 px-2.5 py-2 text-xs whitespace-nowrap"><%= @theme.install %></code>
+              <%= ui_button variant: :outline, size: :icon, "aria-label": "Copy install command", class: "h-auto", data: { action: "copy#copy" } do %>
+                <%= icon :copy, class: "size-4", data: { copy_target: "idle" } %>
+                <%= icon :check, class: "size-4 text-primary", hidden: true, data: { copy_target: "done" } %>
+              <% end %>
+            </div>
+            <p class="mt-3 text-xs text-muted-foreground">
+              Or open the Omarchy menu → <span class="text-foreground">Install → Style → Theme</span> and paste the repository URL.
+            </p>
+          <% end %>
+        <% end %>
+
+        <%= ui_card do %>
+          <%= ui_card_content do %>
+            <dl class="grid grid-cols-[max-content_1fr] gap-x-4 gap-y-2 text-xs">
+              <dt class="text-muted-foreground">Author</dt>
+              <dd><a href="<%= author_path(@theme.author_login) %>" class="hover:text-primary"><%= @theme.author_login %></a></dd>
+              <dt class="text-muted-foreground">Stars</dt>
+              <dd class="tabular-nums"><%= number_with_delimiter(@theme.stars) %></dd>
+              <dt class="text-muted-foreground">License</dt>
+              <dd><%= @theme.license || "Not specified" %></dd>
+              <dt class="text-muted-foreground">Wallpapers</dt>
+              <dd><%= @theme.backgrounds["count"].to_i %><%= " (includes video)" if @theme.backgrounds["has_video"] %></dd>
+              <dt class="text-muted-foreground">Updated</dt>
+              <dd><%= @theme.pushed_at ? time_tag(@theme.pushed_at, @theme.pushed_at.to_date.to_fs(:long)) : "—" %></dd>
+              <dt class="text-muted-foreground">Validated</dt>
+              <dd><a href="<%= @theme.commit_url %>" class="font-mono hover:text-primary" title="The commit the marketplace checked"><%= @theme.short_commit %></a></dd>
+              <dt class="text-muted-foreground">Listed</dt>
+              <dd><%= @theme.added_at&.to_fs(:long) %></dd>
+            </dl>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="border-b border-border">
+  <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <h2 class="font-heading text-lg font-semibold tracking-tight">Palette</h2>
+    <p class="mt-1 text-xs text-muted-foreground">From the theme's <code>colors.toml</code>. Click a colour to copy it.</p>
+    <ul class="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-6">
+      <% @theme.palette.each do |name, hex| %>
+        <li>
+          <button type="button" class="group flex w-full items-center gap-2.5 border border-border bg-card px-2 py-1.5 text-left text-xs transition-colors hover:border-ring focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50 outline-none"
+                  data-controller="copy" data-copy-text-value="<%= hex %>" data-action="copy#copy" aria-label="Copy <%= name.humanize %> <%= hex %>">
+            <span class="size-6 shrink-0 border border-foreground/10" style="background-color: <%= hex %>"></span>
+            <span class="min-w-0 flex-1">
+              <span class="block truncate text-muted-foreground"><%= name.tr("_", " ") %></span>
+              <span class="block font-mono" data-copy-target="idle"><%= hex %></span>
+              <span class="block font-mono text-primary" hidden data-copy-target="done">Copied</span>
+            </span>
+          </button>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</section>
+
+<% if @theme.ignored_on_install.any? || @theme.warning_labels.any? %>
+  <section class="border-b border-border">
+    <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+      <h2 class="font-heading text-lg font-semibold tracking-tight">Good to know</h2>
+      <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <% if @theme.ignored_on_install.any? %>
+          <%= ui_card do %>
+            <%= ui_card_header do %>
+              <%= ui_card_title "Not applied when installed from a repo" %>
+              <%= ui_card_description "Omarchy regenerates these from colors.toml and never runs files from a downloaded theme." %>
+            <% end %>
+            <%= ui_card_content do %>
+              <ul class="flex flex-wrap gap-1.5">
+                <% @theme.ignored_on_install.each do |f| %><li><code class="border border-border px-1.5 py-0.5 text-xs"><%= f %></code></li><% end %>
+              </ul>
+            <% end %>
+          <% end %>
+        <% end %>
+        <% if @theme.warning_labels.any? %>
+          <%= ui_card do %>
+            <%= ui_card_header do %>
+              <%= ui_card_title "Notes from validation" %>
+              <%= ui_card_description "Nothing here blocks installation; it is what the author could still improve." %>
+            <% end %>
+            <%= ui_card_content do %>
+              <ul class="flex flex-col gap-1.5 text-xs">
+                <% @theme.warning_labels.each do |w| %><li class="flex gap-2"><span class="text-muted-foreground" aria-hidden="true">–</span><%= w %></li><% end %>
+              </ul>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </section>
+<% end %>
+
+<section class="border-b border-border">
+  <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <h2 class="font-heading text-lg font-semibold tracking-tight">More by <%= @theme.author_login %></h2>
+        <p class="mt-1 text-xs text-muted-foreground"><%= link_to "All themes by #{@theme.author_login}", author_path(@theme.author_login), class: "hover:text-primary" %></p>
+      </div>
+      <a href="<%= @theme.issues_url %>" class="text-xs text-muted-foreground hover:text-foreground">Report a problem with this theme</a>
+    </div>
+    <% if @more_by_author.any? %>
+      <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <% @more_by_author.each do |theme| %><%= render "themes/card", theme: theme %><% end %>
+      </div>
+    <% else %>
+      <p class="mt-6 text-sm text-muted-foreground">This is the author's only listed theme so far.</p>
+    <% end %>
+  </div>
+</section>

@@ -17,14 +17,13 @@
 		aria-hidden="true"
 	></div>
 
-	<div class="relative flex w-full max-w-lg flex-col items-center">
-		<OmarchyWordmark label="Omarchy" class="mb-2 h-12 w-auto text-primary sm:h-24" />
-		<h1 class="text-xs font-medium tracking-[0.18em] text-primary uppercase sm:text-sm">
-			Community Themes
-		</h1>
+	<div class="relative z-10 flex w-full max-w-lg flex-col items-center">
+		<OmarchyWordmark label="Omarchy" class="h-12 w-auto text-primary sm:h-24" />
 
-		<p class="mt-4 max-w-md text-[15px] leading-relaxed text-muted-foreground">
-			Choose from <span class="text-primary">{themes.length}</span> community-created themes for Omarchy.
+		<p class="mt-4 max-w-lg text-[15px] leading-relaxed text-muted-foreground">
+			Choose from <span class="font-medium tracking-[0.18em] text-primary uppercase"
+				>{themes.length} Community Themes</span
+			> for Omarchy.
 		</p>
 
 		<div class="relative mt-6 w-full">

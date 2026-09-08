@@ -22,7 +22,7 @@
 	<div class="mx-auto max-w-6xl px-4 py-20 sm:px-6">
 		<h2 class="font-heading text-2xl font-semibold tracking-tight sm:text-3xl">Submit a theme</h2>
 		<p class="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
-			Made a theme for Omarchy? Here's how to get it listed.
+			Create a theme for Omarchy and share it with the community.
 		</p>
 
 		<ol class="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">

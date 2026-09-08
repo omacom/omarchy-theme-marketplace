@@ -45,62 +45,53 @@
       </div>
     </div>
 
-    <div class="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-3">
-      <div class="lg:col-span-2">
-        <%= ui_card class: "pt-0" do %>
-          <img src="<%= @theme.image %>" alt="<%= @theme.name %> theme preview" width="1200" height="675"
-               style="background-color: <%= @theme.placeholder %>" class="aspect-video w-full object-cover">
-        <% end %>
-      </div>
+    <figure class="mt-8 border border-border" style="background-color: <%= @theme.placeholder %>">
+      <img src="<%= @theme.image %>" alt="<%= @theme.name %> theme preview" width="1200" height="675" class="aspect-video w-full object-cover">
+    </figure>
 
-      <div class="flex flex-col gap-5">
-        <%= ui_card do %>
-          <%= ui_card_header do %>
-            <%= ui_card_title "Install" %>
-            <%= ui_card_description "Run this command in a terminal to install and apply the theme." %>
+    <%# Install: one full-width bar so the command never has to truncate. %>
+    <div class="mt-5 border border-border bg-card text-card-foreground">
+      <div class="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:gap-4">
+        <div class="shrink-0 sm:w-40">
+          <p class="text-sm font-medium">Install</p>
+          <p class="mt-0.5 text-xs text-muted-foreground">Run in a terminal to install and apply.</p>
+        </div>
+        <div class="flex min-w-0 flex-1 items-stretch gap-1.5">
+          <code class="min-w-0 flex-1 overflow-x-auto border border-input bg-input/30 px-2.5 py-2 text-xs whitespace-nowrap"><%= @theme.install %></code>
+          <%= ui_button variant: :outline, "aria-label": "Copy install command", class: "h-auto shrink-0 gap-1.5 data-[copied=true]:border-primary data-[copied=true]:text-primary data-[copied=true]:hover:text-primary",
+                data: { controller: "copy", action: "copy#copy", copy_text_value: @theme.install, copy_ping_value: theme_copied_path(@theme) } do %>
+            <%= icon :copy, class: "size-4", data: { copy_target: "idle" } %>
+            <span data-copy-target="idle">Copy</span>
+            <%= icon :check, class: "size-4", hidden: true, data: { copy_target: "done" } %>
+            <span data-copy-target="done" hidden>Copied</span>
+            <span class="sr-only" role="status" aria-live="polite" data-copy-target="status"></span>
           <% end %>
-          <%= ui_card_content do %>
-            <div class="flex items-stretch gap-1.5">
-              <code class="min-w-0 flex-1 overflow-x-auto border border-input bg-input/30 px-2.5 py-2 text-xs whitespace-nowrap"><%= @theme.install %></code>
-              <%= ui_button variant: :outline, "aria-label": "Copy install command", class: "h-auto shrink-0 gap-1.5 data-[copied=true]:border-primary data-[copied=true]:text-primary data-[copied=true]:hover:text-primary",
-                    data: { controller: "copy", action: "copy#copy", copy_text_value: @theme.install, copy_ping_value: theme_copied_path(@theme) } do %>
-                <%= icon :copy, class: "size-4", data: { copy_target: "idle" } %>
-                <span data-copy-target="idle">Copy</span>
-                <%= icon :check, class: "size-4", hidden: true, data: { copy_target: "done" } %>
-                <span data-copy-target="done" hidden>Copied</span>
-                <span class="sr-only" role="status" aria-live="polite" data-copy-target="status"></span>
-              <% end %>
-            </div>
-            <p class="mt-3 text-xs text-muted-foreground">
-              Or open the Omarchy menu → <span class="text-foreground">Install → Style → Theme</span> and paste the repository URL.
-            </p>
-          <% end %>
-        <% end %>
-
-        <%= ui_card do %>
-          <%= ui_card_content do %>
-            <dl class="grid grid-cols-[max-content_1fr] gap-x-4 gap-y-2 text-xs">
-              <dt class="text-muted-foreground">Author</dt>
-              <dd><a href="<%= author_path(@theme.author_login) %>" class="hover:text-primary"><%= @theme.author_login %></a></dd>
-              <dt class="text-muted-foreground">Stars</dt>
-              <dd class="tabular-nums"><%= number_with_delimiter(@theme.stars) %></dd>
-              <dt class="text-muted-foreground">Copied</dt>
-              <dd class="tabular-nums" title="How often the install command was copied here"><%= pluralize(number_with_delimiter(@theme.copies), "time") %></dd>
-              <dt class="text-muted-foreground">License</dt>
-              <dd><%= @theme.license || "Not specified" %></dd>
-              <dt class="text-muted-foreground">Wallpapers</dt>
-              <dd><%= @theme.backgrounds["count"].to_i %><%= " (includes video)" if @theme.backgrounds["has_video"] %></dd>
-              <dt class="text-muted-foreground">Updated</dt>
-              <dd><%= @theme.pushed_at ? time_tag(@theme.pushed_at, @theme.pushed_at.to_date.to_fs(:long)) : "—" %></dd>
-              <dt class="text-muted-foreground">Validated</dt>
-              <dd><a href="<%= @theme.commit_url %>" class="font-mono hover:text-primary" title="The commit the marketplace checked"><%= @theme.short_commit %></a></dd>
-              <dt class="text-muted-foreground">Listed</dt>
-              <dd><%= @theme.added_at&.to_fs(:long) %></dd>
-            </dl>
-          <% end %>
-        <% end %>
+        </div>
       </div>
+      <p class="border-t border-border px-4 py-2.5 text-xs text-muted-foreground">
+        Or open the Omarchy menu → <span class="text-foreground">Install → Style → Theme</span> and paste the repository URL.
+      </p>
     </div>
+
+    <%# Details: a compact grid instead of a tall label/value list. %>
+    <% details = [
+      [ "Author", link_to(@theme.author_login, author_path(@theme.author_login), class: "hover:text-primary") ],
+      [ "Stars", number_with_delimiter(@theme.stars) ],
+      [ "License", @theme.license || "Not specified" ],
+      [ "Wallpapers", "#{@theme.backgrounds["count"].to_i}#{" + video" if @theme.backgrounds["has_video"]}" ],
+      [ "Updated", @theme.pushed_at ? time_tag(@theme.pushed_at, @theme.pushed_at.to_date.to_fs(:long)) : "—" ],
+      [ "Listed", @theme.added_at&.to_fs(:long) || "—" ],
+      [ "Validated", link_to(@theme.short_commit, @theme.commit_url, class: "font-mono hover:text-primary", title: "The commit the marketplace checked") ],
+      [ "Copied", pluralize(number_with_delimiter(@theme.copies), "time") ]
+    ] %>
+    <dl class="mt-5 grid grid-cols-2 gap-px border border-border bg-border sm:grid-cols-4">
+      <% details.each do |label, value| %>
+        <div class="bg-card px-4 py-3">
+          <dt class="text-[11px] font-medium tracking-wide text-muted-foreground uppercase"><%= label %></dt>
+          <dd class="mt-1 truncate text-sm tabular-nums" title="<%= strip_tags(value.to_s) %>"><%= value %></dd>
+        </div>
+      <% end %>
+    </dl>
   </div>
 </section>
 

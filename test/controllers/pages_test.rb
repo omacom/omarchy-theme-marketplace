@@ -10,6 +10,9 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_select "[data-slot=card] a[title='GitHub stars']", minimum: 1
     assert_select "footer"
     assert_select "header nav a[href=?]", docs_path, text: "Docs"
+    assert_select "#submit a[href=?]", doc_path("making-a-theme")
+    assert_select "#submit a[href=?]", Rails.configuration.x.submit_url
+    assert_select "header a[href=?]", Rails.configuration.x.submit_url, text: "Submit a theme"
   end
 
   test "home filters, searches and pages via params" do

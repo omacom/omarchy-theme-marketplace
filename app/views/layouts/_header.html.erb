@@ -17,7 +17,7 @@
 
     <div class="ml-auto flex items-center gap-1.5">
       <%= render "layouts/theme_toggle" %>
-      <%= ui_button "Submit a theme", href: root_path(anchor: "submit"), class: "hidden sm:inline-flex" %>
+      <%= ui_button "Submit a theme", href: Rails.configuration.x.submit_url, class: "hidden sm:inline-flex" %>
       <%# Sign-in is wired (/login, /me) but hidden until likes or submissions need it; see plan.md. %>
       <% if signed_in? %>
         <a href="<%= me_path %>" class="hidden size-8 shrink-0 items-center justify-center border border-border sm:inline-flex" aria-label="Your themes">
@@ -54,7 +54,7 @@
         <a href="<%= me_path %>" class="py-2.5 text-sm text-muted-foreground hover:text-foreground" data-action="sheet#close">Your themes</a>
         <%= button_to "Sign out", logout_path, method: :delete, form_class: "contents", class: "py-2.5 text-left text-sm text-muted-foreground hover:text-foreground" %>
       <% end %>
-      <%= ui_button "Submit a theme", href: root_path(anchor: "submit"), class: "mt-2", data: { action: "sheet#close" } %>
+      <%= ui_button "Submit a theme", href: Rails.configuration.x.submit_url, class: "mt-2", data: { action: "sheet#close" } %>
     </nav>
     <%= ui_button variant: :ghost, size: :icon_sm, class: "absolute top-3 right-3", data: { action: "sheet#close" } do %>
       <%= icon :close %>

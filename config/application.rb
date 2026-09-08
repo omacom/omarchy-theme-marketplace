@@ -29,6 +29,10 @@ module OmarchyMarketplaceSite
     config.x.cdn_base_url = (ENV["CDN_BASE_URL"].presence || "https://cdn.themes.omarchy.org").delete_suffix("/")
     config.x.catalog_url = ENV["CATALOG_URL"].presence || "#{config.x.cdn_base_url}/v1/catalog.json"
 
+    # Where themes are submitted: the registry's "Submit a theme" issue form.
+    config.x.registry_url = "https://github.com/omacom/omarchy-theme-registry"
+    config.x.submit_url = "#{config.x.registry_url}/issues/new?template=submit-theme.yml"
+
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.

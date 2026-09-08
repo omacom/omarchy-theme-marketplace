@@ -15,16 +15,6 @@ When a theme is installed from a repository, Omarchy keeps everything that is co
 
 ## Listing it on the marketplace
 
-Open a pull request against [omacom/omarchy-theme-registry](https://github.com/omacom/omarchy-theme-registry) that adds `themes/<name>.json`:
+Open a [**Submit a theme**](https://github.com/omacom/omarchy-theme-registry/issues/new?template=submit-theme.yml) issue in the registry with your repository URL. That is all: the validator runs on your repo, comments its report on the issue, and opens the registry pull request for you when everything passes. A maintainer merges it and the theme is live within minutes.
 
-```json
-{
-  "slug": "<name>",
-  "repo": "https://github.com/you/omarchy-<name>-theme",
-  "name": "Display Name",
-  "submitted_by": "your-github-login",
-  "added_at": "2026-09-08"
-}
-```
-
-The validator runs on the pull request and comments its report. A submission form on this site is on the way and will do this for you.
+If validation fails, fix the repository and comment `/recheck` on the issue. Once listed, the marketplace follows your default branch, so updates never need a new submission. See [what the validator checks](/docs/validation).

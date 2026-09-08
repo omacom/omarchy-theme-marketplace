@@ -15,8 +15,9 @@ export default class extends Controller {
     this.element.setAttribute("aria-pressed", liked)
     this.element.setAttribute("aria-label", liked ? "Unlike this theme" : "Like this theme")
     this.element.classList.toggle("text-primary", liked)
-    this.outlineTarget.hidden = liked
-    this.fillTarget.hidden = !liked
+    // <svg> has no .hidden property; toggle the attribute instead
+    this.outlineTarget.toggleAttribute("hidden", liked)
+    this.fillTarget.toggleAttribute("hidden", !liked)
     this.countTarget.textContent = this.countValue + (liked ? 1 : 0)
   }
 }

@@ -57,14 +57,18 @@
         <%= ui_card do %>
           <%= ui_card_header do %>
             <%= ui_card_title "Install" %>
-            <%= ui_card_description "Paste this in a terminal (Super + Return) to install and apply the theme." %>
+            <%= ui_card_description "Run this command in a terminal to install and apply the theme." %>
           <% end %>
           <%= ui_card_content do %>
-            <div class="flex items-stretch gap-1.5" data-controller="copy" data-copy-text-value="<%= @theme.install %>">
+            <div class="flex items-stretch gap-1.5">
               <code class="min-w-0 flex-1 overflow-x-auto border border-input bg-input/30 px-2.5 py-2 text-xs whitespace-nowrap"><%= @theme.install %></code>
-              <%= ui_button variant: :outline, size: :icon, "aria-label": "Copy install command", class: "h-auto", data: { action: "copy#copy" } do %>
+              <%= ui_button variant: :outline, "aria-label": "Copy install command", class: "h-auto shrink-0 gap-1.5 data-[copied=true]:border-primary data-[copied=true]:text-primary data-[copied=true]:hover:text-primary",
+                    data: { controller: "copy", action: "copy#copy", copy_text_value: @theme.install } do %>
                 <%= icon :copy, class: "size-4", data: { copy_target: "idle" } %>
-                <%= icon :check, class: "size-4 text-primary", hidden: true, data: { copy_target: "done" } %>
+                <span data-copy-target="idle">Copy</span>
+                <%= icon :check, class: "size-4", hidden: true, data: { copy_target: "done" } %>
+                <span data-copy-target="done" hidden>Copied</span>
+                <span class="sr-only" role="status" aria-live="polite" data-copy-target="status"></span>
               <% end %>
             </div>
             <p class="mt-3 text-xs text-muted-foreground">
@@ -111,8 +115,9 @@
             <span class="min-w-0 flex-1">
               <span class="block truncate text-muted-foreground"><%= name.tr("_", " ") %></span>
               <span class="block font-mono" data-copy-target="idle"><%= hex %></span>
-              <span class="block font-mono text-primary" hidden data-copy-target="done">Copied</span>
+              <span class="block font-mono text-primary" hidden data-copy-target="done">Copied <%= hex %></span>
             </span>
+            <span class="sr-only" role="status" aria-live="polite" data-copy-target="status"></span>
           </button>
         </li>
       <% end %>

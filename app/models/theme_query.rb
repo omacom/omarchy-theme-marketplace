@@ -3,12 +3,14 @@
 class ThemeQuery
   PER_PAGE = 12
   FILTERS = %w[featured all dark light].freeze
-  HUES = %w[blue green purple orange pink teal gray].freeze
+  # Spectral order, matching the registry's hue buckets.
+  HUES = %w[red orange yellow green teal blue purple pink gray].freeze
   SORTS = { "name" => "Name", "new" => "Newest", "stars" => "Stars" }.freeze
 
   HUE_SWATCHES = {
-    "blue" => "#7aa2f7", "green" => "#9ece6a", "purple" => "#bb9af7", "orange" => "#ff9e64",
-    "pink" => "#f5bde6", "teal" => "#2ac3de", "gray" => "#9099b2"
+    "red" => "#f7768e", "orange" => "#ff9e64", "yellow" => "#e0af68", "green" => "#9ece6a",
+    "teal" => "#2ac3de", "blue" => "#7aa2f7", "purple" => "#bb9af7", "pink" => "#f5bde6",
+    "gray" => "#9099b2"
   }.freeze
 
   attr_reader :catalog, :filter, :query, :sort, :page

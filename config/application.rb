@@ -23,8 +23,11 @@ module OmarchyMarketplaceSite
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 8.1
 
-    # Where the published theme catalog lives (omacom/omarchy-theme-registry → R2).
-    config.x.catalog_url = ENV.fetch("CATALOG_URL", "https://pub-98465b4520f24f9a8f162c4f722a293f.r2.dev/v1/catalog.json")
+    # Where omacom/omarchy-theme-registry publishes the catalog (R2). Same variable
+    # name the registry uses. Set CDN_BASE_URL in .env locally and in
+    # config/deploy.yml for the server; the default is the production domain.
+    config.x.cdn_base_url = (ENV["CDN_BASE_URL"].presence || "https://cdn.themes.omarchy.org").delete_suffix("/")
+    config.x.catalog_url = ENV["CATALOG_URL"].presence || "#{config.x.cdn_base_url}/v1/catalog.json"
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.

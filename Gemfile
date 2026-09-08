@@ -45,6 +45,9 @@ gem "kramdown"
 gem "kramdown-parser-gfm"
 
 group :development, :test do
+  # Loads .env so CDN_BASE_URL and friends apply to rails server/console/test
+  gem "dotenv-rails"
+
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 

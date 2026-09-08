@@ -18,11 +18,14 @@ bundle exec rubocop
 
 Environment:
 
-| Variable      | Purpose                                                     | Default                     |
-| ------------- | ----------------------------------------------------------- | --------------------------- |
-| `CATALOG_URL` | Where to fetch the catalog; unset to use the snapshot only  | the registry's dev CDN URL  |
+| Variable       | Purpose                                                                                       | Default                          |
+| -------------- | --------------------------------------------------------------------------------------------- | -------------------------------- |
+| `CDN_BASE_URL` | Base URL of the registry CDN; `/v1/catalog.json` is appended                                  | `https://cdn.themes.omarchy.org` |
+| `CATALOG_URL`  | Full catalog URL, overrides `CDN_BASE_URL` (test env sets it to nil to use the snapshot only) | derived                          |
 
-To refresh the snapshot: `curl -s "$CATALOG_URL" -o data/catalog.json`.
+Copy `.env.example` to `.env` for local development.
+
+To refresh the snapshot: `curl -s "$CDN_BASE_URL/v1/catalog.json" -o data/catalog.json`.
 
 ## Layout
 

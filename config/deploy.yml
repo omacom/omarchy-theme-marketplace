@@ -27,7 +27,8 @@ env:
     - RAILS_MASTER_KEY
   clear:
     SOLID_QUEUE_IN_PUMA: true
-    CATALOG_URL: https://pub-98465b4520f24f9a8f162c4f722a293f.r2.dev/v1/catalog.json
+    # Temporary R2 public dev URL; switch to https://cdn.themes.omarchy.org when the domain is live.
+    CDN_BASE_URL: https://pub-98465b4520f24f9a8f162c4f722a293f.r2.dev
     WEB_CONCURRENCY: 2
     JOB_CONCURRENCY: 1
 

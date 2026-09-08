@@ -99,8 +99,9 @@
   <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
     <h2 class="font-heading text-lg font-semibold tracking-tight">Palette</h2>
     <p class="mt-1 text-xs text-muted-foreground">From the theme's <code>colors.toml</code>. Click a colour to copy it.</p>
-    <ul class="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-6">
-      <% @theme.palette.each do |name, hex| %>
+    <% @theme.palette_rows.each_with_index do |row, i| %>
+    <ul class="<%= i.zero? ? "mt-5" : "mt-2" %> grid grid-cols-3 gap-2 sm:grid-cols-6">
+      <% row.each do |name, hex| %>
         <li>
           <button type="button" class="group flex w-full items-center gap-2.5 border border-border bg-card px-2 py-1.5 text-left text-xs transition-colors hover:border-ring focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50 outline-none"
                   data-controller="copy" data-copy-text-value="<%= hex %>" data-action="copy#copy" aria-label="Copy <%= name.humanize %> <%= hex %>">
@@ -115,6 +116,7 @@
         </li>
       <% end %>
     </ul>
+    <% end %>
   </div>
 </section>
 

@@ -99,14 +99,19 @@ class Theme
     warnings.map { |w| WARNING_LABELS[w] }.compact.uniq
   end
 
-  # Palette in display order: the 8 base colours, then the bright variants, then surfaces.
-  def palette
-    order = %w[accent background foreground red yellow orange green cyan blue magenta brown
-               bright_red bright_yellow bright_green bright_cyan bright_blue bright_magenta
-               selection muted dark_background darker_background lighter_background
-               dark_foreground light_foreground bright_foreground]
-    order.filter_map { |k| colors[k] && [ k, colors[k] ] }
+  PALETTE_ROWS = [
+    %w[accent background foreground],
+    %w[red yellow green cyan blue magenta],
+    %w[bright_red bright_yellow bright_green bright_cyan bright_blue bright_magenta]
+  ].freeze
+
+  # Palette as displayed: accent/background/foreground, the six base colours, their bright
+  # variants. Surfaces and extras (orange, brown, selection, muted…) are left out.
+  def palette_rows
+    PALETTE_ROWS.map { |row| row.filter_map { |k| colors[k] && [ k, colors[k] ] } }.reject(&:empty?)
   end
+
+  def palette = palette_rows.flatten(1)
 
   def commit_url = "#{repo}/commit/#{commit}"
   def issues_url = "#{repo}/issues"

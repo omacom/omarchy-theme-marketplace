@@ -63,7 +63,7 @@
             <div class="flex items-stretch gap-1.5">
               <code class="min-w-0 flex-1 overflow-x-auto border border-input bg-input/30 px-2.5 py-2 text-xs whitespace-nowrap"><%= @theme.install %></code>
               <%= ui_button variant: :outline, "aria-label": "Copy install command", class: "h-auto shrink-0 gap-1.5 data-[copied=true]:border-primary data-[copied=true]:text-primary data-[copied=true]:hover:text-primary",
-                    data: { controller: "copy", action: "copy#copy", copy_text_value: @theme.install } do %>
+                    data: { controller: "copy", action: "copy#copy", copy_text_value: @theme.install, copy_ping_value: theme_copied_path(@theme) } do %>
                 <%= icon :copy, class: "size-4", data: { copy_target: "idle" } %>
                 <span data-copy-target="idle">Copy</span>
                 <%= icon :check, class: "size-4", hidden: true, data: { copy_target: "done" } %>
@@ -84,6 +84,8 @@
               <dd><a href="<%= author_path(@theme.author_login) %>" class="hover:text-primary"><%= @theme.author_login %></a></dd>
               <dt class="text-muted-foreground">Stars</dt>
               <dd class="tabular-nums"><%= number_with_delimiter(@theme.stars) %></dd>
+              <dt class="text-muted-foreground">Copied</dt>
+              <dd class="tabular-nums" title="How often the install command was copied here"><%= pluralize(number_with_delimiter(@theme.copies), "time") %></dd>
               <dt class="text-muted-foreground">License</dt>
               <dd><%= @theme.license || "Not specified" %></dd>
               <dt class="text-muted-foreground">Wallpapers</dt>

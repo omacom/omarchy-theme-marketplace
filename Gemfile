@@ -44,6 +44,10 @@ gem "thruster", require: false
 gem "kramdown"
 gem "kramdown-parser-gfm"
 
+# Sign in with GitHub (likes, submissions)
+gem "omniauth-github"
+gem "omniauth-rails_csrf_protection"
+
 group :development, :test do
   # Loads .env so CDN_BASE_URL and friends apply to rails server/console/test
   gem "dotenv-rails"

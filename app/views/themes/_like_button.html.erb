@@ -1,0 +1,9 @@
+<%# Server-backed like toggle. Signed out: the POST is redirected to /login and back. %>
+<% liked = signed_in? && current_user.liked?(theme.slug) %>
+<%= button_to theme_like_path(theme), method: (liked ? :delete : :post),
+      form: { id: "like-#{theme.slug}", class: "contents" }, "aria-pressed": liked.to_s,
+      "aria-label": (liked ? "Unlike this theme" : "Like this theme"),
+      class: button_class(variant: :ghost, size: :sm, class: "shrink-0 gap-1.5 px-1.5 hover:text-primary #{liked ? 'text-primary' : 'text-muted-foreground'}") do %>
+  <%= icon (liked ? :heart_fill : :heart), class: "size-4" %>
+  <span class="text-xs tabular-nums"><%= theme.likes %></span>
+<% end %>

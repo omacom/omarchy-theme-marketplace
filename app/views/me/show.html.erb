@@ -1,0 +1,41 @@
+<% content_for :title, "Your themes — Omarchy Themes" %>
+<section class="border-b border-border">
+  <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-10 sm:px-6">
+    <div class="flex items-center gap-4">
+      <img src="<%= current_user.avatar_url %>" alt="" width="56" height="56" class="size-14 border border-border object-cover">
+      <div>
+        <h1 class="font-heading text-2xl font-semibold tracking-tight"><%= current_user.name.presence || current_user.login %></h1>
+        <p class="mt-1 text-sm text-muted-foreground">
+          <a href="<%= current_user.profile_url %>" class="hover:text-primary">@<%= current_user.login %></a>
+        </p>
+      </div>
+    </div>
+    <%= button_to "Sign out", logout_path, method: :delete, form_class: "contents", class: button_class(variant: :outline) %>
+  </div>
+</section>
+
+<section class="border-b border-border">
+  <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <h2 class="font-heading text-lg font-semibold tracking-tight">Liked themes</h2>
+    <% if @liked_themes.any? %>
+      <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <% @liked_themes.each do |theme| %><%= render "themes/card", theme: theme %><% end %>
+      </div>
+    <% else %>
+      <p class="mt-2 text-sm text-muted-foreground">Nothing yet. Tap the heart on any theme to keep it here.</p>
+    <% end %>
+  </div>
+</section>
+
+<section class="border-b border-border">
+  <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <h2 class="font-heading text-lg font-semibold tracking-tight">Your published themes</h2>
+    <% if @own_themes.any? %>
+      <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <% @own_themes.each do |theme| %><%= render "themes/card", theme: theme %><% end %>
+      </div>
+    <% else %>
+      <p class="mt-2 text-sm text-muted-foreground">No themes by @<%= current_user.login %> in the catalog yet. <a href="<%= root_path(anchor: "submit") %>" class="text-foreground hover:text-primary">Submit one</a>.</p>
+    <% end %>
+  </div>
+</section>

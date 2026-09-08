@@ -25,6 +25,8 @@ registry:
 env:
   secret:
     - RAILS_MASTER_KEY
+    - GITHUB_CLIENT_ID
+    - GITHUB_CLIENT_SECRET
   clear:
     SOLID_QUEUE_IN_PUMA: true
     # Temporary R2 public dev URL; switch to https://cdn.themes.omarchy.org when the domain is live.

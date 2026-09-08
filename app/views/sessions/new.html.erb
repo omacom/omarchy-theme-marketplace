@@ -1,0 +1,10 @@
+<% content_for :title, "Sign in — Omarchy Themes" %>
+<%# Sign-in is not part of v1 (see plan.md): the button is disabled and the form does not post. %>
+<section class="mx-auto flex max-w-md flex-col items-center px-4 py-20 text-center sm:px-6">
+  <h1 class="font-heading text-2xl font-semibold tracking-tight">Sign in</h1>
+  <p class="mt-2 text-sm text-muted-foreground">Accounts are not open yet. Browsing and installing themes never needs one.</p>
+  <%= ui_button class: "mt-8 gap-2", disabled: true, "aria-disabled": "true" do %>
+    <%= icon :github, class: "size-4" %> Continue with GitHub
+  <% end %>
+  <a href="<%= root_path %>" class="mt-6 text-xs text-muted-foreground hover:text-foreground">Back to themes</a>
+</section>

@@ -7,6 +7,7 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_select "h1, p", /Community Themes/
     assert_select "turbo-frame#gallery"
     assert_select "[data-slot=card]", minimum: 1
+    assert_select "[data-slot=card] a[title='GitHub stars']", minimum: 1
     assert_select "footer"
     assert_select "header nav a[href=?]", docs_path, text: "Docs"
   end

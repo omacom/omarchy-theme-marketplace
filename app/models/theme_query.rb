@@ -5,7 +5,8 @@ class ThemeQuery
   FILTERS = %w[featured all dark light].freeze
   # Spectral order, matching the registry's hue buckets.
   HUES = %w[red orange yellow green teal blue purple pink gray].freeze
-  SORTS = { "name" => "Name", "new" => "Newest", "stars" => "Stars" }.freeze
+  # "likes" => "Most liked" returns with the engagement feature (plan.md).
+  SORTS = { "name" => "Name", "new" => "Newest", "trending" => "Trending", "stars" => "Stars" }.freeze
 
   HUE_SWATCHES = {
     "red" => "#f7768e", "orange" => "#ff9e64", "yellow" => "#e0af68", "green" => "#9ece6a",
@@ -84,6 +85,8 @@ class ThemeQuery
     case sort
     when "new" then themes.sort_by { |t| [ -(t.added_at&.jd || 0), t.name.downcase ] }
     when "stars" then themes.sort_by { |t| [ -t.stars, t.name.downcase ] }
+    when "likes" then themes.sort_by { |t| [ -t.likes, -t.copies, t.name.downcase ] }
+    when "trending" then themes.sort_by { |t| [ -t.trending, -t.likes, -t.copies, t.name.downcase ] }
     else themes.sort_by { |t| t.name.downcase }
     end
   end

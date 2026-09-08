@@ -46,7 +46,7 @@
     </div>
 
     <figure class="mt-8 border border-border" style="background-color: <%= @theme.placeholder %>">
-      <img src="<%= @theme.image %>" alt="<%= @theme.name %> theme preview" width="1200" height="675" class="aspect-video w-full object-cover">
+      <%= image_tag @theme.image, alt: "#{@theme.name} theme preview", width: 1200, height: 675, class: "aspect-video w-full object-cover" %>
     </figure>
 
     <%# Install: one full-width bar so the command never has to truncate. %>
@@ -74,21 +74,30 @@
     </div>
 
     <%# Details: a compact grid instead of a tall label/value list. %>
+    <%# label, text, optional href/title for a link, optional datetime for a <time> %>
     <% details = [
-      [ "Author", link_to(@theme.author_login, author_path(@theme.author_login), class: "hover:text-primary") ],
-      [ "Stars", number_with_delimiter(@theme.stars) ],
-      [ "License", @theme.license || "Not specified" ],
-      [ "Wallpapers", "#{@theme.backgrounds["count"].to_i}#{" + video" if @theme.backgrounds["has_video"]}" ],
-      [ "Updated", @theme.pushed_at ? time_tag(@theme.pushed_at, @theme.pushed_at.to_date.to_fs(:long)) : "—" ],
-      [ "Listed", @theme.added_at&.to_fs(:long) || "—" ],
-      [ "Validated", link_to(@theme.short_commit, @theme.commit_url, class: "font-mono hover:text-primary", title: "The commit the marketplace checked") ],
-      [ "Copied", pluralize(number_with_delimiter(@theme.copies), "time") ]
+      { label: "Author", text: @theme.author_login, href: author_path(@theme.author_login) },
+      { label: "Stars", text: number_with_delimiter(@theme.stars) },
+      { label: "License", text: @theme.license || "Not specified" },
+      { label: "Wallpapers", text: "#{@theme.backgrounds["count"].to_i}#{" + video" if @theme.backgrounds["has_video"]}" },
+      { label: "Updated", text: @theme.pushed_at ? @theme.pushed_at.to_date.to_fs(:long) : "—", time: @theme.pushed_at },
+      { label: "Listed", text: @theme.added_at&.to_fs(:long) || "—" },
+      { label: "Validated", text: @theme.short_commit, href: @theme.commit_url, title: "The commit the marketplace checked", mono: true },
+      { label: "Copied", text: pluralize(number_with_delimiter(@theme.copies), "time") }
     ] %>
     <dl class="mt-5 grid grid-cols-2 gap-px border border-border bg-border sm:grid-cols-4">
-      <% details.each do |label, value| %>
+      <% details.each do |d| %>
         <div class="bg-card px-4 py-3">
-          <dt class="text-[11px] font-medium tracking-wide text-muted-foreground uppercase"><%= label %></dt>
-          <dd class="mt-1 truncate text-sm tabular-nums" title="<%= strip_tags(value.to_s) %>"><%= value %></dd>
+          <dt class="text-[11px] font-medium tracking-wide text-muted-foreground uppercase"><%= d[:label] %></dt>
+          <dd class="mt-1 truncate text-sm tabular-nums" title="<%= d[:title] || d[:text] %>">
+            <% if d[:href] %>
+              <%= link_to d[:text], d[:href], class: "hover:text-primary #{"font-mono" if d[:mono]}".strip %>
+            <% elsif d[:time] %>
+              <%= time_tag d[:time], d[:text] %>
+            <% else %>
+              <%= d[:text] %>
+            <% end %>
+          </dd>
         </div>
       <% end %>
     </dl>

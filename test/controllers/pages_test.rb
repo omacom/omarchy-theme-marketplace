@@ -41,6 +41,10 @@ class PagesTest < ActionDispatch::IntegrationTest
     get theme_path("nujabes")
     assert_response :success
     assert_select "h1", "Nujabes"
+    assert_select "figure img[alt='Nujabes theme preview'][width='1200']"
+    assert_select "dl dd a[href=?]", author_path("HalmyLyseas"), text: "HalmyLyseas"
+    assert_select "dl dd a.font-mono[href*='/commit/']"
+    assert_select "dl dd time"
     assert_select "code", /omarchy theme install/
     assert_select "[data-controller=copy]", minimum: 2
     assert_select "meta[property='og:image']"

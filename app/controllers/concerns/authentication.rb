@@ -36,7 +36,7 @@ module Authentication
 
   def require_login
     return if signed_in?
-    session[:return_to] = request.fullpath if request.get?
+    session[:return_to] = request.fullpath if request.get? || request.head?
     session[:return_to] ||= request.referer if request.referer.present?
     respond_to do |format|
       format.html { redirect_to login_path, notice: "Sign in with GitHub to continue." }

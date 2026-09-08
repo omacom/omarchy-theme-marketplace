@@ -3,9 +3,9 @@
     <% if theme.new? %>
       <%= ui_badge "New", class: "absolute top-2 left-2 z-10" %>
     <% end %>
-    <img src="<%= theme.image %>" alt="<%= theme.name %> theme preview" loading="lazy" width="1200" height="675"
-         style="background-color: <%= theme.placeholder %>"
-         class="aspect-video w-full border-b border-border object-cover transition-transform duration-300 ease-out group-hover:scale-105">
+    <%= image_tag theme.image, alt: "#{theme.name} theme preview", loading: "lazy", width: 1200, height: 675,
+          style: "background-color: #{theme.placeholder}",
+          class: "aspect-video w-full border-b border-border object-cover transition-transform duration-300 ease-out group-hover:scale-105" %>
   </a>
   <%= ui_card_content class: "flex items-center justify-between gap-3" do %>
     <div class="min-w-0">

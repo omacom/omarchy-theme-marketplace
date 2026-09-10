@@ -103,7 +103,7 @@ class PagesTest < ActionDispatch::IntegrationTest
   test "guide renders as one page with the submission flow" do
     get guide_path
     assert_response :success
-    assert_select "article h1", "Guide"
+    assert_select "article h1", count: 0 # the page opens with its intro, no heading
     assert_select "article h2#make-a-theme"
     assert_select "article h2#submit-a-theme"
     assert_select "article h2#what-gets-checked"

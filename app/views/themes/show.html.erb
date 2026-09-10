@@ -114,7 +114,8 @@
     <ul class="mt-5 grid grid-cols-3 gap-2 md:grid-cols-6">
       <%= render partial: "themes/swatch", collection: base, as: :swatch %>
     </ul>
-    <div class="mt-2 overflow-x-auto">
+    <%# relative: absolutely positioned descendants (the copy buttons' sr-only status) must not escape the scroller and widen the page %>
+    <div class="scrollbar-hidden relative mt-2 overflow-x-auto">
       <div class="flex min-w-[1000px] flex-col gap-2 md:min-w-0">
         <% terminal.each do |row| %>
           <ul class="grid grid-cols-6 gap-2">

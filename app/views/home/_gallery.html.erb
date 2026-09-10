@@ -26,7 +26,9 @@
         </div>
       </div>
 
-      <div class="flex flex-wrap items-center gap-2" aria-label="Filter by colour">
+      <%# One scrolling row below md (like the palette and preview), wrapping from md up. %>
+      <div class="scrollbar-hidden relative overflow-x-auto md:overflow-visible" aria-label="Filter by colour">
+        <div class="flex w-max items-center gap-2 md:w-auto md:flex-wrap">
         <% ThemeQuery::HUES.each do |hue| %>
           <%= ui_button href: root_path(query.params_for(filter: hue).merge(anchor: "themes")), size: :sm, class: "gap-1.5",
                 variant: (query.filter == hue ? :default : :outline), "aria-pressed": (query.filter == hue).to_s,
@@ -35,6 +37,7 @@
             <%= Theme::HUE_LABELS[hue] %>
           <% end %>
         <% end %>
+        </div>
       </div>
     </div>
 

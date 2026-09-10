@@ -3,7 +3,7 @@
     5px inner gaps, no title bars, Starship prompt, eza listing, aether.nvim + lualine, the
     fastfetch About screen, shell notification. Fixed pixel sizes; below md the frame keeps 780px and scrolls sideways. %>
 <% mono = "font-mono text-[11px] leading-[1.5]" %>
-<div class="overflow-x-auto">
+<div class="scrollbar-hidden relative overflow-x-auto">
   <div class="relative aspect-[16/10] min-w-[780px] overflow-hidden md:min-w-0 border border-border text-(--p-foreground) <%= mono %>"
        style="<%= palette_style(theme) %>; background: linear-gradient(140deg, var(--p-dark-background), color-mix(in oklab, var(--p-accent) 24%, var(--p-background)) 70%, var(--p-darker-background))"
        data-preview="desktop">

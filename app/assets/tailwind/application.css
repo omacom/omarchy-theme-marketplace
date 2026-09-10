@@ -36,6 +36,14 @@
 }
 
 @custom-variant dark (&:is(.dark *));
+
+/* Sideways scrollers (colour filters, palette rows, desktop preview) scroll without a visible bar. */
+@utility scrollbar-hidden {
+	scrollbar-width: none;
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 

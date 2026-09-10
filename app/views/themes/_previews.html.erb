@@ -1,0 +1,144 @@
+<%# A stock Omarchy desktop drawn from the theme's palette (--p-*, see PaletteHelper).
+    Layout mirrors omacom/omarchy (quattro): 26px shell bar, 2px window borders, 10px outer /
+    5px inner gaps, no title bars, Starship prompt, eza listing, aether.nvim + lualine, the
+    fastfetch About screen, shell notification. Fixed pixel sizes; the frame scrolls sideways on narrow screens. %>
+<% mono = "font-mono text-[11px] leading-[1.5]" %>
+<div class="overflow-x-auto">
+  <div class="relative aspect-[16/10] min-w-[780px] overflow-hidden border border-border text-(--p-foreground) <%= mono %>"
+       style="<%= palette_style(theme) %>; background: linear-gradient(140deg, var(--p-dark-background), color-mix(in oklab, var(--p-accent) 24%, var(--p-background)) 70%, var(--p-darker-background))"
+       data-preview="desktop">
+
+    <%# Shell bar: menu glyph + workspaces | clock | tray %>
+    <div class="flex h-[26px] items-center gap-3 bg-(--p-background) px-3 text-[11px]" data-preview="bar">
+      <svg viewBox="0 0 1200 1200" class="size-3 shrink-0" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="m1200 1200h-480v-80h400v-1040h-479.996v160h-400v720h720v-720h-80v-80h159.996v880h-400v160h-640v-1200h1200zm-1120-80h480v-80h-400l.004-400h-80.004zm0-560h80.004v-400h400v-80h-480.004z"/></svg>
+      <span class="flex items-center gap-2.5 tabular-nums"><span>1</span><span aria-label="workspace 2, focused">●</span><span>3</span><span class="opacity-50">4</span><span class="opacity-50">5</span></span>
+      <span class="mx-auto">Wednesday 14:32</span>
+      <span class="flex items-center gap-2.5 [&_svg]:size-3 [&_svg]:fill-none [&_svg]:stroke-current [&_svg]:stroke-2">
+        <svg viewBox="0 0 24 24"><polyline points="6.5 6.5 17.5 17.5 12 23 12 1 17.5 6.5 6.5 17.5"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+      </span>
+    </div>
+
+    <%# Tiled windows: terminal (focused) | neovim over the About screen (fastfetch) %>
+    <div class="grid h-[calc(100%-26px)] grid-cols-2 grid-rows-2 gap-2.5 p-2.5">
+
+      <%# Alacritty (14px padding) running bash + Starship (config/starship.toml): repo root bold cyan,
+          branch italic cyan, status cyan, ❯ bold cyan, blank line between commands. `ls` is
+          `eza -lh --group-directories-first`, coloured exactly as eza's default theme; bright black = muted. %>
+      <div class="row-span-2 overflow-hidden border-2 border-(--p-accent) bg-(--p-background) p-3.5" data-preview="terminal">
+        <% prompt = capture do %>
+          <b class="text-(--p-cyan)"><%= theme.slug %></b> <i class="text-(--p-cyan)">main</i> <span class="text-(--p-cyan)">!</span> <b class="text-(--p-cyan)">❯</b>
+        <% end %>
+        <% y = "text-(--p-yellow)"; r = "text-(--p-red)"; g = "text-(--p-green)"; b = "text-(--p-blue)"; m = "text-(--p-muted)"
+           perm = ->(bits, bold_user) { bits.chars.each_with_index.map { |c, i|
+             cls = case c
+                   when "r" then y
+                   when "w" then r
+                   when "x" then g
+                   else m
+                   end
+             cls = "font-bold #{cls}" if (bold_user && i < 3) || c == "-"
+             %(<span class="#{cls}">#{c}</span>)
+           }.join.html_safe }
+           rows = [
+             { dir: true, bits: "rwxr-xr-x", size: "-", date: " 9 Sep 14:20", name: "backgrounds" },
+             { bits: "rw-r--r--", size: "1.2k", date: " 9 Sep 14:20", name: "colors.toml" },
+             { bits: "rw-r--r--", size: "861k", date: " 8 Sep 09:11", name: "preview.png", name_class: "text-(--p-magenta)" },
+             { bits: "rw-r--r--", size: "312", date: " 7 Sep 18:02", name: "README.md", name_class: "font-bold underline text-(--p-yellow)" }
+           ] %>
+        <div><%= prompt %> ls</div>
+        <div class="whitespace-pre"><u>Permissions</u> <u>Size</u> <u>User</u> <u>Date Modified</u> <u>Name</u></div>
+        <% rows.each do |row| %>
+          <div class="whitespace-pre"><span class="<%= row[:dir] ? "font-bold #{b}" : '' %>"><%= row[:dir] ? "d" : "." %></span><%= perm.(row[:bits], !row[:dir]) %> <span class="<%= row[:size] == "-" ? "font-bold #{m}" : (row[:size] =~ /[a-z]$/ ? "font-bold #{g}" : g) %>"><%= row[:size].rjust(4) %></span> <span class="font-bold <%= y %>">taha</span> <span class="<%= b %>"><%= row[:date] %></span>  <span class="<%= row[:dir] ? "font-bold #{b}" : row[:name_class] %>"><%= row[:name] %></span></div>
+        <% end %>
+        <div class="h-[1.5em]"></div>
+        <div><%= prompt %> omarchy theme set <%= theme.slug %></div>
+        <div class="h-[1.5em]"></div>
+        <div><%= prompt %> <span class="inline-block h-[1.05em] w-[0.6em] translate-y-[0.2em] bg-(--p-cursor)"></span></div>
+      </div>
+
+      <div class="flex flex-col overflow-hidden border-2 border-(--p-inactive-border) bg-(--p-background)" data-preview="editor">
+        <div class="flex bg-(--p-dark-background) text-[10px]">
+          <span class="bg-(--p-background) px-3 py-1">theme.lua</span>
+          <span class="px-3 py-1 text-(--p-muted)">colors.toml</span>
+        </div>
+        <% k = "font-bold text-(--p-bright-magenta)"; fn = "font-bold text-(--p-blue)"; str = "text-(--p-green)"; num = "text-(--p-orange)"
+           const = "text-(--p-bright-yellow)"; prop = "text-(--p-bright-cyan)"; param = "text-(--p-cyan)"; punct = "text-(--p-punct)"; cm = "italic text-(--p-muted)"
+           lines = [
+             %(<span class="#{cm}">-- Apply a theme and restart the apps that read it</span>),
+             %(<span class="#{k}">local</span> Theme <span class="#{punct}">=</span> <span class="#{fn}">require</span><span class="#{punct}">(</span><span class="#{str}">"omarchy.theme"</span><span class="#{punct}">)</span>),
+             "",
+             %(<span class="#{k}">function</span> Theme<span class="#{punct}">.</span><span class="#{fn}">apply</span><span class="#{punct}">(</span><span class="#{param}">name</span><span class="#{punct}">,</span> <span class="#{param}">opts</span><span class="#{punct}">)</span>),
+             %(  opts <span class="#{punct}">=</span> opts <span class="#{k}">or</span> <span class="#{punct}">{</span> <span class="#{prop}">retries</span> <span class="#{punct}">=</span> <span class="#{num}">3</span><span class="#{punct}">,</span> <span class="#{prop}">timeout</span> <span class="#{punct}">=</span> <span class="#{num}">1.5</span> <span class="#{punct}">}</span>),
+             %(  <span class="#{k}">if not</span> name <span class="#{k}">then</span>),
+             %(    <span class="#{k}">return</span> <span class="#{const}">nil</span><span class="#{punct}">,</span> <span class="#{str}">"missing theme name"</span>),
+             %(  <span class="#{k}">end</span>),
+             %(  <span class="#{k}">return</span> Theme<span class="#{punct}">.</span><span class="#{fn}">load</span><span class="#{punct}">(</span>name<span class="#{punct}">,</span> opts<span class="#{punct}">.</span><span class="#{prop}">retries</span><span class="#{punct}">)</span>),
+             %(<span class="#{k}">end</span>)
+           ]
+           current = 5 %>
+        <div class="flex-1 overflow-hidden py-1">
+          <% lines.each_with_index do |code, i| %>
+            <div class="flex whitespace-pre <%= 'bg-(--p-cursorline)' if i + 1 == current %>">
+              <span class="w-7 shrink-0 pr-2 text-right select-none <%= i + 1 == current ? 'font-bold text-(--p-orange)' : 'text-(--p-muted)' %>"><%= i + 1 %></span>
+              <span><%= code.html_safe %><% if i + 1 == current %><span class="inline-block h-[1.05em] w-[0.6em] translate-y-[0.2em] bg-(--p-cursor)"></span><% end %></span>
+            </div>
+          <% end %>
+        </div>
+        <div class="flex bg-(--p-dark-background) text-[10px]">
+          <span class="bg-(--p-yellow) px-2 font-bold text-(--p-darker-background)">NORMAL</span>
+          <span class="px-2 text-(--p-yellow)">⎇ main</span>
+          <span class="flex-1 bg-(--p-background) px-2">theme.lua</span>
+          <span class="px-2 text-(--p-yellow)">5:12</span>
+          <span class="bg-(--p-yellow) px-2 font-bold text-(--p-darker-background)">42%</span>
+        </div>
+      </div>
+
+      <%# fastfetch as Omarchy's About screen (etc/fastfetch/config.jsonc): green logo from icon.txt,
+          grey boxes, Hardware keys green, Software keys blue, Age keys magenta %>
+      <div class="flex overflow-hidden border-2 border-(--p-inactive-border) bg-(--p-background) pt-3 pl-2.5 text-[9px] leading-[1.3]" data-preview="fastfetch">
+        <%# icon.txt is the Omarchy mark in block glyphs; drawn square rather than terminal-cell stretched %>
+        <svg viewBox="0 0 1200 1200" class="mr-6 mt-2 size-[208px] shrink-0 self-start text-(--p-green)" fill="currentColor" aria-label="Omarchy logo"><path fill-rule="evenodd" d="m1200 1200h-480v-80h400v-1040h-479.996v160h-400v720h720v-720h-80v-80h159.996v880h-400v160h-640v-1200h1200zm-1120-80h480v-80h-400l.004-400h-80.004zm0-560h80.004v-400h400v-80h-480.004z"/></svg>
+        <% hw = "text-(--p-green)"; sw = "text-(--p-blue)"; age = "text-(--p-magenta)"; frame = "text-(--p-muted)" %>
+        <div class="min-w-0 [&>div]:whitespace-pre">
+          <div class="<%= frame %>">┌────────────Hardware────────────┐</div>
+          <div><span class="<%= hw %>"> pc</span>: Framework Laptop 13</div>
+          <div><span class="<%= hw %>">│ ├ cpu</span>: AMD Ryzen 7 7840U (8+8)</div>
+          <div><span class="<%= hw %>">│ ├ gpu</span>: AMD Radeon 780M</div>
+          <div><span class="<%= hw %>">│ ├ disk</span>: 512G (34%)</div>
+          <div><span class="<%= hw %>">└ └ mem</span>: 9.8G / 32G</div>
+          <div class="<%= frame %>">└────────────────────────────────┘</div>
+          <div>&nbsp;</div>
+          <div class="<%= frame %>">┌────────────Software────────────┐</div>
+          <div><span class="<%= sw %>"> os</span>: Omarchy 4.0.2</div>
+          <div><span class="<%= sw %>">│ ├ branch</span>: quattro</div>
+          <div><span class="<%= sw %>">│ ├ kernel</span>: 6.17.1-arch1</div>
+          <div><span class="<%= sw %>">│ ├ wm</span>: Hyprland</div>
+          <div><span class="<%= sw %>">│ ├ terminal</span>: alacritty</div>
+          <div><span class="<%= sw %>">│ ├ packages</span>: 1204 (pacman)</div>
+          <div><span class="<%= sw %>">│ ├ theme</span>: <%= theme.name %> <% %w[foreground bright-foreground cyan magenta blue yellow green red].each do |c| %><span style="color: var(--p-<%= c %>)">●</span><% end %></div>
+          <div><span class="<%= sw %>">└ └ font</span>: JetBrainsMono Nerd Font (9pt)</div>
+          <div class="<%= frame %>">└────────────────────────────────┘</div>
+          <div>&nbsp;</div>
+          <div class="<%= frame %>">┌──────Age / Uptime / Update─────┐</div>
+          <div><span class="<%= age %>"> os age</span>: 86 days</div>
+          <div><span class="<%= age %>"> uptime</span>: 3 hours, 12 mins</div>
+          <div><span class="<%= age %>"> update</span>: 2 days ago</div>
+          <div class="<%= frame %>">└────────────────────────────────┘</div>
+        </div>
+      </div>
+    </div>
+
+    <%# Shell notification, top right %>
+    <div class="absolute top-9 right-2.5 flex w-[300px] gap-3 border-2 border-(--p-accent) bg-(--p-background) p-3 font-sans" data-preview="notification">
+      <svg viewBox="0 0 1200 1200" class="mt-0.5 size-5 shrink-0" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="m1200 1200h-480v-80h400v-1040h-479.996v160h-400v720h720v-720h-80v-80h159.996v880h-400v160h-640v-1200h1200zm-1120-80h480v-80h-400l.004-400h-80.004zm0-560h80.004v-400h400v-80h-480.004z"/></svg>
+      <div class="min-w-0 flex-1">
+        <div class="text-[12px] font-semibold">Theme applied</div>
+        <div class="text-[11px] text-(--p-muted)"><%= theme.name %> is now active</div>
+      </div>
+      <span class="absolute inset-x-0 bottom-0 h-[3px] w-2/3 bg-(--p-accent)"></span>
+    </div>
+  </div>
+</div>

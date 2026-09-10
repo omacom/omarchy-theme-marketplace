@@ -55,6 +55,11 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_select "dl dd a.font-mono[href*='/commit/']"
     assert_select "dl dd time"
     assert_select "code", /omarchy theme install/
+    assert_select "[data-preview=terminal]"
+    assert_select "[data-preview=editor]"
+    assert_select "[data-preview=fastfetch]"
+    assert_select "[data-preview=desktop]"
+    assert_select "[style*='--p-accent: #']"
     assert_select "[data-controller=copy]", minimum: 2
     assert_select "meta[property='og:image']"
     assert_select "a[href=?]", artist_path("HalmyLyseas")

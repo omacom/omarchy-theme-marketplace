@@ -10,9 +10,18 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_select "[data-slot=card] a[title='GitHub stars']", minimum: 1
     assert_select "footer"
     assert_select "header nav a", text: "Guide", count: 0
-    assert_select "#submit a[href=?]", guide_path(anchor: "make-a-theme")
-    assert_select "#submit a[href=?]", Rails.configuration.x.submit_url
     assert_select "header a[href=?]", guide_path, text: "Submit a theme"
+    assert_select "#submit", count: 0
+  end
+
+  test "home shows a top authors leaderboard in the stats section" do
+    get root_path
+    assert_response :success
+    assert_select "#figures" do
+      assert_select "[data-slot=card]", minimum: 1
+      assert_select "ol li", minimum: 1
+      assert_select "ol li:first-of-type a[href=?]", author_path("HANCORE-linux")
+    end
   end
 
   test "home filters, searches and pages via params" do

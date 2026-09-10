@@ -1,7 +1,10 @@
 class HomeController < ApplicationController
+  TOP_AUTHORS = 5
+
   def index
     @query = ThemeQuery.new(catalog, params)
     @stats = build_stats
+    @top_authors = build_top_authors
   end
 
   private
@@ -25,5 +28,16 @@ class HomeController < ApplicationController
       { label: "Light themes", value: light, icon: :sun, pct: pct.(light),
         detail: "#{pct.(light)}% of the catalog" }
     ]
+  end
+
+  # Ranked by themes published, ties broken by total stars across those themes.
+  def build_top_authors
+    catalog.themes
+      .group_by(&:author_login)
+      .map { |login, themes|
+        { login: login, url: themes.first.author_url, count: themes.size, stars: themes.sum(&:stars) }
+      }
+      .sort_by { |a| [ -a[:count], -a[:stars], a[:login].downcase ] }
+      .first(TOP_AUTHORS)
   end
 end

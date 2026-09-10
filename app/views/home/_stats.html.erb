@@ -29,5 +29,32 @@
         <% end %>
       <% end %>
     </div>
+
+    <% if top_authors.present? %>
+      <div class="mt-4">
+        <%= ui_card do %>
+          <%= ui_card_header do %>
+            <%= ui_card_title "Top authors" %>
+            <%= ui_card_description "Ranked by themes published, ties broken by total stars." %>
+          <% end %>
+          <%= ui_card_content do %>
+            <ol class="flex flex-col divide-y divide-border">
+              <% top_authors.each_with_index do |author, i| %>
+                <li class="flex items-center gap-3 py-3 first:pt-0 last:pb-0">
+                  <span class="w-4 shrink-0 text-right font-heading text-sm text-muted-foreground tabular-nums"><%= i + 1 %></span>
+                  <%= image_tag "https://github.com/#{author[:login]}.png?size=64", alt: "", width: 32, height: 32,
+                        class: "size-8 shrink-0 border border-border object-cover" %>
+                  <a href="<%= author_path(author[:login]) %>" class="min-w-0 flex-1 truncate text-sm font-medium hover:text-primary"><%= author[:login] %></a>
+                  <span class="shrink-0 text-xs text-muted-foreground tabular-nums"><%= pluralize(author[:count], "theme") %></span>
+                  <span class="flex shrink-0 items-center gap-1 text-xs text-muted-foreground tabular-nums">
+                    <%= icon :star, class: "size-3.5" %><%= number_with_delimiter(author[:stars]) %>
+                  </span>
+                </li>
+              <% end %>
+            </ol>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </section>

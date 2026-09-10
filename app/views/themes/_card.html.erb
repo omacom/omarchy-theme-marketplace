@@ -13,9 +13,9 @@
       <p class="truncate text-xs text-muted-foreground">by <%= theme.artist_login %></p>
     </div>
     <%# Likes are built (themes/_like_button) but off for v1; see plan.md. %>
-    <a href="<%= theme.repo %>" class="inline-flex h-7 shrink-0 items-center gap-1 px-1.5 text-xs tabular-nums text-muted-foreground transition-colors hover:text-primary"
-       title="GitHub stars" aria-label="<%= pluralize(theme.stars, "GitHub star") %>">
+    <span class="inline-flex h-7 shrink-0 items-center gap-1 px-1.5 text-xs tabular-nums text-muted-foreground"
+          title="GitHub stars" aria-label="<%= pluralize(theme.stars, "GitHub star") %>">
       <%= icon :star, class: "size-4" %><%= number_to_human(theme.stars, format: "%n%u", units: { thousand: "k" }, precision: 1, significant: false, strip_insignificant_zeros: true) %>
-    </a>
+    </span>
   <% end %>
 <% end %>

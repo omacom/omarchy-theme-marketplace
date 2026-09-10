@@ -30,14 +30,7 @@ class HomeController < ApplicationController
     ]
   end
 
-  # Ranked by themes published, ties broken by total stars across those themes.
   def build_top_artists
-    catalog.themes
-      .group_by(&:artist_login)
-      .map { |login, themes|
-        { login: login, url: themes.first.artist_url, count: themes.size, stars: themes.sum(&:stars) }
-      }
-      .sort_by { |a| [ -a[:count], -a[:stars], a[:login].downcase ] }
-      .first(TOP_ARTISTS)
+    catalog.artist_stats.first(TOP_ARTISTS)
   end
 end

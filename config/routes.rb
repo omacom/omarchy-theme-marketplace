@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   post "themes/:slug/like", to: "likes#create", as: :theme_like
   post "themes/:slug/copied", to: "command_copies#create", as: :theme_copied
   delete "themes/:slug/like", to: "likes#destroy"
+  get "artists", to: "artists#index", as: :artists
   get "artists/:login", to: "artists#show", as: :artist, constraints: { login: /[A-Za-z0-9-]+/ }
 
   get "guide", to: "guide#show", defaults: { page: "index" }, as: :guide

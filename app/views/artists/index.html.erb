@@ -1,0 +1,41 @@
+<% content_for :title, "Artists — Omarchy Themes" %>
+<% content_for :description, "Everyone with a theme in the Omarchy marketplace, ranked by themes published." %>
+<section class="border-b border-border">
+  <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <nav aria-label="Breadcrumb" class="text-xs text-muted-foreground">
+      <a href="<%= root_path(anchor: "themes") %>" class="hover:text-foreground">Themes</a>
+      <span class="mx-1.5" aria-hidden="true">/</span>
+      <span class="text-foreground">Artists</span>
+    </nav>
+    <div class="mt-4 flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <h1 class="font-heading text-2xl font-semibold tracking-tight sm:text-3xl"><%= number_with_delimiter(@artists.size) %> Artists</h1>
+      </div>
+      <%= form_with url: artists_path, method: :get, class: "flex items-center gap-2", data: { turbo_action: "advance" } do |f| %>
+        <%= f.label :sort, "Sort by", class: "text-xs text-muted-foreground", for: "artists-sort" %>
+        <%= f.select :sort, options_for_select(ArtistsController::SORTS.to_a.map { |k, v| [ v, k ] }, @sort), {},
+              id: "artists-sort", onchange: "this.form.requestSubmit()",
+              class: button_class(variant: :outline, size: :sm, class: "h-7 py-0 pr-8 pl-2.5 text-xs leading-none") %>
+      <% end %>
+    </div>
+
+    <ol class="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <% @artists.each do |artist| %>
+        <li>
+          <a href="<%= artist_path(artist[:login]) %>" class="group flex h-full items-center gap-3 border border-border bg-card px-3 py-2.5 transition-colors hover:border-ring focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50 outline-none">
+            <span class="w-6 shrink-0 text-right font-heading text-sm text-muted-foreground tabular-nums" title="Rank by themes published"><%= artist[:rank] %></span>
+            <%= image_tag "https://github.com/#{artist[:login]}.png?size=64", alt: "", width: 32, height: 32, loading: "lazy",
+                  class: "size-8 shrink-0 border border-border object-cover" %>
+            <span class="min-w-0 flex-1">
+              <span class="block truncate text-sm font-medium transition-colors group-hover:text-primary"><%= artist[:login] %></span>
+              <span class="block text-xs text-muted-foreground tabular-nums"><%= pluralize(artist[:count], "theme") %></span>
+            </span>
+            <span class="flex shrink-0 items-center gap-1 text-xs text-muted-foreground tabular-nums" title="GitHub stars across their themes">
+              <%= icon :star, class: "size-3.5" %><%= number_with_delimiter(artist[:stars]) %>
+            </span>
+          </a>
+        </li>
+      <% end %>
+    </ol>
+  </div>
+</section>

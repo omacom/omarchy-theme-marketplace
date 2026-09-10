@@ -35,7 +35,7 @@
         <%= ui_card do %>
           <%= ui_card_header do %>
             <%= ui_card_title "Top artists" %>
-            <%= ui_card_description "Ranked by themes published, ties broken by total stars." %>
+            <%= ui_card_description do %>Ranked by themes published, ties broken by total stars. <%= link_to "All artists", artists_path, class: "text-foreground hover:text-primary" %><% end %>
           <% end %>
           <%= ui_card_content do %>
             <ol class="flex flex-col divide-y divide-border">

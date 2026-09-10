@@ -55,6 +55,15 @@ class Catalog
   def find!(slug) = find(slug) || raise(ActiveRecord::RecordNotFound, "No theme #{slug.inspect}")
   def any_featured? = @themes.any?(&:featured?)
   def artists = @themes.map(&:artist_login).uniq
+
+  # One row per artist, ranked by themes published, ties broken by total stars.
+  def artist_stats
+    @artist_stats ||= @themes.group_by(&:artist_login).map { |login, themes|
+      { login: login, url: themes.first.artist_url, count: themes.size, stars: themes.sum(&:stars) }
+    }.sort_by { |a| [ -a[:count], -a[:stars], a[:login].downcase ] }
+      .each_with_index.map { |a, i| a.merge(rank: i + 1) }
+  end
+
   def by_artist(login) = @themes.select { |t| t.artist_login.casecmp?(login) }
   def new_themes = @themes.select(&:new?)
   def dark = @themes.select(&:dark?)

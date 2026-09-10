@@ -71,6 +71,21 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  test "artists index lists every artist ranked by theme count" do
+    get artists_path
+    assert_response :success
+    assert_select "h1", /\A\d+ Artists\z/
+    assert_select "ol li", count: Catalog.new(Catalog.snapshot).artists.size
+    assert_select "ol li:first-of-type a[href=?]", artist_path("HANCORE-linux")
+    assert_select "ol li a[href=?]", artist_path("HalmyLyseas")
+
+    get artists_path(sort: "name")
+    assert_response :success
+    first = Catalog.new(Catalog.snapshot).artists.min_by(&:downcase)
+    assert_select "ol li:first-of-type a[href=?]", artist_path(first)
+    assert_select "select#artists-sort option[selected][value=name]"
+  end
+
   test "artist page lists themes" do
     get artist_path("HalmyLyseas")
     assert_response :success

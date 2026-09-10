@@ -62,72 +62,72 @@
 }
 
 :root {
-	/* Tokyo Night Day */
-	--background: #e1e2e7;
-	--foreground: #343b58;
-	--card: #e9e9ed;
-	--card-foreground: #343b58;
-	--popover: #e9e9ed;
-	--popover-foreground: #343b58;
+	/* Neutral UI (Tailwind neutral scale), green as the only accent */
+	--background: oklch(98.5% 0 0); /* neutral-50 */
+	--foreground: oklch(20.5% 0 0); /* neutral-900 */
+	--card: oklch(97% 0 0); /* neutral-100 */
+	--card-foreground: oklch(20.5% 0 0);
+	--popover: oklch(98.5% 0 0);
+	--popover-foreground: oklch(20.5% 0 0);
 	--primary: #587539;
-	--primary-foreground: #f2f3f7;
-	--secondary: #d4d5db;
-	--secondary-foreground: #343b58;
-	--muted: #d4d5db;
-	--muted-foreground: #68709a;
-	--accent: #d4d5db;
-	--accent-foreground: #343b58;
+	--primary-foreground: oklch(98.5% 0 0);
+	--secondary: oklch(92.2% 0 0); /* neutral-200 */
+	--secondary-foreground: oklch(20.5% 0 0);
+	--muted: oklch(92.2% 0 0);
+	--muted-foreground: oklch(43.9% 0 0); /* neutral-600 */
+	--accent: oklch(92.2% 0 0);
+	--accent-foreground: oklch(20.5% 0 0);
 	--destructive: #c64343;
-	--border: #82848f;
-	--input: #82848f;
+	--border: oklch(70.8% 0 0); /* neutral-400 - matches the weight dark mode's neutral-700 border has on neutral-950 */
+	--input: oklch(70.8% 0 0);
 	--ring: #587539;
-	--chart-1: #2e7de9;
-	--chart-2: #9854f1;
-	--chart-3: #118c74;
-	--chart-4: #8c6c3e;
-	--chart-5: #587539;
+	--chart-1: oklch(20.5% 0 0);
+	--chart-2: oklch(37.1% 0 0);
+	--chart-3: oklch(55.6% 0 0);
+	--chart-4: oklch(70.8% 0 0);
+	--chart-5: oklch(87% 0 0);
 	--radius: 0rem;
-	--sidebar: #d4d5db;
-	--sidebar-foreground: #343b58;
+	--sidebar: oklch(97% 0 0);
+	--sidebar-foreground: oklch(20.5% 0 0);
 	--sidebar-primary: #587539;
-	--sidebar-primary-foreground: #f2f3f7;
-	--sidebar-accent: #e9e9ed;
-	--sidebar-accent-foreground: #343b58;
-	--sidebar-border: #b4b5b9;
+	--sidebar-primary-foreground: oklch(98.5% 0 0);
+	--sidebar-accent: oklch(92.2% 0 0);
+	--sidebar-accent-foreground: oklch(20.5% 0 0);
+	--sidebar-border: oklch(70.8% 0 0);
 	--sidebar-ring: #587539;
 }
 
 .dark {
-	--background: oklch(0.226 0.021 280.487);
-	--foreground: oklch(0.846 0.061 274.763);
-	--card: oklch(0.255 0.027 274.975);
-	--card-foreground: oklch(0.846 0.061 274.763);
-	--popover: oklch(0.255 0.027 274.975);
-	--popover-foreground: oklch(0.846 0.061 274.763);
+	--background: oklch(14.5% 0 0); /* neutral-950 */
+	--foreground: oklch(97% 0 0); /* neutral-100 */
+	--card: oklch(20.5% 0 0); /* neutral-900 */
+	--card-foreground: oklch(97% 0 0);
+	--popover: oklch(20.5% 0 0);
+	--popover-foreground: oklch(97% 0 0);
 	--primary: oklch(0.795 0.139 130.136);
-	--primary-foreground: oklch(0.162 0.005 248.157);
-	--secondary: oklch(0.282 0.036 274.748);
-	--secondary-foreground: oklch(0.846 0.061 274.763);
-	--muted: oklch(0.282 0.036 274.748);
-	--muted-foreground: oklch(0.767 0.054 275.492);
-	--accent: oklch(0.282 0.036 274.748);
-	--accent-foreground: oklch(0.846 0.061 274.763);
+	--primary-foreground: oklch(14.5% 0 0);
+	--secondary: oklch(26.9% 0 0); /* neutral-800 */
+	--secondary-foreground: oklch(97% 0 0);
+	--muted: oklch(26.9% 0 0);
+	--muted-foreground: oklch(70.8% 0 0); /* neutral-400 */
+	--accent: oklch(26.9% 0 0);
+	--accent-foreground: oklch(97% 0 0);
 	--destructive: oklch(0.723 0.159 10.3);
-	--border: oklch(0.282 0.036 274.748);
-	--input: oklch(0.409 0.055 274.273);
+	--border: oklch(37.1% 0 0); /* neutral-700 */
+	--input: oklch(37.1% 0 0);
 	--ring: oklch(0.795 0.139 130.136);
-	--chart-1: oklch(0.82 0.105 235.7);
-	--chart-2: oklch(0.719 0.132 264.2);
-	--chart-3: oklch(0.751 0.134 299.5);
-	--chart-4: oklch(0.787 0.137 50.6);
-	--chart-5: oklch(0.784 0.106 75.4);
-	--sidebar: oklch(0.255 0.027 274.975);
-	--sidebar-foreground: oklch(0.846 0.061 274.763);
+	--chart-1: oklch(97% 0 0);
+	--chart-2: oklch(87% 0 0);
+	--chart-3: oklch(70.8% 0 0);
+	--chart-4: oklch(55.6% 0 0);
+	--chart-5: oklch(37.1% 0 0);
+	--sidebar: oklch(20.5% 0 0);
+	--sidebar-foreground: oklch(97% 0 0);
 	--sidebar-primary: oklch(0.795 0.139 130.136);
-	--sidebar-primary-foreground: oklch(0.162 0.005 248.157);
-	--sidebar-accent: oklch(0.282 0.036 274.748);
-	--sidebar-accent-foreground: oklch(0.846 0.061 274.763);
-	--sidebar-border: oklch(0.282 0.036 274.748);
+	--sidebar-primary-foreground: oklch(14.5% 0 0);
+	--sidebar-accent: oklch(26.9% 0 0);
+	--sidebar-accent-foreground: oklch(97% 0 0);
+	--sidebar-border: oklch(37.1% 0 0);
 	--sidebar-ring: oklch(0.795 0.139 130.136);
 }
 
@@ -183,6 +183,56 @@
 	}
 	html {
 		@apply font-mono;
+	}
+}
+
+/* The typography plugin ships a blue-tinted gray; point it at the neutral tokens
+   instead, for both .prose and dark:prose-invert (the tokens already flip themselves). */
+@layer base {
+	.prose {
+		--tw-prose-body: var(--foreground);
+		--tw-prose-headings: var(--foreground);
+		--tw-prose-lead: var(--muted-foreground);
+		--tw-prose-links: var(--primary);
+		--tw-prose-bold: var(--foreground);
+		--tw-prose-counters: var(--muted-foreground);
+		--tw-prose-bullets: var(--border);
+		--tw-prose-hr: var(--border);
+		--tw-prose-quotes: var(--foreground);
+		--tw-prose-quote-borders: var(--border);
+		--tw-prose-captions: var(--muted-foreground);
+		--tw-prose-kbd: var(--foreground);
+		--tw-prose-code: var(--foreground);
+		--tw-prose-pre-code: var(--card-foreground);
+		--tw-prose-pre-bg: var(--card);
+		--tw-prose-th-borders: var(--border);
+		--tw-prose-td-borders: var(--border);
+		--tw-prose-invert-body: var(--foreground);
+		--tw-prose-invert-headings: var(--foreground);
+		--tw-prose-invert-lead: var(--muted-foreground);
+		--tw-prose-invert-links: var(--primary);
+		--tw-prose-invert-bold: var(--foreground);
+		--tw-prose-invert-counters: var(--muted-foreground);
+		--tw-prose-invert-bullets: var(--border);
+		--tw-prose-invert-hr: var(--border);
+		--tw-prose-invert-quotes: var(--foreground);
+		--tw-prose-invert-quote-borders: var(--border);
+		--tw-prose-invert-captions: var(--muted-foreground);
+		--tw-prose-invert-kbd: var(--foreground);
+		--tw-prose-invert-code: var(--foreground);
+		--tw-prose-invert-pre-code: var(--card-foreground);
+		--tw-prose-invert-pre-bg: var(--card);
+		--tw-prose-invert-th-borders: var(--border);
+		--tw-prose-invert-td-borders: var(--border);
+	}
+
+	/* Inline code reads as a chip: muted fill, hairline border, a little padding. Code inside a
+	   fenced block is excluded - the <pre> already carries the card background and border, and
+	   styling the inner <code> too would draw a second box inside the first. */
+	.prose :where(code):not(:where(pre code, [class~='not-prose'], [class~='not-prose'] *)) {
+		background-color: var(--muted);
+		border: 1px solid var(--border);
+		padding: 0.125rem 0.25rem;
 	}
 }
 

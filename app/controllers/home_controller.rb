@@ -20,7 +20,7 @@ class HomeController < ApplicationController
 
     [
       { label: "Themes published", value: total, icon: :mark,
-        detail: "#{updated_recently} updated in the last 30 days" },
+        detail: "#{updated_recently} updated in the last 30d" },
       { label: "Theme artists", value: artist_counts.size, icon: :github,
         detail: "#{prolific} with more than one theme" },
       { label: "Dark themes", value: dark, icon: :moon, pct: pct.(dark),

@@ -9,10 +9,10 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_select "[data-slot=card]", minimum: 1
     assert_select "[data-slot=card] a[title='GitHub stars']", minimum: 1
     assert_select "footer"
-    assert_select "header nav a[href=?]", docs_path, text: "Docs"
-    assert_select "#submit a[href=?]", doc_path("making-a-theme")
+    assert_select "header nav a", text: "Guide", count: 0
+    assert_select "#submit a[href=?]", guide_path(anchor: "make-a-theme")
     assert_select "#submit a[href=?]", Rails.configuration.x.submit_url
-    assert_select "header a[href=?]", Rails.configuration.x.submit_url, text: "Submit a theme"
+    assert_select "header a[href=?]", guide_path, text: "Submit a theme"
   end
 
   test "home filters, searches and pages via params" do
@@ -65,16 +65,21 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
-  test "docs render markdown" do
-    get docs_path
+  test "guide renders as one page with the submission flow" do
+    get guide_path
     assert_response :success
-    assert_select "article h1", "Documentation"
-    get doc_path("validation")
-    assert_response :success
-    assert_select "article h2", minimum: 2
-    get doc_path("nope")
+    assert_select "article h1", "Guide"
+    assert_select "article h2#make-a-theme"
+    assert_select "article h2#submit-a-theme"
+    assert_select "article h2#what-gets-checked"
+    assert_select "article h2#install-update-and-remove"
+    assert_select "article a[href=?]", Rails.configuration.x.submit_url
+    assert_select "nav[aria-label='On this page'] a[href='#submit-a-theme']"
+    get guide_page_path("nope")
     assert_response :not_found
-    get doc_path("api") # hidden for now
+    get guide_page_path("api") # hidden for now
+    assert_response :not_found
+    get guide_page_path("making-a-theme") # merged into the single page now
     assert_response :not_found
   end
 end

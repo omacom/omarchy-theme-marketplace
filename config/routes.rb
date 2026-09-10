@@ -7,8 +7,8 @@ Rails.application.routes.draw do
   delete "themes/:slug/like", to: "likes#destroy"
   get "authors/:login", to: "authors#show", as: :author, constraints: { login: /[A-Za-z0-9-]+/ }
 
-  get "docs", to: "docs#show", defaults: { page: "index" }, as: :docs
-  get "docs/:page", to: "docs#show", as: :doc, constraints: { page: /[a-z0-9-]+/ }
+  get "guide", to: "guide#show", defaults: { page: "index" }, as: :guide
+  get "guide/:page", to: "guide#show", as: :guide_page, constraints: { page: /[a-z0-9-]+/ }
 
   # Sign in with GitHub (OmniAuth handles POST /auth/github).
   get "login", to: "sessions#new", as: :login

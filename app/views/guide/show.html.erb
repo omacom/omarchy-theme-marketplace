@@ -1,0 +1,22 @@
+<% content_for :title, "#{@title} — Omarchy Themes" %>
+<% toc = [
+  [ "make-a-theme", "Make a theme" ],
+  [ "submit-a-theme", "Submit a theme" ],
+  [ "what-gets-checked", "What gets checked" ],
+  [ "install-update-and-remove", "Install, update, and remove" ]
+] %>
+<section class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+  <div class="grid grid-cols-1 gap-10 lg:grid-cols-[200px_minmax(0,1fr)]">
+    <nav aria-label="On this page" class="lg:sticky lg:top-20 lg:self-start">
+      <h2 class="font-heading text-xs tracking-widest text-muted-foreground uppercase">On this page</h2>
+      <ul class="mt-3.5 flex flex-col gap-1">
+        <% toc.each do |anchor, title| %>
+          <li><a href="#<%= anchor %>" class="block py-1.5 text-sm text-muted-foreground hover:text-foreground"><%= title %></a></li>
+        <% end %>
+      </ul>
+    </nav>
+    <article class="prose prose-sm max-w-[72ch] prose-headings:font-heading prose-headings:tracking-tight prose-a:text-primary prose-code:before:content-none prose-code:after:content-none prose-code:border prose-code:border-border prose-code:px-1 prose-code:py-0.5 prose-code:font-normal prose-pre:rounded-none prose-pre:border prose-pre:border-border prose-pre:bg-card prose-pre:text-card-foreground prose-h2:scroll-mt-20 dark:prose-invert">
+      <%= @html.html_safe %>
+    </article>
+  </div>
+</section>

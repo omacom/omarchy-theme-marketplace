@@ -1,9 +1,10 @@
 # Local CI and everyday commands for the marketplace site. Run `just` to list them.
 alias d := dev
 alias t := test
+alias c := ci
 
 set shell := ["bash", "-euo", "pipefail", "-c"]
-set dotenv-load := true
+set dotenv-load
 
 default:
     @just --list

@@ -7,7 +7,7 @@ Rails app for **themes.omarchy.org**, the community theme marketplace for Omarch
 - **Never `git commit` or `git push`.** Leave changes in the working tree and report them; the user reviews and commits. Applies to every repo in this project.
 - Branch is `master`. The old SvelteKit version lives on `sveltekit-legacy`; do not touch it.
 - **Do not add or rename colour tokens** in `app/assets/tailwind/application.css`. New UI adapts to the existing shadcn-style tokens (`--primary`, `--muted-foreground`, `--card`, …). Reuse the helpers in `app/helpers/ui_helper.rb` (`ui_button`, `ui_badge`, `ui_card`, `button_class`, `input_class`) instead of inventing new component classes; icons are inline Remix paths in `icons_helper.rb`.
-- Never write the R2 dev URL (`pub-*.r2.dev`) into README, `.env.example`, docs or code. It belongs in `.env` (gitignored), `config/deploy.yml`, and CI variables only.
+- Never write the R2 dev URL (`pub-*.r2.dev`) into README, `.env.example`, the guide page or code. It belongs in `.env` (gitignored), `config/deploy.yml`, and CI variables only.
 - No admin UI on the site. Maintainers work through the registry repo and GitHub. "Report a problem" links to the theme author's issue tracker.
 - Install counts arrive together with the Omarchy CLI (Phase 5). Until then the site only counts install-command *copies*; never present copies as installs.
 - If files change on disk from outside the session, say so and wait for instructions rather than fixing them.
@@ -16,7 +16,7 @@ Rails app for **themes.omarchy.org**, the community theme marketplace for Omarch
 
 ## Stack
 
-Rails 8.1 (Ruby 3.4, via mise), Propshaft + importmap, Turbo/Stimulus, `tailwindcss-rails` (Tailwind v4 standalone; `bin/dev` runs the watcher), SQLite with Solid Cache/Queue/Cable, Kamal to a Digital Ocean droplet, kramdown for docs. Gem pins that matter: `json < 3` (3.x breaks session cookie decoding), `dotenv-rails` in dev/test loads `.env`.
+Rails 8.1 (Ruby 3.4, via mise), Propshaft + importmap, Turbo/Stimulus, `tailwindcss-rails` (Tailwind v4 standalone; `bin/dev` runs the watcher), SQLite with Solid Cache/Queue/Cable, Kamal to a Digital Ocean droplet, kramdown for the guide page. Gem pins that matter: `json < 3` (3.x breaks session cookie decoding), `dotenv-rails` in dev/test loads `.env`.
 
 ## How data flows
 
@@ -24,7 +24,7 @@ Rails 8.1 (Ruby 3.4, via mise), Propshaft + importmap, Turbo/Stimulus, `tailwind
 - `Theme` (`app/models/theme.rb`) is a read-only value object for one catalog entry: palette, mode, hue, preview URLs, validation `warnings` (codes mapped to labels), `new?`, `palette_rows`, and engagement stats via `Engagement`.
 - `ThemeQuery` does filtering (featured/all/dark/light/hue), search, sorting (`name`, `new`, `trending`, `stars`) and paging, all from URL params so gallery states are shareable. The gallery is a Turbo Frame; `#gallery-state` inside the frame carries the current filter/sort for the hero search form.
 - Engagement lives in the site DB: `users`/`sessions` (GitHub OAuth), `likes`, `command_copies` (per theme per day, from the theme page copy button via `POST /themes/:slug/copied`). `Engagement.all` caches the per-slug counts for a minute.
-- Themes are submitted through the registry's GitHub issue form; `config.x.submit_url` is the one place that URL lives. Docs pages are markdown in `app/views/docs/pages`, allowlisted in `DocsController::PAGES` (`api` is hidden until the CDN moves to its production domain).
+- Themes are submitted through the registry's GitHub issue form; `config.x.submit_url` is the one place that URL lives. The `/guide` page is one markdown file (`app/views/guide/pages/index.md`) rendered as sections with in-page anchors — no more multi-page docs nav. `GuideController::PAGES` allowlists it (`api` stays unlisted in `guide/pages/api.md` until the CDN moves to its production domain). There is no "Guide" link in the header; the "Submit a theme" button opens `guide_path` at the top, so a first-time visitor reads the whole flow before reaching the form. Site copy avoids GitHub-specific words like "issue" when describing submission — say "form" or "submission" instead.
 
 ## Hidden for v1 (built, switched off)
 

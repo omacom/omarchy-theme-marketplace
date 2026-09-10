@@ -1,5 +1,3 @@
-# Guide
-
 How to build an Omarchy theme, list it on the marketplace, and use it once it's installed — start to finish.
 
 ## Make a theme

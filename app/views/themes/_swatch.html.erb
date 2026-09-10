@@ -1,0 +1,13 @@
+<% name, hex = swatch %>
+<li>
+  <button type="button" class="group flex w-full items-center gap-2.5 border border-border bg-card px-2 py-1.5 text-left text-xs transition-colors hover:border-ring focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50 outline-none"
+          data-controller="copy" data-copy-text-value="<%= hex %>" data-action="copy#copy" aria-label="Copy <%= name.humanize %> <%= hex %>">
+    <span class="size-6 shrink-0 border border-foreground/10" style="background-color: <%= hex %>"></span>
+    <span class="min-w-0 flex-1">
+      <span class="block truncate text-muted-foreground"><%= name.tr("_", " ") %></span>
+      <span class="block font-mono" data-copy-target="idle"><%= hex %></span>
+      <span class="block font-mono text-primary" hidden data-copy-target="done">Copied <%= hex %></span>
+    </span>
+    <span class="sr-only" role="status" aria-live="polite" data-copy-target="status"></span>
+  </button>
+</li>

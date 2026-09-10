@@ -1,10 +1,10 @@
 <%# A stock Omarchy desktop drawn from the theme's palette (--p-*, see PaletteHelper).
     Layout mirrors omacom/omarchy (quattro): 26px shell bar, 2px window borders, 10px outer /
     5px inner gaps, no title bars, Starship prompt, eza listing, aether.nvim + lualine, the
-    fastfetch About screen, shell notification. Fixed pixel sizes; the frame scrolls sideways on narrow screens. %>
+    fastfetch About screen, shell notification. Fixed pixel sizes; below md the frame keeps 780px and scrolls sideways. %>
 <% mono = "font-mono text-[11px] leading-[1.5]" %>
 <div class="overflow-x-auto">
-  <div class="relative aspect-[16/10] min-w-[780px] overflow-hidden border border-border text-(--p-foreground) <%= mono %>"
+  <div class="relative aspect-[16/10] min-w-[780px] overflow-hidden md:min-w-0 border border-border text-(--p-foreground) <%= mono %>"
        style="<%= palette_style(theme) %>; background: linear-gradient(140deg, var(--p-dark-background), color-mix(in oklab, var(--p-accent) 24%, var(--p-background)) 70%, var(--p-darker-background))"
        data-preview="desktop">
 
@@ -98,9 +98,9 @@
 
       <%# fastfetch as Omarchy's About screen (etc/fastfetch/config.jsonc): green logo from icon.txt,
           grey boxes, Hardware keys green, Software keys blue, Age keys magenta %>
-      <div class="flex overflow-hidden border-2 border-(--p-inactive-border) bg-(--p-background) pt-3 pl-2.5 text-[9px] leading-[1.3]" data-preview="fastfetch">
+      <div class="flex overflow-hidden border-2 border-(--p-inactive-border) bg-(--p-background) pt-3 pl-2.5 text-[8px] leading-[1.35] lg:text-[9px] lg:leading-[1.3]" data-preview="fastfetch">
         <%# icon.txt is the Omarchy mark in block glyphs; drawn square rather than terminal-cell stretched %>
-        <svg viewBox="0 0 1200 1200" class="mr-6 mt-2 size-[208px] shrink-0 self-start text-(--p-green)" fill="currentColor" aria-label="Omarchy logo"><path fill-rule="evenodd" d="m1200 1200h-480v-80h400v-1040h-479.996v160h-400v720h720v-720h-80v-80h159.996v880h-400v160h-640v-1200h1200zm-1120-80h480v-80h-400l.004-400h-80.004zm0-560h80.004v-400h400v-80h-480.004z"/></svg>
+        <svg viewBox="0 0 1200 1200" class="mt-2 mr-4 size-[144px] shrink-0 self-start text-(--p-green) lg:mr-6 lg:size-[208px]" fill="currentColor" aria-label="Omarchy logo"><path fill-rule="evenodd" d="m1200 1200h-480v-80h400v-1040h-479.996v160h-400v720h720v-720h-80v-80h159.996v880h-400v160h-640v-1200h1200zm-1120-80h480v-80h-400l.004-400h-80.004zm0-560h80.004v-400h400v-80h-480.004z"/></svg>
         <% hw = "text-(--p-green)"; sw = "text-(--p-blue)"; age = "text-(--p-magenta)"; frame = "text-(--p-muted)" %>
         <div class="min-w-0 [&>div]:whitespace-pre">
           <div class="<%= frame %>">┌────────────Hardware────────────┐</div>
@@ -119,7 +119,7 @@
           <div><span class="<%= sw %>">│ ├ terminal</span>: alacritty</div>
           <div><span class="<%= sw %>">│ ├ packages</span>: 1204 (pacman)</div>
           <div><span class="<%= sw %>">│ ├ theme</span>: <%= theme.name %> <% %w[foreground bright-foreground cyan magenta blue yellow green red].each do |c| %><span style="color: var(--p-<%= c %>)">●</span><% end %></div>
-          <div><span class="<%= sw %>">└ └ font</span>: JetBrainsMono Nerd Font (9pt)</div>
+          <div><span class="<%= sw %>">└ └ font</span>: JetBrainsMono Nerd Font</div>
           <div class="<%= frame %>">└────────────────────────────────┘</div>
           <div>&nbsp;</div>
           <div class="<%= frame %>">┌──────Age / Uptime / Update─────┐</div>

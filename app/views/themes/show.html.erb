@@ -108,24 +108,21 @@
   <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
     <h2 class="font-heading text-lg font-semibold tracking-tight">Palette</h2>
     <p class="mt-1 text-xs text-muted-foreground">From the theme's <code>colors.toml</code>. Click a colour to copy it.</p>
-    <% @theme.palette_rows.each_with_index do |row, i| %>
-    <ul class="<%= i.zero? ? "mt-5" : "mt-2" %> grid grid-cols-3 gap-2 sm:grid-cols-6">
-      <% row.each do |name, hex| %>
-        <li>
-          <button type="button" class="group flex w-full items-center gap-2.5 border border-border bg-card px-2 py-1.5 text-left text-xs transition-colors hover:border-ring focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50 outline-none"
-                  data-controller="copy" data-copy-text-value="<%= hex %>" data-action="copy#copy" aria-label="Copy <%= name.humanize %> <%= hex %>">
-            <span class="size-6 shrink-0 border border-foreground/10" style="background-color: <%= hex %>"></span>
-            <span class="min-w-0 flex-1">
-              <span class="block truncate text-muted-foreground"><%= name.tr("_", " ") %></span>
-              <span class="block font-mono" data-copy-target="idle"><%= hex %></span>
-              <span class="block font-mono text-primary" hidden data-copy-target="done">Copied <%= hex %></span>
-            </span>
-            <span class="sr-only" role="status" aria-live="polite" data-copy-target="status"></span>
-          </button>
-        </li>
-      <% end %>
+    <%# Accent/background/foreground fit any width; the two terminal rows share one sideways
+        scroller on phones so base and bright colours stay aligned. %>
+    <% base, *terminal = @theme.palette_rows %>
+    <ul class="mt-5 grid grid-cols-3 gap-2 md:grid-cols-6">
+      <%= render partial: "themes/swatch", collection: base, as: :swatch %>
     </ul>
-    <% end %>
+    <div class="mt-2 overflow-x-auto">
+      <div class="flex min-w-[1000px] flex-col gap-2 md:min-w-0">
+        <% terminal.each do |row| %>
+          <ul class="grid grid-cols-6 gap-2">
+            <%= render partial: "themes/swatch", collection: row, as: :swatch %>
+          </ul>
+        <% end %>
+      </div>
+    </div>
     <div class="mt-5">
       <%= render "themes/previews", theme: @theme %>
     </div>

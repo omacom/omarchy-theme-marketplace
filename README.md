@@ -33,7 +33,7 @@ To refresh the snapshot: `curl -s "$CDN_BASE_URL/v1/catalog.json" -o data/catalo
 - `app/helpers/ui_helper.rb` — ports of the shadcn button/badge/card/input class builders so views stay pixel-identical to the design.
 - `app/helpers/icons_helper.rb` — inline Remix icons.
 - `app/views/home` — hero, gallery (a Turbo Frame; filters and search are plain GET links/forms), submit steps, stats.
-- `app/views/themes/show` — theme page: preview, install command, palette, validation notes, more by author.
+- `app/views/themes/show` — theme page: preview, install command, palette, validation notes, more by artist.
 - `app/views/guide/pages/*.md` — the `/guide` page, rendered with kramdown.
 - `app/javascript/controllers` — Stimulus: `theme` (light/dark), `sheet` (mobile menu), `search` (debounced submit), `copy`, `like`.
 - `app/assets/tailwind/application.css` — design tokens (Tokyo Night / Tokyo Night Day), fonts, base layer.

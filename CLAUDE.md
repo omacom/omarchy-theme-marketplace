@@ -8,7 +8,8 @@ Rails app for **themes.omarchy.org**, the community theme marketplace for Omarch
 - Branch is `master`. The old SvelteKit version lives on `sveltekit-legacy`; do not touch it.
 - **Do not add or rename colour tokens** in `app/assets/tailwind/application.css`. New UI adapts to the existing shadcn-style tokens (`--primary`, `--muted-foreground`, `--card`, …). Reuse the helpers in `app/helpers/ui_helper.rb` (`ui_button`, `ui_badge`, `ui_card`, `button_class`, `input_class`) instead of inventing new component classes; icons are inline Remix paths in `icons_helper.rb`.
 - Never write the R2 dev URL (`pub-*.r2.dev`) into README, `.env.example`, the guide page or code. It belongs in `.env` (gitignored), `config/deploy.yml`, and CI variables only.
-- No admin UI on the site. Maintainers work through the registry repo and GitHub. "Report a problem" links to the theme author's issue tracker.
+- No admin UI on the site. Maintainers work through the registry repo and GitHub. "Report a problem" links to the theme artist's issue tracker.
+- Theme creators are called **artists** everywhere in this app's code and UI (`Theme#artist_login`/`#artist_url`, `Catalog#artists`/`#by_artist`, `ArtistsController`, `/artists/:login`). The published catalog JSON still names the field `author` — that's the registry's contract (`omarchy-theme-registry`), not something this repo controls, so `Theme#initialize` reads `data["author"]` but exposes it as `artist`.
 - Install counts arrive together with the Omarchy CLI (Phase 5). Until then the site only counts install-command *copies*; never present copies as installs.
 - If files change on disk from outside the session, say so and wait for instructions rather than fixing them.
 - Visual checks (dev server + screenshots) are for structural or layout changes only, not small tweaks.

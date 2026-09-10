@@ -41,7 +41,7 @@ class Theme
     "UNLOCK_PAIR" => "Unlock screen images are incomplete"
   }.freeze
 
-  ATTRS = %i[slug name repo author description license mode hue colors generation ignored_on_install
+  ATTRS = %i[slug name repo artist description license mode hue colors generation ignored_on_install
              backgrounds preview commit pushed_at stars added_at tags featured warnings install].freeze
 
   attr_reader(*ATTRS)
@@ -51,7 +51,7 @@ class Theme
     @slug = data["slug"]
     @name = data["name"]
     @repo = data["repo"]
-    @author = data.fetch("author", {}).transform_keys(&:to_s)
+    @artist = data.fetch("author", {}).transform_keys(&:to_s) # catalog field is "author"; the site calls them artists
     @description = data["description"]
     @license = data["license"]
     @mode = data["mode"]
@@ -72,8 +72,8 @@ class Theme
   end
 
   def to_param = slug
-  def author_login = author["login"]
-  def author_url = author["url"]
+  def artist_login = artist["login"]
+  def artist_url = artist["url"]
   def image = preview["src"]
   def thumb = preview["thumb"]
   def placeholder = preview["placeholder"]

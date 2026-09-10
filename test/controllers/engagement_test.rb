@@ -94,7 +94,7 @@ class EngagementTest < ActionDispatch::IntegrationTest
     assert_select "[data-slot=card]:first-of-type a[href=?]", theme_path("nujabes")
   end
 
-  test "report a problem points at the author's issue tracker" do
+  test "report a problem points at the artist's issue tracker" do
     get theme_path("nujabes")
     assert_select "a[href$='/issues']", /Report a problem/
   end

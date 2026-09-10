@@ -4,6 +4,6 @@ class MeController < ApplicationController
   def show
     liked = current_user.likes.order(created_at: :desc).pluck(:slug)
     @liked_themes = liked.filter_map { |slug| catalog.find(slug) }
-    @own_themes = catalog.by_author(current_user.login)
+    @own_themes = catalog.by_artist(current_user.login)
   end
 end

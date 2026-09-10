@@ -22,7 +22,7 @@ class ThemeQueryTest < ActiveSupport::TestCase
     assert_equal query.filter, query(filter: "<script>").filter
   end
 
-  test "searches name and author" do
+  test "searches name and artist" do
     assert query(filter: "all", q: "nuja").results.map(&:slug).include?("nujabes")
     assert query(filter: "all", q: "halmy").results.map(&:slug).include?("nujabes")
     assert_empty query(filter: "all", q: "zzzzzzzz").results

@@ -54,8 +54,8 @@ class Catalog
   def find(slug) = @by_slug[slug]
   def find!(slug) = find(slug) || raise(ActiveRecord::RecordNotFound, "No theme #{slug.inspect}")
   def any_featured? = @themes.any?(&:featured?)
-  def authors = @themes.map(&:author_login).uniq
-  def by_author(login) = @themes.select { |t| t.author_login.casecmp?(login) }
+  def artists = @themes.map(&:artist_login).uniq
+  def by_artist(login) = @themes.select { |t| t.artist_login.casecmp?(login) }
   def new_themes = @themes.select(&:new?)
   def dark = @themes.select(&:dark?)
   def light = @themes.select(&:light?)

@@ -1,9 +1,9 @@
 <% content_for :title, "#{@theme.name} — Omarchy Themes" %>
-<% content_for :description, (@theme.description.presence || "#{@theme.name}, a #{@theme.mode} community theme for Omarchy by #{@theme.author_login}.") %>
+<% content_for :description, (@theme.description.presence || "#{@theme.name}, a #{@theme.mode} community theme for Omarchy by #{@theme.artist_login}.") %>
 <% content_for :head do %>
   <meta property="og:type" content="website">
   <meta property="og:title" content="<%= @theme.name %> — Omarchy theme">
-  <meta property="og:description" content="<%= @theme.description.presence || "A #{@theme.mode} community theme for Omarchy by #{@theme.author_login}." %>">
+  <meta property="og:description" content="<%= @theme.description.presence || "A #{@theme.mode} community theme for Omarchy by #{@theme.artist_login}." %>">
   <meta property="og:image" content="<%= @theme.image %>">
   <meta property="og:image:width" content="<%= @theme.preview["width"] %>">
   <meta property="og:image:height" content="<%= @theme.preview["height"] %>">
@@ -24,7 +24,7 @@
       <div class="min-w-0">
         <h1 class="font-heading text-2xl font-semibold tracking-tight sm:text-3xl"><%= @theme.name %></h1>
         <p class="mt-1.5 text-sm text-muted-foreground">
-          by <a href="<%= author_path(@theme.author_login) %>" class="text-foreground hover:text-primary"><%= @theme.author_login %></a>
+          by <a href="<%= artist_path(@theme.artist_login) %>" class="text-foreground hover:text-primary"><%= @theme.artist_login %></a>
           <% if @theme.description.present? %><span class="mx-1.5" aria-hidden="true">·</span><%= @theme.description %><% end %>
         </p>
         <div class="mt-3 flex flex-wrap items-center gap-1.5">
@@ -76,7 +76,7 @@
     <%# Details: a compact grid instead of a tall label/value list. %>
     <%# label, text, optional href/title for a link, optional datetime for a <time> %>
     <% details = [
-      { label: "Author", text: @theme.author_login, href: author_path(@theme.author_login) },
+      { label: "Artist", text: @theme.artist_login, href: artist_path(@theme.artist_login) },
       { label: "Stars", text: number_with_delimiter(@theme.stars) },
       { label: "License", text: @theme.license || "Not specified" },
       { label: "Wallpapers", text: "#{@theme.backgrounds["count"].to_i}#{" + video" if @theme.backgrounds["has_video"]}" },
@@ -151,7 +151,7 @@
           <%= ui_card do %>
             <%= ui_card_header do %>
               <%= ui_card_title "Notes from validation" %>
-              <%= ui_card_description "Nothing here blocks installation; it is what the author could still improve." %>
+              <%= ui_card_description "Nothing here blocks installation; it is what the artist could still improve." %>
             <% end %>
             <%= ui_card_content do %>
               <ul class="flex flex-col gap-1.5 text-xs">
@@ -169,17 +169,17 @@
   <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
     <div class="flex flex-wrap items-center justify-between gap-4">
       <div>
-        <h2 class="font-heading text-lg font-semibold tracking-tight">More by <%= @theme.author_login %></h2>
-        <p class="mt-1 text-xs text-muted-foreground"><%= link_to "All themes by #{@theme.author_login}", author_path(@theme.author_login), class: "hover:text-primary" %></p>
+        <h2 class="font-heading text-lg font-semibold tracking-tight">More by <%= @theme.artist_login %></h2>
+        <p class="mt-1 text-xs text-muted-foreground"><%= link_to "All themes by #{@theme.artist_login}", artist_path(@theme.artist_login), class: "hover:text-primary" %></p>
       </div>
       <a href="<%= @theme.issues_url %>" class="text-xs text-muted-foreground hover:text-foreground">Report a problem with this theme</a>
     </div>
-    <% if @more_by_author.any? %>
+    <% if @more_by_artist.any? %>
       <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        <% @more_by_author.each do |theme| %><%= render "themes/card", theme: theme %><% end %>
+        <% @more_by_artist.each do |theme| %><%= render "themes/card", theme: theme %><% end %>
       </div>
     <% else %>
-      <p class="mt-6 text-sm text-muted-foreground">This is the author's only listed theme so far.</p>
+      <p class="mt-6 text-sm text-muted-foreground">This is the artist's only listed theme so far.</p>
     <% end %>
   </div>
 </section>

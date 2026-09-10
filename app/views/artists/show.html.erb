@@ -12,7 +12,7 @@
         <h1 class="font-heading text-2xl font-semibold tracking-tight sm:text-3xl">Themes by <%= @login %></h1>
         <p class="mt-1.5 text-sm text-muted-foreground"><%= pluralize(@themes.size, "theme") %> in the marketplace</p>
       </div>
-      <%= ui_button href: @themes.first.author_url, variant: :outline, class: "gap-1.5" do %>
+      <%= ui_button href: @themes.first.artist_url, variant: :outline, class: "gap-1.5" do %>
         <%= icon :github, class: "size-4" %> <%= @login %> on GitHub
       <% end %>
     </div>

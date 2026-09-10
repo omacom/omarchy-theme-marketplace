@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   post "themes/:slug/like", to: "likes#create", as: :theme_like
   post "themes/:slug/copied", to: "command_copies#create", as: :theme_copied
   delete "themes/:slug/like", to: "likes#destroy"
-  get "authors/:login", to: "authors#show", as: :author, constraints: { login: /[A-Za-z0-9-]+/ }
+  get "artists/:login", to: "artists#show", as: :artist, constraints: { login: /[A-Za-z0-9-]+/ }
 
   get "guide", to: "guide#show", defaults: { page: "index" }, as: :guide
   get "guide/:page", to: "guide#show", as: :guide_page, constraints: { page: /[a-z0-9-]+/ }

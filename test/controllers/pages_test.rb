@@ -14,13 +14,13 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_select "#submit", count: 0
   end
 
-  test "home shows a top authors leaderboard in the stats section" do
+  test "home shows a top artists leaderboard in the stats section" do
     get root_path
     assert_response :success
     assert_select "#figures" do
       assert_select "[data-slot=card]", minimum: 1
       assert_select "ol li", minimum: 1
-      assert_select "ol li:first-of-type a[href=?]", author_path("HANCORE-linux")
+      assert_select "ol li:first-of-type a[href=?]", artist_path("HANCORE-linux")
     end
   end
 
@@ -51,13 +51,13 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "h1", "Nujabes"
     assert_select "figure img[alt='Nujabes theme preview'][width='1200']"
-    assert_select "dl dd a[href=?]", author_path("HalmyLyseas"), text: "HalmyLyseas"
+    assert_select "dl dd a[href=?]", artist_path("HalmyLyseas"), text: "HalmyLyseas"
     assert_select "dl dd a.font-mono[href*='/commit/']"
     assert_select "dl dd time"
     assert_select "code", /omarchy theme install/
     assert_select "[data-controller=copy]", minimum: 2
     assert_select "meta[property='og:image']"
-    assert_select "a[href=?]", author_path("HalmyLyseas")
+    assert_select "a[href=?]", artist_path("HalmyLyseas")
   end
 
   test "unknown theme is a 404" do
@@ -65,12 +65,12 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
-  test "author page lists themes" do
-    get author_path("HalmyLyseas")
+  test "artist page lists themes" do
+    get artist_path("HalmyLyseas")
     assert_response :success
     assert_select "h1", /HalmyLyseas/
     assert_select "[data-slot=card]", minimum: 1
-    get author_path("nobody-here-xyz")
+    get artist_path("nobody-here-xyz")
     assert_response :not_found
   end
 

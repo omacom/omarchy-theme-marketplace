@@ -78,7 +78,7 @@ class ThemeQuery
     end
     return themes if query.blank?
     q = query.downcase
-    themes.select { |t| t.name.downcase.include?(q) || t.author_login.to_s.downcase.include?(q) || t.tags.any? { |tag| tag.include?(q) } }
+    themes.select { |t| t.name.downcase.include?(q) || t.artist_login.to_s.downcase.include?(q) || t.tags.any? { |tag| tag.include?(q) } }
   end
 
   def sort_themes(themes)

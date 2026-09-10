@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root "home#index"
 
+  get "themes", to: redirect("/#themes")
   get "themes/:slug", to: "themes#show", as: :theme
   post "themes/:slug/like", to: "likes#create", as: :theme_like
   post "themes/:slug/copied", to: "command_copies#create", as: :theme_copied

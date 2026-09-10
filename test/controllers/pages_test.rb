@@ -66,6 +66,11 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", artist_path("HalmyLyseas")
   end
 
+  test "/themes redirects to the gallery" do
+    get "/themes"
+    assert_redirected_to root_path(anchor: "themes")
+  end
+
   test "unknown theme is a 404" do
     get theme_path("does-not-exist")
     assert_response :not_found

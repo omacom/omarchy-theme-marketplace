@@ -8,16 +8,18 @@
     { label: "Discord", href: "https://discord.gg/tXFUdasqhY" },
     { label: "Meetups", href: "https://omarchy.org/meetups/" },
     { label: "Teams", href: "https://omarchy.org/teams/" },
-    { label: "Workstations", href: "https://omarchy.org/workstations" } ] },
+    { label: "Workstations", href: "https://omarchy.org/workstations/" },
+    { label: "Doctrine", href: "https://omarchy.org/doctrine/" } ] },
   { title: "Foundation", links: [
-    { label: "About", href: "https://omarchy.org/foundation" },
-    { label: "Patrons", href: "https://omarchy.org/patrons" },
-    { label: "Sponsorships", href: "https://omarchy.org/sponsorships" },
-    { label: "Artists in Residence", href: "https://omarchy.org/air" } ] },
+    { label: "About", href: "https://omarchy.org/foundation/" },
+    { label: "Staff", href: "https://omarchy.org/staff/" },
+    { label: "Patrons", href: "https://omarchy.org/patrons/" },
+    { label: "Sponsorships", href: "https://omarchy.org/sponsorships/" },
+    { label: "AIR", href: "https://omarchy.org/air/" } ] },
   { title: "Project", links: [
-    { label: "Security", href: "https://omarchy.org/security" },
+    { label: "Security", href: "https://omarchy.org/security/" },
     { label: "GitHub", href: "https://github.com/omacom/omarchy" },
-    { label: "Brand", href: "https://omarchy.org/brand" },
+    { label: "Brand", href: "https://omarchy.org/brand/" },
     { label: "Merch", href: "https://supply.37signals.com/collections/omarchy" } ] }
 ] %>
 <footer class="border-t border-border bg-card">
@@ -34,7 +36,7 @@
           The malleable OS for the age of agents.
         </p>
 
-        <div class="mt-8 flex flex-col text-sm leading-relaxed text-muted-foreground">
+        <div class="mt-4 flex flex-col text-sm leading-relaxed text-muted-foreground">
           <p>
             Incubated at
             <a href="https://37signals.com" class="text-foreground hover:text-primary">
@@ -47,6 +49,13 @@
             <a href="https://cloudflare.com" class="text-foreground hover:text-primary">
               <%= render "brand/cloudflare", class: "mr-1 inline-block h-2.5 w-auto align-[-0.05em]" %>
               Cloudflare
+            </a>
+          </p>
+          <p>
+            Compute by
+            <a href="https://www.digitalocean.com" class="text-foreground hover:text-primary">
+              <%= render "brand/digital_ocean", class: "mr-1 inline-block size-3.5 align-[-0.2em]" %>
+              DigitalOcean
             </a>
           </p>
         </div>
@@ -69,7 +78,7 @@
     </div>
 
     <div class="mt-12 flex flex-col gap-2 border-t border-border pt-6 text-[13px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-      <p>Omarchy™. All rights reserved.</p>
+      <p><a href="https://omarchy.org/brand/" class="text-foreground hover:text-primary">Omarchy™</a>. All rights reserved.</p>
       <p>Partner inquiries: <a href="mailto:foundation@omarchy.org">foundation@omarchy.org</a></p>
     </div>
   </div>

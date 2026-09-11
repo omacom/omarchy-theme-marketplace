@@ -18,8 +18,24 @@ class CatalogTest < ActiveSupport::TestCase
     assert_equal 7, theme.short_commit.length
   end
 
-  test "imported themes are not new" do
-    refute @catalog.themes.any?(&:new?)
+  # Bulk imports can carry recent added_at dates, so the snapshot itself may hold
+  # new themes; what must hold is the rule that decides which ones count. The clock
+  # is pinned so the age window and the import cutoff are exercised independently.
+  test "new? covers submissions inside the window" do
+    travel_to Theme::IMPORT_DATE + 60 do
+      assert theme_added(Date.current).new?
+      assert theme_added(Date.current - Theme::NEW_FOR_DAYS + 1).new?
+      refute theme_added(Date.current - Theme::NEW_FOR_DAYS - 1).new?
+      refute Theme.new("slug" => "x").new?
+    end
+  end
+
+  test "new? never covers the seeded import, however recent" do
+    travel_to Theme::IMPORT_DATE + 3 do
+      refute theme_added(Theme::IMPORT_DATE).new?
+      refute theme_added(Theme::IMPORT_DATE - 1).new?
+      assert theme_added(Theme::IMPORT_DATE + 1).new?
+    end
   end
 
   test "artists are grouped case-insensitively" do
@@ -30,4 +46,7 @@ class CatalogTest < ActiveSupport::TestCase
   test "find! raises for unknown slugs" do
     assert_raises(ActiveRecord::RecordNotFound) { @catalog.find!("nope") }
   end
+
+  private
+    def theme_added(date) = Theme.new("slug" => "x", "added_at" => date.iso8601)
 end

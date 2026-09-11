@@ -22,7 +22,7 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_select "#figures" do
       assert_select "[data-slot=card]", minimum: 1
       assert_select "ol li", minimum: 1
-      assert_select "ol li:first-of-type a[href=?]", artist_path("HANCORE-linux")
+      assert_select "ol li:first-of-type a[href=?]", artist_path(top_artist)
     end
   end
 
@@ -83,7 +83,7 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "h1", /\A\d+ Artists\z/
     assert_select "ol li", count: Catalog.new(Catalog.snapshot).artists.size
-    assert_select "ol li:first-of-type a[href=?]", artist_path("HANCORE-linux")
+    assert_select "ol li:first-of-type a[href=?]", artist_path(top_artist)
     assert_select "ol li a[href=?]", artist_path("HalmyLyseas")
 
     get artists_path(sort: "name")
@@ -119,4 +119,9 @@ class PagesTest < ActionDispatch::IntegrationTest
     get guide_page_path("making-a-theme") # merged into the single page now
     assert_response :not_found
   end
+
+  private
+    # Derived from the snapshot, not hardcoded: the catalog is refreshed regularly
+    # and a bulk import can hand the lead to a different artist at any time.
+    def top_artist = Catalog.new(Catalog.snapshot).artist_stats.first[:login]
 end

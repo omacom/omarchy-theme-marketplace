@@ -28,6 +28,14 @@ class ThemeQueryTest < ActiveSupport::TestCase
     assert_empty query(filter: "all", q: "zzzzzzzz").results
   end
 
+  test "a search widens the featured filter to all but keeps mode and hue filters" do
+    assert_equal "all", query(q: "nuja").filter
+    assert_equal "all", query(filter: "featured", q: "nuja").filter
+    assert_includes query(filter: "featured", q: "nuja").results.map(&:slug), "nujabes"
+    assert_equal "dark", query(filter: "dark", q: "nuja").filter
+    assert_equal query.filter, query(q: "  ").filter
+  end
+
   test "sorts" do
     names = query(filter: "all").results.map { |t| t.name.downcase }
     assert_equal names.sort, names

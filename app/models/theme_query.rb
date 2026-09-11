@@ -18,8 +18,10 @@ class ThemeQuery
 
   def initialize(catalog, params)
     @catalog = catalog
-    @filter = normalize_filter(params[:filter])
     @query = params[:q].to_s.strip
+    @filter = normalize_filter(params[:filter])
+    # Searching only the featured subset hides most of the catalog; a search always widens to All.
+    @filter = "all" if @filter == "featured" && @query.present?
     @sort = SORTS.key?(params[:sort].to_s) ? params[:sort].to_s : "name"
     @page = [ params[:page].to_i, 1 ].max
   end

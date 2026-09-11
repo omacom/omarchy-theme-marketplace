@@ -4,6 +4,7 @@ class PagesTest < ActionDispatch::IntegrationTest
   test "home renders the gallery from the catalog" do
     get root_path
     assert_response :success
+    assert_select "body[style]", count: 0
     assert_select "h1, p", /Community Themes/
     assert_select "turbo-frame#gallery"
     assert_select "[data-slot=card]", minimum: 1
@@ -61,6 +62,7 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_select "[data-preview=fastfetch]"
     assert_select "[data-preview=desktop]"
     assert_select "[style*='--p-accent: #']"
+    assert_select "body[style*='--primary: light-dark(']"
     assert_select "[data-controller=copy]", minimum: 2
     assert_select "meta[property='og:image']"
     assert_select "a[href=?]", artist_path("HalmyLyseas")

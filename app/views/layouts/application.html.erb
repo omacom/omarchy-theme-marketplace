@@ -24,7 +24,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body<% if content_for?(:body_style) %> style="<%= yield :body_style %>"<% end %>>
     <div class="flex min-h-dvh flex-col">
       <%= render "layouts/header" %>
       <main class="flex-1">

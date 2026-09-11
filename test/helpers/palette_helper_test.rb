@@ -26,6 +26,26 @@ class PaletteHelperTest < ActionView::TestCase
     refute_includes style, "--p-bright-red: color-mix"
   end
 
+  test "theme primary uses the accent, nudged to 3:1 against each mode's background" do
+    style = theme_primary_style(theme_with("accent" => "#7aa2f7"))
+    assert_match(/--primary: light-dark\(#[0-9a-f]{6}, #7aa2f7\)/, style)
+    refute_includes style, "light-dark(#7aa2f7,", "a light accent is darkened for light mode"
+    assert_includes style, "--primary-foreground: light-dark(#0a0a0a, #0a0a0a)"
+    assert_match(/--ring: light-dark\(/, style)
+
+    dark_accent = theme_primary_style(theme_with("accent" => "#1a1a2e"))
+    assert_match(/--primary: light-dark\(#1a1a2e, #[0-9a-f]{6}\)/, dark_accent)
+    refute_includes dark_accent, ", #1a1a2e)", "a dark accent is lightened for dark mode"
+    assert_match(/--primary-foreground: light-dark\(#fafafa, /, dark_accent)
+
+    assert_includes theme_primary_style(theme_with("accent" => "#f00")), "light-dark(#ff0000, #ff0000)"
+  end
+
+  test "theme primary is skipped when the accent is not a hex colour" do
+    assert_nil theme_primary_style(theme_with("accent" => "url(javascript:alert(1))"))
+    assert_nil theme_primary_style(theme_with({}))
+  end
+
   test "ignores values that are not hex colours" do
     style = palette_style(theme_with("accent" => "url(javascript:alert(1))", "muted" => "red"))
     refute_includes style, "javascript"

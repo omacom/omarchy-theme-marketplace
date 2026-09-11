@@ -1,5 +1,6 @@
 <% content_for :title, "#{@theme.name} — Omarchy Themes" %>
 <% content_for :description, (@theme.description.presence || "#{@theme.name}, a #{@theme.mode} community theme for Omarchy by #{@theme.artist_login}.") %>
+<% content_for :body_style, theme_primary_style(@theme) %>
 <% content_for :head do %>
   <meta property="og:type" content="website">
   <meta property="og:title" content="<%= @theme.name %> — Omarchy theme">

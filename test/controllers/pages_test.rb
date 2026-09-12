@@ -23,6 +23,7 @@ class PagesTest < ActionDispatch::IntegrationTest
       assert_select "[data-slot=card]", minimum: 1
       assert_select "ol li", minimum: 1
       assert_select "ol li:first-of-type a[href=?]", artist_path(top_artist)
+      assert_select "[data-slot=card-action] a[href=?]", artists_path, text: "All artists"
     end
   end
 

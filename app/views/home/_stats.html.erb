@@ -33,9 +33,11 @@
     <% if top_artists.present? %>
       <div class="mt-4">
         <%= ui_card do %>
-          <%= ui_card_header do %>
+          <%= ui_card_header class: "items-center" do %>
             <%= ui_card_title "Top artists" %>
-            <%= ui_card_description do %>Ranked by themes published, ties broken by total stars. <%= link_to "All artists", artists_path, class: "text-foreground hover:text-primary" %><% end %>
+            <div data-slot="card-action" class="col-start-2 row-span-2 row-start-1 self-start justify-self-end">
+              <%= ui_button "All artists", href: artists_path, variant: :outline, size: :sm %>
+            </div>
           <% end %>
           <%= ui_card_content do %>
             <ol class="flex flex-col divide-y divide-border">

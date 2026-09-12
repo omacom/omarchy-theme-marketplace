@@ -1,6 +1,6 @@
 <% filters = [ [ "featured", "Featured" ], [ "all", "All" ], [ "dark", "Dark" ], [ "light", "Light" ] ]
    filters = filters.reject { |k, _| k == "featured" } unless catalog.any_featured? %>
-<section id="themes" class="mx-auto max-w-6xl scroll-mt-16 px-4 pt-10 pb-20 sm:px-6" data-controller="gallery" data-action="turbo:frame-load->gallery#loaded">
+<section id="themes" class="mx-auto max-w-6xl scroll-mt-16 px-4 py-10 sm:px-6" data-controller="gallery" data-action="turbo:frame-load->gallery#loaded">
   <%= turbo_frame_tag "gallery" do %>
     <%# Turbo swaps only the frame's children, so the current state lives on an element inside it. %>
     <div id="gallery-state" hidden data-filter="<%= query.params_for[:filter] %>" data-sort="<%= query.params_for[:sort] %>"></div>

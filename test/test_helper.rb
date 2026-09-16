@@ -7,9 +7,6 @@ module ActiveSupport
     # Run tests in parallel with specified workers
     parallelize(workers: :number_of_processors)
 
-    # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-    fixtures :all
-
-    # Add more helper methods to be used by all tests here...
+    # There is no database: every test reads the committed catalog snapshot (see config/environments/test.rb).
   end
 end

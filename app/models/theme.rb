@@ -84,11 +84,6 @@ class Theme
   def background = colors["background"]
   def foreground = colors["foreground"]
   def hue_label = HUE_LABELS.fetch(hue, hue.to_s.capitalize)
-  # Engagement stats live in the site database; see Engagement.
-  def stats = @stats ||= Engagement.for(slug)
-  def likes = stats.likes
-  def copies = stats.copies
-  def trending = stats.trending
   def short_commit = commit.to_s[0, 7]
 
   def new?

@@ -9,7 +9,7 @@ set dotenv-load
 default:
     @just --list
 
-# Install gems, prepare the database (what CI does first)
+# Install gems and clear logs/tempfiles (what CI does first)
 setup:
     bin/setup --skip-server
 
@@ -17,7 +17,7 @@ setup:
 dev:
     bin/dev
 
-# Everything CI runs, in order: style, security scans, tests, seeds (config/ci.rb)
+# Everything CI runs, in order: style, security scans, tests (config/ci.rb)
 ci:
     bin/ci
 
@@ -36,11 +36,6 @@ security:
     bin/bundler-audit
     bin/importmap audit
     bin/brakeman --quiet --no-pager --exit-on-warn --exit-on-error
-
-# Apply pending migrations to development and test
-migrate:
-    bin/rails db:migrate
-    RAILS_ENV=test bin/rails db:migrate
 
 # Refresh data/catalog.json (the fallback used when the CDN is unreachable and in tests)
 snapshot:

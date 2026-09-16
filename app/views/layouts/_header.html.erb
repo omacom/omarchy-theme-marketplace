@@ -10,12 +10,6 @@
     <div class="ml-auto flex items-center gap-1.5">
       <%= ui_button "Submit a theme", href: guide_path %>
       <%= render "layouts/theme_toggle" %>
-      <%# Sign-in is wired (/login, /me) but hidden until likes or submissions need it; see plan.md. %>
-      <% if signed_in? %>
-        <a href="<%= me_path %>" class="flex size-8 shrink-0 items-center justify-center border border-border" aria-label="Your themes">
-          <img src="<%= current_user.avatar_url %>" alt="" width="32" height="32" class="size-full object-cover">
-        </a>
-      <% end %>
     </div>
   </div>
 </header>

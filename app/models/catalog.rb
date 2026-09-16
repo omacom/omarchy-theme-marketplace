@@ -52,7 +52,7 @@ class Catalog
   def themes = @themes
   def size = @themes.size
   def find(slug) = @by_slug[slug]
-  def find!(slug) = find(slug) || raise(ActiveRecord::RecordNotFound, "No theme #{slug.inspect}")
+  def find!(slug) = find(slug) || raise(NotFound, "No theme #{slug.inspect}")
   def any_featured? = @themes.any?(&:featured?)
   def artists = @themes.map(&:artist_login).uniq
 

@@ -2,7 +2,7 @@
 
 The website for [themes.omarchy.org](https://themes.omarchy.org): browse, preview and install community themes for [Omarchy](https://omarchy.org). Ruby on Rails 8, Hotwire, Tailwind CSS 4.
 
-The site is read-only over a published catalog. Themes are registered, validated and published by [omacom/omarchy-theme-registry](https://github.com/omacom/omarchy-theme-registry); this app fetches `catalog.json` from the CDN, caches it for five minutes, and falls back to the committed snapshot in `data/catalog.json` if the CDN is unreachable.
+The site is read-only over a published catalog: no database, no accounts, no sign-in. Themes are registered, validated and published by [omacom/omarchy-theme-registry](https://github.com/omacom/omarchy-theme-registry); this app fetches `catalog.json` from the CDN, caches it for five minutes, and falls back to the committed snapshot in `data/catalog.json` if the CDN is unreachable.
 
 ## Running locally
 
@@ -10,7 +10,6 @@ Requires Ruby 3.4 (see `.ruby-version`; `mise install` sets it up).
 
 ```sh
 bundle install
-bin/rails db:prepare
 bin/dev            # Rails on http://localhost:3000 + Tailwind watcher
 bin/rails test
 bundle exec rubocop
@@ -35,9 +34,16 @@ To refresh the snapshot: `curl -s "$CDN_BASE_URL/v1/catalog.json" -o data/catalo
 - `app/views/home` — hero, gallery (a Turbo Frame; filters and search are plain GET links/forms), submit steps, stats.
 - `app/views/themes/show` — theme page: preview, install command, palette, validation notes, more by artist.
 - `app/views/guide/pages/*.md` — the `/guide` page, rendered with kramdown.
-- `app/javascript/controllers` — Stimulus: `theme` (light/dark), `sheet` (mobile menu), `search` (debounced submit), `copy`, `like`.
+- `app/javascript/controllers` — Stimulus: `theme` (light/dark), `gallery`, `search` (debounced submit), `copy`.
 - `app/assets/tailwind/application.css` — design tokens (Tokyo Night / Tokyo Night Day), fonts, base layer.
 
 ## Deploying
 
-`config/deploy.yml` is a Kamal config for a single Digital Ocean droplet behind Cloudflare. Set `DEPLOY_HOST`, the registry credentials and `RAILS_MASTER_KEY` in `.kamal/secrets`, then `kamal setup` once and `kamal deploy` afterwards.
+`config/deploy.yml` is a Kamal config for a single Digital Ocean droplet behind Cloudflare. Export `DEPLOY_HOST` and `KAMAL_REGISTRY_PASSWORD` in the deploying shell, then `kamal setup` once and `kamal deploy` afterwards. The container holds no state, so a deploy is a straight replacement.
+
+To check the image locally before deploying:
+
+```sh
+docker build -t omarchy-themes:local .
+docker run --rm -p 3300:80 -e RAILS_MASTER_KEY="$(cat config/master.key)" omarchy-themes:local
+```

@@ -36,13 +36,7 @@ jobs:
       - name: Run tests
         env:
           RAILS_ENV: test
-        run: |
-          bin/rails db:test:prepare
-          bin/rails test
-      - name: Seeds
-        env:
-          RAILS_ENV: test
-        run: bin/rails db:seed:replant
+        run: bin/rails test
       - uses: actions/upload-artifact@v5
         if: failure()
         with:

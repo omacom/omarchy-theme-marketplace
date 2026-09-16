@@ -16,7 +16,7 @@ class GuideController < ApplicationController
 
   def show
     @page = PAGES.keys.find { |page| page == (params[:page].presence || "index") }
-    raise ActiveRecord::RecordNotFound, "No guide page #{params[:page]}" unless @page
+    raise NotFound, "No guide page #{params[:page]}" unless @page
     @title = PAGES.fetch(@page)
     @html = render_markdown(FILES.fetch(@page).read)
   end

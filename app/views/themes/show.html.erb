@@ -60,7 +60,7 @@
         <div class="flex min-w-0 flex-1 items-stretch gap-1.5">
           <code class="min-w-0 flex-1 overflow-x-auto border border-input bg-input/30 px-2.5 py-2 text-xs whitespace-nowrap"><%= @theme.install %></code>
           <%= ui_button variant: :outline, "aria-label": "Copy install command", class: "h-auto shrink-0 gap-1.5 data-[copied=true]:border-primary data-[copied=true]:text-primary data-[copied=true]:hover:text-primary",
-                data: { controller: "copy", action: "copy#copy", copy_text_value: @theme.install, copy_ping_value: theme_copied_path(@theme) } do %>
+                data: { controller: "copy", action: "copy#copy", copy_text_value: @theme.install } do %>
             <%= icon :copy, class: "size-4", data: { copy_target: "idle" } %>
             <span data-copy-target="idle">Copy</span>
             <%= icon :check, class: "size-4", hidden: true, data: { copy_target: "done" } %>
@@ -83,8 +83,7 @@
       { label: "Wallpapers", text: "#{@theme.backgrounds["count"].to_i}#{" + video" if @theme.backgrounds["has_video"]}" },
       { label: "Updated", text: @theme.pushed_at ? @theme.pushed_at.to_date.to_fs(:long) : "—", time: @theme.pushed_at },
       { label: "Listed", text: @theme.added_at&.to_fs(:long) || "—" },
-      { label: "Validated", text: @theme.short_commit, href: @theme.commit_url, title: "The commit the marketplace checked", mono: true },
-      { label: "Copied", text: pluralize(number_with_delimiter(@theme.copies), "time") }
+      { label: "Validated", text: @theme.short_commit, href: @theme.commit_url, title: "The commit the marketplace checked", mono: true }
     ] %>
     <dl class="mt-5 grid grid-cols-2 gap-px border border-border bg-border sm:grid-cols-4">
       <% details.each do |d| %>

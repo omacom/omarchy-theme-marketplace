@@ -44,7 +44,7 @@ class CatalogTest < ActiveSupport::TestCase
   end
 
   test "find! raises for unknown slugs" do
-    assert_raises(ActiveRecord::RecordNotFound) { @catalog.find!("nope") }
+    assert_raises(NotFound) { @catalog.find!("nope") }
   end
 
   private

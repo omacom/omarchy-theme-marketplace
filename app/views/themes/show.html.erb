@@ -78,7 +78,7 @@
     <%# label, text, optional href/title for a link, optional datetime for a <time> %>
     <% details = [
       { label: "Artist", text: @theme.artist_login, href: artist_path(@theme.artist_login) },
-      { label: "Stars", text: number_with_delimiter(@theme.stars) },
+      { label: "Github Stars", text: number_with_delimiter(@theme.stars) },
       { label: "License", text: @theme.license || "Not specified" },
       { label: "Wallpapers", text: "#{@theme.backgrounds["count"].to_i}#{" + video" if @theme.backgrounds["has_video"]}" },
       { label: "Updated", text: @theme.pushed_at ? @theme.pushed_at.to_date.to_fs(:long) : "—", time: @theme.pushed_at },

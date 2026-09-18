@@ -27,6 +27,7 @@ The base URL is currently a development host and will move to `cdn.themes.omarch
   "colors": { "accent": "#b26ac6", "background": "#0d0a11", "...": "..." },
   "generation": "native",
   "ignored_on_install": [],
+  "installed_files": ["LICENSE", "README.md", "backgrounds/bg.jpg", "colors.toml", "icons.theme", "preview.png"],
   "backgrounds": { "count": 1, "has_video": false, "total_bytes": 1081450 },
   "preview": { "src": "…/1200.webp", "thumb": "…/480.webp", "width": 1200, "height": 675, "placeholder": "#080808" },
   "commit": "255b298d05db1ca186d8f0470d00d30356966774",
@@ -39,5 +40,7 @@ The base URL is currently a development host and will move to `cdn.themes.omarch
   "install": "omarchy theme install https://github.com/HalmyLyseas/omarchy-nujabes-theme"
 }
 ```
+
+`installed_files` is what `omarchy theme install <name>` puts on a machine: only the files Omarchy reads from a theme, plus LICENSE and README. `ignored_on_install` lists what a URL install clones but Omarchy then drops.
 
 `schema_version` is `1`. Breaking changes will publish under a new `/v2/` prefix; `/v1/` keeps working.

@@ -130,35 +130,20 @@
   </div>
 </section>
 
-<% if @theme.ignored_on_install.any? || @theme.warning_labels.any? %>
+<% if @theme.warning_labels.any? %>
   <section class="border-b border-border">
     <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       <h2 class="font-heading text-lg font-semibold tracking-tight">Good to know</h2>
       <div class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <% if @theme.ignored_on_install.any? %>
-          <%= ui_card do %>
-            <%= ui_card_header do %>
-              <%= ui_card_title "Not applied when installed from a repo" %>
-              <%= ui_card_description "Omarchy regenerates these from colors.toml and never runs files from a downloaded theme." %>
-            <% end %>
-            <%= ui_card_content do %>
-              <ul class="flex flex-wrap gap-1.5">
-                <% @theme.ignored_on_install.each do |f| %><li><code class="border border-border px-1.5 py-0.5 text-xs"><%= f %></code></li><% end %>
-              </ul>
-            <% end %>
+        <%= ui_card do %>
+          <%= ui_card_header do %>
+            <%= ui_card_title "Notes from validation" %>
+            <%= ui_card_description "Nothing here blocks installation; it is what the artist could still improve." %>
           <% end %>
-        <% end %>
-        <% if @theme.warning_labels.any? %>
-          <%= ui_card do %>
-            <%= ui_card_header do %>
-              <%= ui_card_title "Notes from validation" %>
-              <%= ui_card_description "Nothing here blocks installation; it is what the artist could still improve." %>
-            <% end %>
-            <%= ui_card_content do %>
-              <ul class="flex flex-col gap-1.5 text-xs">
-                <% @theme.warning_labels.each do |w| %><li class="flex gap-2"><span class="text-muted-foreground" aria-hidden="true">–</span><%= w %></li><% end %>
-              </ul>
-            <% end %>
+          <%= ui_card_content do %>
+            <ul class="flex flex-col gap-1.5 text-xs">
+              <% @theme.warning_labels.each do |w| %><li class="flex gap-2"><span class="text-muted-foreground" aria-hidden="true">–</span><%= w %></li><% end %>
+            </ul>
           <% end %>
         <% end %>
       </div>

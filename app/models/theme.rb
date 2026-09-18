@@ -10,20 +10,20 @@ class Theme
     "pink" => "Pink", "teal" => "Teal", "gray" => "Gray", "red" => "Red", "yellow" => "Yellow"
   }.freeze
 
+  # Notes shown on the theme page. Only what changes the experience for someone installing the
+  # theme; what a marketplace install does or does not check out is artist information and stays
+  # in the registry's validation report.
   WARNING_LABELS = {
-    "IGNORED_ON_INSTALL" => "Ships files Omarchy drops on install",
     "MODE_UNDECLARED" => "Light/dark mode is not declared in colors.toml",
     "MODE_CONFLICT" => "Conflicting light/dark mode declarations",
     "MODE_LUMINANCE" => "Declared mode does not match the background colour",
     "PALETTE_LEGACY" => "Palette derived from a legacy alacritty.toml",
     "PALETTE_PARTIAL" => "Palette is missing optional colours",
-    "PALETTE_UNKNOWN_KEYS" => "colors.toml has keys Omarchy ignores",
     "PALETTE_BAD_VALUE" => "Some optional palette values are not valid colours",
     "BACKGROUNDS_NONE" => "No wallpapers included",
     "BACKGROUNDS_LARGE" => "Wallpapers are large (slow install)",
     "BACKGROUND_HEAVY" => "Some wallpapers are heavy",
     "BACKGROUND_VIDEO" => "Includes video wallpapers",
-    "BACKGROUND_SKIPPED" => "Some wallpaper files will be ignored by Omarchy",
     "BACKGROUND_FILENAME" => "Wallpaper filenames contain spaces or unusual characters",
     "PREVIEW_ASPECT" => "Preview is not 16:9",
     "NO_README" => "No README",
@@ -33,8 +33,6 @@ class Theme
     "REPO_NAME_CONVENTION" => "Repository name does not follow omarchy-<name>-theme",
     "REPO_ARCHIVED" => "Repository is archived",
     "REPO_MOVED" => "Repository has moved",
-    "NON_THEME_PAYLOAD" => "Contains scripts or binaries (never run by Omarchy)",
-    "VSCODE_EXTENSION" => "Names a VS Code extension (ignored on install)",
     "VSCODE_JSON_INVALID" => "vscode.json is invalid",
     "ICONS_THEME_UNKNOWN" => "Unknown icon theme",
     "KEYBOARD_RGB_INVALID" => "keyboard.rgb is invalid",

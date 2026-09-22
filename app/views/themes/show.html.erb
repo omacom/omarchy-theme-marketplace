@@ -100,6 +100,10 @@
           </dd>
         </div>
       <% end %>
+      <%# Pad the last row so the gap-px border background doesn't show through empty cells. %>
+      <% (-details.size % 4).times do %>
+        <div class="bg-card" aria-hidden="true"></div>
+      <% end %>
     </dl>
   </div>
 </section>

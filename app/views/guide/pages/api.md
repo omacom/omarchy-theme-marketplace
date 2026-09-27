@@ -36,7 +36,7 @@ The base URL is currently a development host and will move to `cdn.themes.omarch
   "added_at": "2026-09-07",
   "tags": [],
   "featured": false,
-  "warnings": ["REPO_NO_TOPIC"],
+  "warnings": ["MODE_UNDECLARED"],
   "install": "omarchy theme install nujabes"
 }
 ```

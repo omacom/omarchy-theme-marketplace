@@ -15,14 +15,20 @@ class ThemeQuery
     "gray" => "#9099b2"
   }.freeze
 
-  attr_reader :catalog, :filter, :query, :sort, :page
+  # A theme matches a colour when one of its colours is this close (OKLab); the closest few are
+  # shown whatever the distance, so a rare colour still finds something.
+  COLOR_MATCH = 0.08
+  COLOR_MIN_RESULTS = 6
+
+  attr_reader :catalog, :filter, :query, :sort, :page, :color
 
   def initialize(catalog, params)
     @catalog = catalog
     @query = params[:q].to_s.strip
     @filter = normalize_filter(params[:filter])
+    @color = Color.normalize(params[:color])
     # Searching only the featured subset hides most of the catalog; a search always widens to All.
-    @filter = "all" if @filter == "featured" && @query.present?
+    @filter = "all" if @filter == "featured" && (@query.present? || @color)
     @sort = SORTS.key?(params[:sort].to_s) ? params[:sort].to_s : "name"
     @page = [ params[:page].to_i, 1 ].max
   end
@@ -32,7 +38,7 @@ class ThemeQuery
   end
 
   def results
-    @results ||= sort_themes(filter_themes(catalog.themes))
+    @results ||= color ? by_color(filter_themes(catalog.themes)) : sort_themes(filter_themes(catalog.themes))
   end
 
   def total = results.size
@@ -43,7 +49,7 @@ class ThemeQuery
 
   # URL params for a link that keeps the current state and changes one key.
   def params_for(**changes)
-    base = { filter: filter, q: query.presence, sort: (sort unless sort == "name"), page: nil }
+    base = { filter: filter, q: query.presence, color: color, sort: (sort unless sort == "name"), page: nil }
     base[:filter] = nil if base[:filter] == default_filter
     base.merge(changes).compact
   end
@@ -81,7 +87,19 @@ class ThemeQuery
     end
     return themes if query.blank?
     q = query.downcase
-    themes.select { |t| t.name.downcase.include?(q) || t.artist_login.to_s.downcase.include?(q) || t.tags.any? { |tag| tag.include?(q) } }
+    themes.select do |t|
+      t.name.downcase.include?(q) || t.artist_login.to_s.downcase.include?(q) ||
+        t.tags.any? { |tag| tag.include?(q) } || t.description.to_s.downcase.include?(q)
+    end
+  end
+
+  # Closest first; `sort` does not apply while a colour is picked.
+  def by_color(themes)
+    target = Color.oklab(color)
+    scored = themes.map { |t| [ t.color_distance(target), t ] }.sort_by(&:first)
+    matching = scored.take_while { |distance, _| distance <= COLOR_MATCH }
+    matching = scored.first(COLOR_MIN_RESULTS) if matching.size < COLOR_MIN_RESULTS
+    matching.map(&:last)
   end
 
   def sort_themes(themes)

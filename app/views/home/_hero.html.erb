@@ -15,6 +15,7 @@
       <%# Kept in sync with the gallery frame by the search controller, so a search keeps the active filter/sort. %>
       <%= f.hidden_field :filter, value: query.params_for[:filter], data: { search_target: "filter" } %>
       <%= f.hidden_field :sort, value: query.params_for[:sort], data: { search_target: "sort" } %>
+      <%= f.hidden_field :color, value: query.color, data: { search_target: "color" } %>
       <%= icon :search, class: "pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" %>
       <%= f.search_field :q, value: query.query, placeholder: "Search themes…", "aria-label": "Search themes", autocomplete: "off",
             class: input_class(class: "h-11 pl-9"), data: { action: "input->search#submit" } %>

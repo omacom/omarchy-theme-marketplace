@@ -70,6 +70,21 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", artist_path("HalmyLyseas")
   end
 
+  test "theme page shows similar themes and links to its accent" do
+    get theme_path("nujabes")
+    assert_select "h2", "Similar themes"
+    assert_select "a[href*='color=%23b26ac6']", text: /Find themes with this accent/
+  end
+
+  test "gallery searches by colour" do
+    get root_path(color: "#b26ac6", filter: "all")
+    assert_response :success
+    assert_select "#gallery-state[data-color='#b26ac6']"
+    assert_select "input[type=color][value='#b26ac6']"
+    assert_select "a[aria-label='Clear colour']"
+    assert_select "#gallery-sort", count: 0
+  end
+
   test "/themes redirects to the gallery" do
     get "/themes"
     assert_redirected_to root_path(anchor: "themes")

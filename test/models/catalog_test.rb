@@ -50,6 +50,22 @@ class CatalogTest < ActiveSupport::TestCase
   private
     def theme_added(date) = Theme.new("slug" => "x", "added_at" => date.iso8601)
 
+  test "similar themes are the closest palettes, never the theme itself" do
+    theme = @catalog.find("nujabes")
+    similar = @catalog.similar_to(theme)
+    assert_equal 3, similar.size
+    refute_includes similar, theme
+    farthest = similar.map { |t| theme.palette_distance(t) }.max
+    others = @catalog.themes - similar - [ theme ]
+    assert others.all? { |t| theme.palette_distance(t) >= farthest }
+  end
+
+  test "OKLab distance is zero for the same colour and grows with difference" do
+    assert_in_delta 0, Color.distance(Color.oklab("#7aa2f7"), Color.oklab("#7aa2f7")), 1e-9
+    assert_operator Color.distance(Color.oklab("#000000"), Color.oklab("#ffffff")), :>, 0.9
+    assert_operator Color.distance(Color.oklab("#7aa2f7"), Color.oklab("#7da6ff")), :<, 0.03
+  end
+
   # The CDN is faked by swapping fetch_remote: it answers with a catalog, :not_modified, or nil
   # when it is unreachable.
   class Loading < ActiveSupport::TestCase

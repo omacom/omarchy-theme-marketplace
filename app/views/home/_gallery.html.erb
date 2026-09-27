@@ -3,7 +3,7 @@
 <section id="themes" class="mx-auto max-w-6xl scroll-mt-16 px-4 py-10 sm:px-6" data-controller="gallery" data-action="turbo:frame-load->gallery#loaded">
   <%= turbo_frame_tag "gallery" do %>
     <%# Turbo swaps only the frame's children, so the current state lives on an element inside it. %>
-    <div id="gallery-state" hidden data-filter="<%= query.params_for[:filter] %>" data-sort="<%= query.params_for[:sort] %>"></div>
+    <div id="gallery-state" hidden data-filter="<%= query.params_for[:filter] %>" data-sort="<%= query.params_for[:sort] %>" data-color="<%= query.color %>"></div>
     <div class="flex flex-col gap-3">
       <div class="flex flex-wrap items-center justify-between gap-4">
         <div class="flex flex-wrap items-center gap-2">
@@ -15,12 +15,16 @@
         </div>
 
         <div class="flex items-center gap-3">
+          <% if query.color %>
+            <span class="text-xs text-muted-foreground">Closest colour first</span>
+          <% else %>
           <label class="sr-only" for="gallery-sort">Sort by</label>
           <%= form_with url: root_path(anchor: "themes"), method: :get, class: "contents", data: { turbo_frame: "gallery", turbo_action: "advance" } do |f| %>
             <% query.params_for.except(:sort).each do |k, v| %><%= f.hidden_field k, value: v %><% end %>
             <%= f.select :sort, options_for_select(ThemeQuery::SORTS.to_a.map { |k, v| [ v, k ] }, query.sort), {},
                   id: "gallery-sort", onchange: "this.form.requestSubmit()",
                   class: button_class(variant: :outline, size: :sm, class: "h-7 py-0 pr-8 pl-2.5 text-xs leading-none") %>
+          <% end %>
           <% end %>
         </div>
       </div>
@@ -34,6 +38,24 @@
                 data: { turbo_action: "advance" } do %>
             <span class="size-2.5 rounded-full" style="background-color: <%= ThemeQuery::HUE_SWATCHES[hue] %>"></span>
             <%= Theme::HUE_LABELS[hue] %>
+          <% end %>
+        <% end %>
+        <%# Any colour: themes whose accent, background or terminal colours are closest to it. %>
+        <%= form_with url: root_path(anchor: "themes"), method: :get, class: "contents",
+              data: { turbo_frame: "gallery", turbo_action: "advance" } do |f| %>
+          <% query.params_for.except(:color).each do |k, v| %><%= f.hidden_field k, value: v, id: nil %><% end %>
+          <label class="<%= button_class(variant: (query.color ? :default : :outline), size: :sm, class: "relative cursor-pointer gap-1.5 focus-within:ring-2 focus-within:ring-ring") %>">
+            <span class="size-2.5 rounded-full"
+                  style="background: <%= query.color || "conic-gradient(#f7768e, #e0af68, #9ece6a, #2ac3de, #7aa2f7, #bb9af7, #f7768e)" %>"></span>
+            <%= query.color || "Any colour" %>
+            <%= f.color_field :color, value: query.color || "#7aa2f7", id: "gallery-color", "aria-label": "Find themes with a colour",
+                  class: "absolute inset-0 size-full cursor-pointer opacity-0", onchange: "this.form.requestSubmit()" %>
+          </label>
+        <% end %>
+        <% if query.color %>
+          <%= ui_button href: root_path(query.params_for(color: nil).merge(anchor: "themes")), size: :sm, variant: :ghost,
+                "aria-label": "Clear colour", data: { turbo_action: "advance" } do %>
+            <%= icon :close, class: "size-3.5" %>
           <% end %>
         <% end %>
         </div>

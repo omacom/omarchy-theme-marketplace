@@ -159,6 +159,25 @@
   <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
     <div class="flex flex-wrap items-center justify-between gap-4">
       <div>
+        <h2 class="font-heading text-lg font-semibold tracking-tight">Similar themes</h2>
+        <p class="mt-1 text-xs text-muted-foreground">The closest palettes in the marketplace.</p>
+      </div>
+      <% if @theme.accent %>
+        <%= link_to root_path(color: @theme.accent, filter: "all", anchor: "themes"), class: "inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground" do %>
+          <span class="size-2.5 rounded-full" style="background-color: <%= @theme.accent %>"></span>Find themes with this accent
+        <% end %>
+      <% end %>
+    </div>
+    <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <% @similar.each do |theme| %><%= render "themes/card", theme: theme %><% end %>
+    </div>
+  </div>
+</section>
+
+<section class="border-b border-border">
+  <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      <div>
         <h2 class="font-heading text-lg font-semibold tracking-tight">More by <%= @theme.artist_login %></h2>
         <p class="mt-1 text-xs text-muted-foreground"><%= link_to "All themes by #{@theme.artist_login}", artist_path(@theme.artist_login), class: "hover:text-primary" %></p>
       </div>

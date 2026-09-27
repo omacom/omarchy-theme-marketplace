@@ -128,6 +128,12 @@ class Catalog
   def by_artist(login) = @by_artist.fetch(login.to_s.downcase, [])
   def new_themes = @themes.select(&:new?)
 
+  # The themes whose palettes look most like `theme`'s. Worked out per request rather than for
+  # every pair up front, which would grow with the square of the catalog.
+  def similar_to(theme, limit: 3)
+    @themes.reject { |t| t.equal?(theme) }.min_by(limit) { |t| theme.palette_distance(t) }
+  end
+
   private
 
   # One row per artist, ranked by themes published, ties broken by total stars.

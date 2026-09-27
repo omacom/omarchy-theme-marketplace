@@ -62,6 +62,7 @@ class Theme
     @featured = data["featured"] == true
     @warnings = Array(data["warnings"])
     @install = data["install"]
+    @oklab = @colors.filter_map { |k, v| (hex = Color.normalize(v)) && [ k, Color.oklab(hex) ] }.to_h.freeze
   end
 
   def to_param = slug
@@ -100,6 +101,38 @@ class Theme
   end
 
   def palette = palette_rows.flatten(1)
+
+  # The colours that make a theme look the way it does, for colour search: accent and background
+  # count fully, the terminal colours and foreground a little less.
+  MAIN_COLORS = %w[accent background].freeze
+  SUPPORTING_COLORS = %w[foreground red yellow green cyan blue magenta].freeze
+  SUPPORTING_PENALTY = 0.04
+
+  # How far this theme's closest colour is from `target` (an OKLab triple).
+  def color_distance(target)
+    main = MAIN_COLORS.filter_map { |k| @oklab[k] && Color.distance(@oklab[k], target) }
+    supporting = SUPPORTING_COLORS.filter_map { |k| @oklab[k] && Color.distance(@oklab[k], target) + SUPPORTING_PENALTY }
+    (main + supporting).min || Float::INFINITY
+  end
+
+  # How different two palettes look, key by key, weighted towards what fills the screen.
+  PALETTE_WEIGHTS = {
+    "background" => 3, "accent" => 2, "foreground" => 1,
+    "red" => 0.5, "yellow" => 0.5, "green" => 0.5, "cyan" => 0.5, "blue" => 0.5, "magenta" => 0.5
+  }.freeze
+
+  def palette_distance(other)
+    total = weight = 0.0
+    PALETTE_WEIGHTS.each do |key, w|
+      mine, theirs = @oklab[key], other.oklab[key]
+      next unless mine && theirs
+      total += w * Color.distance(mine, theirs)
+      weight += w
+    end
+    weight.zero? ? Float::INFINITY : total / weight
+  end
+
+  def oklab = @oklab
 
   def commit_url = "#{repo}/commit/#{commit}"
   def issues_url = "#{repo}/issues"

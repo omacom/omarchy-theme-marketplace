@@ -63,4 +63,36 @@ class ThemeQueryTest < ActiveSupport::TestCase
     assert_equal({ filter: "dark", q: "x", sort: "stars" }, q.params_for)
     assert_equal({ filter: "dark", q: "x", sort: "stars", page: 2 }, q.params_for(page: 2))
   end
+
+  test "searches descriptions" do
+    theme = @catalog.themes.find { |t| t.description.to_s.split.any? { |w| w.size > 6 } }
+    word = theme.description.split.find { |w| w.size > 6 }.downcase.delete("^a-z")
+    assert_includes query(filter: "all", q: word).results, theme
+  end
+
+  test "finds themes by colour, closest first" do
+    theme = @catalog.find("nujabes")
+    results = query(color: theme.accent).results
+    assert_equal theme, results.first, "its own accent is the closest match"
+    target = Color.oklab(theme.accent)
+    distances = results.map { |t| t.color_distance(target) }
+    assert_equal distances.sort, distances
+  end
+
+  test "a colour search widens featured to all and keeps other filters" do
+    q = query(filter: "featured", color: "#ff69b4")
+    assert_equal "all", q.filter
+    assert query(filter: "light", color: "#ff69b4").results.all?(&:light?)
+    assert_equal "#ff69b4", q.params_for[:color]
+  end
+
+  test "a rare colour still finds the closest few" do
+    assert_operator query(filter: "all", color: "#00ff00").total, :>=, ThemeQuery::COLOR_MIN_RESULTS
+  end
+
+  test "ignores a malformed colour" do
+    assert_nil query(color: "red; drop").color
+    assert_nil query(color: "#12345").color
+    assert_equal "#abcdef", query(color: "ABCDEF").color
+  end
 end

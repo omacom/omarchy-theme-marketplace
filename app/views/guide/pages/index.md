@@ -29,7 +29,7 @@ Once listed, the marketplace follows your repository's default branch — push c
 
 **Shown as notes, never blocks** — files Omarchy drops on install; `mode` missing or declared inconsistently; wallpapers missing, oversized, in subfolders, or with unusual filenames; a preview that isn't 16:9; no README, LICENSE, or `omarchy-theme` GitHub topic; scripts or binaries in the repository.
 
-A listed theme is checked again every six hours. If its repository goes missing, turns private, or stops passing these checks, it drops off the marketplace at the next check and comes back automatically once it passes again. There's no need to resubmit.
+A listed theme is checked again every six hours. If its repository goes missing, turns private, or stops passing these checks, it drops off the marketplace at the next check, and you get a GitHub notification listing what to fix. It comes back automatically once it passes again. There's no need to resubmit.
 
 ## Install, update, and remove
 

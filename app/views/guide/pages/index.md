@@ -6,7 +6,7 @@ A theme is a public GitHub repository with a `colors.toml` palette, a `backgroun
 
 The [Omarchy manual](https://omarchy.org/manual/making-your-own-theme/) has the full guide to building one. Before you submit it:
 
-- Name the repository `omarchy-<name>-theme`. The part between the prefix and suffix becomes the theme's install name — lowercase, only letters, digits, `.`, `_`, `+` and `-`.
+- Name the repository `omarchy-<name>-theme`. The part between the prefix and suffix becomes the theme's install name — lowercase, only letters, digits, `.`, `_`, `+` and `-`. If another theme already has that name, yours gets your GitHub username added (`gruvbox-yourname`), and the validation report says so.
 - Set `mode = "light"` or `mode = "dark"` in `colors.toml`.
 - Save a 16:9 screenshot of the theme on a real desktop as `preview.png`. Omarchy's own theme switcher shows this exact file, and so does the marketplace.
 - Keep wallpapers a few MB each — `magick in.png -strip -resize '3840>' -quality 82 out.webp`.
@@ -25,7 +25,7 @@ Once listed, the marketplace follows your repository's default branch — push c
 
 ## What gets checked
 
-**Blocks a listing** — repository missing, private, or over 400 MB; theme files not at the repository root; symlinks; no palette, or one missing `accent`, `background`, `foreground`, `red`, `yellow`, `green`, `cyan`, `blue` or `magenta`; no `preview.png` at the root, or narrower than 1000 px; an image over 50 MB or 40 megapixels; an install name that's invalid, built-in, or already taken (first claim keeps it).
+**Blocks a listing** — repository missing, private, or over 400 MB; theme files not at the repository root; symlinks; no palette, or one missing `accent`, `background`, `foreground`, `red`, `yellow`, `green`, `cyan`, `blue` or `magenta`; no `preview.png` at the root, or narrower than 1000 px; an image over 50 MB or 40 megapixels; a repository name that gives an install name Omarchy refuses.
 
 **Shown as notes, never blocks** — files Omarchy drops on install; `mode` missing or declared inconsistently; wallpapers missing, oversized, in subfolders, or with unusual filenames; a preview that isn't 16:9; no README, LICENSE, or `omarchy-theme` GitHub topic; scripts or binaries in the repository.
 

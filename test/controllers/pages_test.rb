@@ -57,7 +57,8 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_select "dl dd a[href=?]", artist_path("HalmyLyseas"), text: "HalmyLyseas"
     assert_select "dl dd a.font-mono[href*='/commit/']"
     assert_select "dl dd time"
-    assert_select "code", /omarchy theme install/
+    assert_select "code", "omarchy theme install nujabes"
+    assert_select "code", text: /https:/, count: 0
     assert_select "[data-preview=terminal]"
     assert_select "[data-preview=editor]"
     assert_select "[data-preview=fastfetch]"

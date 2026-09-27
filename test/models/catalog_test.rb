@@ -14,7 +14,7 @@ class CatalogTest < ActiveSupport::TestCase
     assert_equal "HalmyLyseas", theme.artist_login
     assert_includes %w[dark light], theme.mode
     assert_match(/\A#[0-9a-f]{6}\z/, theme.accent)
-    assert_match(/\Aomarchy theme install https:\/\/github\.com\//, theme.install)
+    assert_equal "omarchy theme install nujabes", theme.install
     assert_equal 7, theme.short_commit.length
   end
 

@@ -37,9 +37,11 @@ The base URL is currently a development host and will move to `cdn.themes.omarch
   "tags": [],
   "featured": false,
   "warnings": ["REPO_NO_TOPIC"],
-  "install": "omarchy theme install https://github.com/HalmyLyseas/omarchy-nujabes-theme"
+  "install": "omarchy theme install nujabes"
 }
 ```
+
+`install` installs the theme by name, at `commit`.
 
 `installed_files` is what `omarchy theme install <name>` puts on a machine: only the files Omarchy reads from a theme, plus LICENSE and README. `ignored_on_install` lists what a URL install clones but Omarchy then drops.
 

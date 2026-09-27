@@ -36,13 +36,15 @@ A repository that goes missing keeps its listing for three checks (about 18 hour
 Every theme page has an install command:
 
 ```sh
-omarchy theme install https://github.com/<owner>/omarchy-<name>-theme
+omarchy theme install <name>
 ```
 
-Or use the menu: **Super + Space → Install → Style → Theme**.
+Or browse every listed theme from Omarchy: `omarchy theme browse`, or **Super + Space → Install → Style → Theme**.
+
+Installing by name checks out the commit the marketplace validated, and only the files Omarchy reads from a theme.
 
 - **Switch** — Super + Ctrl + Shift + Space opens the theme switcher.
-- **Update** — `omarchy theme update` pulls the latest commit of every installed theme, or **Update → Extra Themes** in the menu.
+- **Update** — `omarchy theme update` moves each installed theme to its newest validated commit, or **Update → Extra Themes** in the menu.
 - **Remove** — `omarchy theme remove <name>`, or **Remove → Theme** in the menu. Switch to another theme first if the one you're removing is active.
 
 Themes installed from a repository can only contribute colours, wallpapers and previews — never code.

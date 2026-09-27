@@ -50,31 +50,54 @@ class CatalogTest < ActiveSupport::TestCase
   private
     def theme_added(date) = Theme.new("slug" => "x", "added_at" => date.iso8601)
 
-  # The CDN is faked by swapping fetch_remote, so each test sees a CDN that works, then fails.
-  class Fallback < ActiveSupport::TestCase
+  # The CDN is faked by swapping fetch_remote: it answers with a catalog, :not_modified, or nil
+  # when it is unreachable.
+  class Loading < ActiveSupport::TestCase
     setup do
       @url = Rails.configuration.x.catalog_url
       @fetch = Catalog.method(:fetch_remote)
       Rails.configuration.x.catalog_url = "https://cdn.test/v1/catalog.json"
-      Catalog.instance_variable_set(:@last_fetched, nil)
+      Catalog.reset!
     end
 
     teardown do
       Rails.configuration.x.catalog_url = @url
       Catalog.define_singleton_method(:fetch_remote, @fetch)
-      Catalog.instance_variable_set(:@last_fetched, nil)
+      Catalog.reset!
     end
 
-    def cdn(data) = Catalog.define_singleton_method(:fetch_remote) { data }
+    def cdn(answer) = Catalog.define_singleton_method(:fetch_remote) { answer }
+
+    def published(generated_at, count: 3)
+      data = Catalog.snapshot.merge("generated_at" => generated_at)
+      data.merge("themes" => data["themes"].first(count))
+    end
+
+    test "every request shares one built catalog until it expires" do
+      cdn(published("2026-10-01T00:00:00Z"))
+      first = Catalog.current
+      cdn(nil)
+      assert_same first, Catalog.current
+      assert first.themes.frozen?
+      assert first.artist_stats.frozen?
+    end
+
+    test "an unchanged catalog is not rebuilt" do
+      cdn(published("2026-10-01T00:00:00Z"))
+      first = Catalog.refresh
+      cdn(:not_modified)
+      assert_same first, Catalog.refresh
+      cdn(published("2026-10-01T00:00:00Z"))
+      assert_same first, Catalog.refresh, "same generated_at"
+      cdn(published("2026-10-02T00:00:00Z", count: 4))
+      assert_equal 4, Catalog.refresh.size
+    end
 
     test "serves the last fetched catalog while the CDN is down" do
-      fetched = Catalog.snapshot.merge("generated_at" => "2026-10-01T00:00:00Z")
-      fetched["themes"] = fetched["themes"].first(3)
-      cdn(fetched)
-      assert_equal 3, Catalog.current.size
-
+      cdn(published("2026-10-01T00:00:00Z"))
+      Catalog.refresh
       cdn(nil)
-      assert_equal 3, Catalog.current.size, "not the older snapshot"
+      assert_equal 3, Catalog.refresh.size, "not the older snapshot"
       assert_equal Time.iso8601("2026-10-01T00:00:00Z"), Catalog.current.generated_at
     end
 

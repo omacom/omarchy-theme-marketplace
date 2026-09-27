@@ -12,8 +12,8 @@ class HomeController < ApplicationController
   def build_stats
     total = catalog.size
     updated_recently = catalog.themes.count { |t| t.pushed_at && t.pushed_at > 30.days.ago }
-    artist_counts = catalog.themes.group_by(&:artist_login).transform_values(&:size)
-    prolific = artist_counts.count { |_, n| n > 1 }
+    artists = catalog.artist_stats
+    prolific = artists.count { |a| a[:count] > 1 }
     dark = catalog.dark.size
     light = catalog.light.size
     pct = ->(n) { total.zero? ? 0 : (n * 100.0 / total).round }
@@ -21,7 +21,7 @@ class HomeController < ApplicationController
     [
       { label: "Themes published", value: total, icon: :mark,
         detail: "#{updated_recently} updated in the last 30d" },
-      { label: "Theme artists", value: artist_counts.size, icon: :github,
+      { label: "Theme artists", value: artists.size, icon: :github,
         detail: "#{prolific} with more than one theme" },
       { label: "Dark themes", value: dark, icon: :moon, pct: pct.(dark),
         detail: "#{pct.(dark)}% of the catalog" },

@@ -2,7 +2,7 @@
 
 The website for [themes.omarchy.org](https://themes.omarchy.org): browse, preview and install community themes for [Omarchy](https://omarchy.org).
 
-Themes are registered, validated and published by [omacom/omarchy-theme-registry](https://github.com/omacom/omarchy-theme-registry); this app fetches `catalog.json` from the CDN, caches it for five minutes, and falls back to the committed snapshot in `data/catalog.json` if the CDN is unreachable.
+Themes are registered, validated and published by [omacom/omarchy-theme-registry](https://github.com/omacom/omarchy-theme-registry); this app fetches `catalog.json` from the CDN, caches it for five minutes, and keeps serving the last catalog it fetched if the CDN becomes unreachable. The committed snapshot in `data/catalog.json` is used only when the app has not reached the CDN since it started.
 
 ## Running locally
 

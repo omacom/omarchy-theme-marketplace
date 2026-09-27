@@ -49,4 +49,38 @@ class CatalogTest < ActiveSupport::TestCase
 
   private
     def theme_added(date) = Theme.new("slug" => "x", "added_at" => date.iso8601)
+
+  # The CDN is faked by swapping fetch_remote, so each test sees a CDN that works, then fails.
+  class Fallback < ActiveSupport::TestCase
+    setup do
+      @url = Rails.configuration.x.catalog_url
+      @fetch = Catalog.method(:fetch_remote)
+      Rails.configuration.x.catalog_url = "https://cdn.test/v1/catalog.json"
+      Catalog.instance_variable_set(:@last_fetched, nil)
+    end
+
+    teardown do
+      Rails.configuration.x.catalog_url = @url
+      Catalog.define_singleton_method(:fetch_remote, @fetch)
+      Catalog.instance_variable_set(:@last_fetched, nil)
+    end
+
+    def cdn(data) = Catalog.define_singleton_method(:fetch_remote) { data }
+
+    test "serves the last fetched catalog while the CDN is down" do
+      fetched = Catalog.snapshot.merge("generated_at" => "2026-10-01T00:00:00Z")
+      fetched["themes"] = fetched["themes"].first(3)
+      cdn(fetched)
+      assert_equal 3, Catalog.current.size
+
+      cdn(nil)
+      assert_equal 3, Catalog.current.size, "not the older snapshot"
+      assert_equal Time.iso8601("2026-10-01T00:00:00Z"), Catalog.current.generated_at
+    end
+
+    test "falls back to the snapshot only before anything was fetched" do
+      cdn(nil)
+      assert_equal Catalog.new(Catalog.snapshot).size, Catalog.current.size
+    end
+  end
 end

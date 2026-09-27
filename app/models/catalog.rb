@@ -1,26 +1,38 @@
 require "net/http"
 
-# The published theme catalog. Fetched from the CDN and cached for a few minutes; the snapshot
-# in data/catalog.json is the fallback when the CDN is unreachable (and the source in tests).
+# The published theme catalog. Fetched from the CDN and cached for a few minutes. When the CDN is
+# unreachable the site keeps serving the last catalog it fetched; the snapshot in data/catalog.json
+# is only for a process that has never reached the CDN (a cold boot during an outage, and tests).
 class Catalog
   CACHE_KEY = "catalog:v1"
   TTL = 5.minutes
+  # While serving a fallback, try the CDN again this soon.
+  RETRY_TTL = 1.minute
   SNAPSHOT = Rails.root.join("data/catalog.json")
 
   Error = Class.new(StandardError)
 
   class << self
     def current
-      new(Rails.cache.fetch(CACHE_KEY, expires_in: TTL) { load_data })
+      new(Rails.cache.read(CACHE_KEY) || refresh)
     end
 
     def url
       Rails.configuration.x.catalog_url
     end
 
-    def load_data
-      remote = url.present? ? fetch_remote : nil
-      remote || snapshot
+    # The snapshot can be weeks old and still list themes that have since left the catalog, so a
+    # fetched copy, however stale, is the better fallback.
+    def refresh
+      if (data = url.present? ? fetch_remote : nil)
+        @last_fetched = data
+        Rails.cache.write(CACHE_KEY, data, expires_in: TTL)
+      else
+        data = @last_fetched || snapshot
+        Rails.logger.warn("[catalog] serving the #{@last_fetched ? "last fetched catalog" : "snapshot"}") if url.present?
+        Rails.cache.write(CACHE_KEY, data, expires_in: RETRY_TTL)
+      end
+      data
     end
 
     def fetch_remote
@@ -31,7 +43,7 @@ class Catalog
       raise Error, "catalog fetch failed: HTTP #{res.code}" unless res.is_a?(Net::HTTPSuccess)
       JSON.parse(res.body)
     rescue StandardError => e
-      Rails.logger.warn("[catalog] #{e.class}: #{e.message}; using snapshot")
+      Rails.logger.warn("[catalog] fetch failed: #{e.class}: #{e.message}")
       nil
     end
 

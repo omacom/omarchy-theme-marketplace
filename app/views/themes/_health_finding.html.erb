@@ -1,0 +1,38 @@
+<details class="group/finding border border-border bg-background" data-health-rule="<%= finding['rule_id'] %>">
+  <summary class="flex min-h-12 cursor-pointer list-none items-center gap-2.5 px-4 py-3 text-xs [&::-webkit-details-marker]:hidden">
+    <%= icon :arrow_right_s, class: "size-3.5 shrink-0 text-muted-foreground group-open/finding:rotate-90" %>
+    <span class="min-w-0 flex-1 font-medium"><%= health_rule_label(finding) %></span>
+    <span class="shrink-0 text-[10px] <%= finding['severity'] == 'failure' ? 'text-destructive' : 'text-muted-foreground' %>"><%= health_severity(finding) %></span>
+  </summary>
+  <div class="border-t border-border px-4 py-4">
+    <p class="text-xs leading-relaxed"><%= finding["summary"] %></p>
+    <p class="mt-2 text-[10px] text-muted-foreground"><%= ThemeHealthHelper::HEALTH_METHODS.fetch(finding["method"]) %></p>
+    <% if finding["reason"].present? %><p class="mt-3 text-xs leading-relaxed text-muted-foreground"><%= finding["reason"] %></p><% end %>
+    <% if (measurement = finding["measurement"]) %>
+      <div class="mt-4 flex flex-wrap items-center gap-4">
+        <% if measurement["foreground"] && measurement["background"] %>
+          <% if measurement["kind"] == "contrast" %>
+            <div class="flex min-h-16 min-w-36 flex-1 items-center justify-center border border-border p-4 text-sm"
+                 style="color: <%= measurement['foreground'] %>; background-color: <%= measurement['background'] %>" aria-hidden="true">Sample text</div>
+          <% else %>
+            <div class="flex flex-1 gap-2 text-[10px] text-muted-foreground"><div class="flex-1"><div class="h-12 border border-border" style="background-color: <%= measurement['background'] %>" aria-hidden="true"></div><p class="mt-1">Normal fill</p></div><div class="flex-1"><div class="h-12 border border-border" style="background-color: <%= measurement['foreground'] %>" aria-hidden="true"></div><p class="mt-1">State fill</p></div></div>
+          <% end %>
+        <% end %>
+        <dl class="flex items-center gap-4 text-xs">
+          <div><dt class="text-[10px] text-muted-foreground">Measured</dt><dd class="mt-1 text-lg tabular-nums"><%= health_measurement(measurement["value"]) %><% if measurement["kind"] == "contrast" %><span class="text-xs text-muted-foreground">:1</span><% end %></dd></div>
+          <div class="border-l border-border pl-4"><dt class="text-[10px] text-muted-foreground">Target</dt><dd class="mt-1 text-lg tabular-nums"><%= health_measurement(measurement["target"]) %><% if measurement["kind"] == "contrast" %><span class="text-xs text-muted-foreground">:1</span><% end %></dd></div>
+        </dl>
+      </div>
+      <p class="mt-2 break-words text-[10px] text-muted-foreground">
+        <% if measurement["foreground"] && measurement["background"] %><%= measurement["foreground"] %> on <%= measurement["background"] %> · colors rounded for display.<% end %>
+        <%= measurement["kind"] == "distance" ? "OKLab distance, not a contrast ratio." : "Ratio from the analyzer’s measurement, not this browser rendering." %>
+      </p>
+    <% end %>
+    <% if finding["remediation"].present? %>
+      <p class="mt-4 text-xs leading-relaxed"><span class="font-medium">What could improve</span><br><span class="text-muted-foreground"><%= finding["remediation"] %></span></p>
+    <% end %>
+    <ul class="mt-3 flex flex-col gap-1 text-[10px] text-muted-foreground">
+      <% finding["sources"].each do |source| %><li class="break-words"><%= [ source["file"], source["section"].presence, source["key"].presence ].compact.join(" → ") %></li><% end %>
+    </ul>
+  </div>
+</details>

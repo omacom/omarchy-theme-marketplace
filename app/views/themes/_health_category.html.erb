@@ -1,0 +1,25 @@
+<% area = ThemeHealthHelper::HEALTH_AREAS.fetch(category["id"])
+   issues = health.issues_for(category["id"])
+   passed = health.passed_for(category["id"]) %>
+<details class="group/area border-b border-border last:border-b-0" data-health-category="<%= category['id'] %>">
+  <summary class="flex min-h-20 cursor-pointer list-none items-center gap-3 px-4 py-4 sm:px-5 [&::-webkit-details-marker]:hidden">
+    <span class="inline-flex size-8 shrink-0 items-center justify-center border border-border text-sm font-medium"><%= category["grade"] || "—" %></span>
+    <div class="min-w-0 flex-1">
+      <div class="flex flex-wrap items-center gap-2"><h3 class="font-heading text-sm font-medium"><%= area.first %></h3><% if category["state"] == "limited" %><%= ui_badge "Limited", variant: :outline %><% end %></div>
+      <p class="mt-1 text-[11px] leading-relaxed text-muted-foreground"><%= category["summary"] %></p>
+    </div>
+    <%= icon :arrow_right_s, class: "size-3.5 shrink-0 text-muted-foreground group-open/area:rotate-90" %>
+  </summary>
+  <div class="border-t border-border bg-background/30 px-4 py-4 sm:px-5">
+    <p class="mb-4 text-xs leading-relaxed text-muted-foreground"><%= area.last %>.</p>
+    <div class="flex flex-col gap-2"><% issues.each do |finding| %><%= render "themes/health_finding", finding: finding %><% end %></div>
+    <% if passed.any? %>
+      <details class="mt-4" data-health-passes>
+        <summary class="flex min-h-8 cursor-pointer items-center gap-2 text-[11px] text-muted-foreground"><%= icon :check, class: "size-3.5" %><%= pluralize(passed.size, "check") %> meet targets</summary>
+        <ul class="mt-2 flex flex-col gap-2 border-t border-border pt-3">
+          <% passed.each do |finding| %><li><%= render "themes/health_finding", finding: finding %></li><% end %>
+        </ul>
+      </details>
+    <% end %>
+  </div>
+</details>

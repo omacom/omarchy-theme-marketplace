@@ -31,6 +31,19 @@ Once listed, the marketplace follows your repository's default branch — push c
 
 A listed theme is checked again every six hours. If its repository goes missing, turns private, or stops passing these checks, it drops off the marketplace at the next check, and you get a GitHub notification listing what to fix. It comes back automatically once it passes again. There's no need to resubmit.
 
+## Theme health
+
+Some themes have a small clipboard and letter beside their GitHub stars. It opens an **advisory report card**: theme integrity, text contrast, state distinction, shell surfaces, and sampled wallpaper resilience. It measures functional properties, not taste, security, or overall accessibility. It never changes a listing, installation, gallery order, or featured status.
+
+- **A–F:** the analyzer's grade for the theme commit shown in the report, generated using a pinned, supported Omarchy revision without personal overrides.
+- **An asterisk, such as B\*:** provisional. Some checks were not measured; those checks are not treated as passes.
+- **Out of date:** the theme commit changed. The old letter is not shown as a current rating.
+- **Not checked:** no supported report is available. It does not mean the theme failed.
+
+Open an area to read its findings, targets and suggested improvements. The report identifies its theme commit, check time, analyzer, experimental ruleset, profile and Omarchy revision. Translucent surfaces use reference backgrounds and wallpapers are sampled, not exhaustively tested; these are not captures of your desktop or an accessibility certification. Measurement assumptions and JSON are available on the theme page.
+
+Measurements are optional and refresh with the catalog when the analyzer is available. A missing tool, unsupported runtime or audit error leaves the theme available without a current grade. If the measurements suggest a change, the theme page links to the artist's repository; the website never edits or runs a theme.
+
 ## Install, update, and remove
 
 Every theme page has an install command:

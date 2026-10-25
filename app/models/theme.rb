@@ -35,7 +35,7 @@ class Theme
   }.freeze
 
   ATTRS = %i[slug name repo artist description license mode hue colors generation ignored_on_install
-             backgrounds preview commit pushed_at stars added_at tags featured warnings install].freeze
+             backgrounds preview commit pushed_at stars added_at tags featured warnings install health].freeze
 
   attr_reader(*ATTRS)
 
@@ -55,6 +55,7 @@ class Theme
     @backgrounds = data.fetch("backgrounds", {}).transform_keys(&:to_s)
     @preview = data.fetch("preview", {}).transform_keys(&:to_s)
     @commit = data["commit"]
+    @health = ThemeHealth.new(data["health"], commit: @commit)
     @pushed_at = data["pushed_at"] && Time.iso8601(data["pushed_at"])
     @stars = data["stars"].to_i
     @added_at = data["added_at"] && Date.iso8601(data["added_at"])

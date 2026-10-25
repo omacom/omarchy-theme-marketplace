@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   get "themes", to: redirect("/#themes")
   # Slugs may contain dots ("foo.v2"), which Rails would otherwise read as a format.
+  get "themes/:slug/health", to: "themes#health", as: :theme_health, constraints: { slug: %r{[^/]+} }, format: false, defaults: { format: :json }
   get "themes/:slug", to: "themes#show", as: :theme, constraints: { slug: %r{[^/]+} }, format: false
   get "artists", to: "artists#index", as: :artists
   get "artists/:login", to: "artists#show", as: :artist, constraints: { login: /[A-Za-z0-9-]+/ }

@@ -1,0 +1,9 @@
+<% if theme.health.graded? %>
+  <%= link_to theme_path(theme, anchor: "theme-health"),
+        class: "inline-flex min-h-7 items-center gap-1 text-xs font-medium text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        title: "Theme health: #{theme.health.grade_label} — advisory report",
+        "aria-label": "Theme health for #{theme.name}: #{theme.health.grade_label}#{' (provisional)' if theme.health.provisional?}. Open advisory report",
+        data: { turbo_frame: "_top", theme_health_grade: true } do %>
+    <%= icon :survey, class: "size-4" %><span><%= theme.health.grade_label %></span>
+  <% end %>
+<% end %>

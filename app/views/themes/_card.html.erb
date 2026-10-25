@@ -15,9 +15,12 @@
       <a href="<%= theme_path(theme) %>" class="block truncate text-sm font-medium transition-colors hover:text-primary" data-turbo-frame="_top"><%= theme.name %></a>
       <p class="truncate text-xs text-muted-foreground">by <%= theme.artist_login %></p>
     </div>
-    <span class="inline-flex h-7 shrink-0 items-center gap-1 px-1.5 text-xs tabular-nums text-muted-foreground"
-          title="GitHub stars" aria-label="<%= pluralize(theme.stars, "GitHub star") %>">
-      <%= icon :star, class: "size-4" %><%= number_to_human(theme.stars, format: "%n%u", units: { thousand: "k" }, precision: 1, significant: false, strip_insignificant_zeros: true) %>
-    </span>
+    <div class="flex shrink-0 items-center gap-1.5">
+      <span class="inline-flex h-7 shrink-0 items-center gap-1 px-1.5 text-xs tabular-nums text-muted-foreground"
+            title="GitHub stars" aria-label="<%= pluralize(theme.stars, "GitHub star") %>">
+        <%= icon :star, class: "size-4" %><%= number_to_human(theme.stars, format: "%n%u", units: { thousand: "k" }, precision: 1, significant: false, strip_insignificant_zeros: true) %>
+      </span>
+      <%= render "themes/health_grade", theme: theme %>
+    </div>
   <% end %>
 <% end %>

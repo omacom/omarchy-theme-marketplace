@@ -72,7 +72,7 @@
     <%# label, text, optional href/title for a link, optional datetime for a <time> %>
     <% details = [
       { label: "Artist", text: @theme.artist_login, href: artist_path(@theme.artist_login) },
-      { label: "Github Stars", text: number_with_delimiter(@theme.stars) },
+      { label: "Github Stars", text: number_with_delimiter(@theme.stars), health: true },
       { label: "License", text: @theme.license || "Not specified" },
       { label: "Wallpapers", text: "#{@theme.backgrounds["count"].to_i}#{" + video" if @theme.backgrounds["has_video"]}" },
       { label: "Updated", text: @theme.pushed_at ? @theme.pushed_at.to_date.to_fs(:long) : "—", time: @theme.pushed_at },
@@ -84,7 +84,9 @@
         <div class="bg-card px-4 py-3">
           <dt class="text-[11px] font-medium tracking-wide text-muted-foreground uppercase"><%= d[:label] %></dt>
           <dd class="mt-1 truncate text-sm tabular-nums" title="<%= d[:title] || d[:text] %>">
-            <% if d[:href] %>
+            <% if d[:health] %>
+              <span class="inline-flex items-center gap-2 text-muted-foreground"><%= d[:text] %><%= render "themes/health_grade", theme: @theme %></span>
+            <% elsif d[:href] %>
               <%= link_to d[:text], d[:href], class: "hover:text-primary #{"font-mono" if d[:mono]}".strip %>
             <% elsif d[:time] %>
               <%= time_tag d[:time], d[:text] %>
@@ -101,6 +103,8 @@
     </dl>
   </div>
 </section>
+
+<%= render "themes/health", theme: @theme %>
 
 <section class="border-b border-border">
   <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">

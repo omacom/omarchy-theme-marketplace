@@ -1,0 +1,64 @@
+<% health = theme.health %>
+<section id="theme-health" aria-labelledby="health-heading" class="scroll-mt-20 border-b border-border">
+  <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2.5"><h2 id="health-heading" class="font-heading text-xl font-semibold tracking-tight">Theme health</h2><%= ui_badge "Advisory", variant: :secondary %></div>
+        <p class="mt-2 max-w-2xl text-xs leading-relaxed text-muted-foreground">Readability and theme integrity, measured separately from how a theme looks.</p>
+      </div>
+      <%= link_to "How grades work", guide_path(anchor: "theme-health"), class: "inline-flex min-h-8 items-center text-xs text-muted-foreground hover:text-foreground" %>
+    </div>
+
+    <% if health.graded? %>
+      <% if health.provisional? %>
+        <p class="mb-5 border border-border bg-muted/30 px-4 py-3 text-xs leading-relaxed"><strong>Provisional — some checks were not measured.</strong><br><span class="text-muted-foreground">The <%= health.grade_label %> applies only to the checks that could run. Unmeasured checks are not passes.</span></p>
+      <% end %>
+      <div class="grid overflow-hidden border border-border bg-card lg:grid-cols-[260px_1fr]">
+        <div class="border-b border-border p-5 lg:border-r lg:border-b-0 lg:p-6">
+          <p class="text-[10px] font-medium tracking-widest text-muted-foreground uppercase">Overall grade</p>
+          <div class="mt-5 flex items-baseline gap-3"><span class="font-mono text-7xl leading-none font-medium tracking-tight"><%= health.grade_label %></span><span class="text-xs text-muted-foreground"><%= health.provisional? ? "Provisional" : "Measured" %></span></div>
+          <p class="mt-5 font-heading text-base leading-snug font-medium"><%= health.summary %></p>
+          <div class="mt-5 flex flex-wrap gap-x-4 gap-y-2 border-t border-border pt-4 text-[11px]">
+            <span><%= pluralize(health.count("failure"), "problem") %></span><span><%= pluralize(health.count("caution"), "caution") %></span>
+            <span class="text-muted-foreground"><%= pluralize(health.count("pass"), "check") %> meet targets</span>
+            <% if health.unmeasured_count.positive? %><span class="text-muted-foreground"><%= health.unmeasured_count %> not measured</span><% end %>
+          </div>
+          <p class="mt-6 text-[10px] leading-relaxed text-muted-foreground">A letter describes the checks performed—not taste, overall accessibility, security, or whether you should install the theme.</p>
+          <% if health.data["cap_reasons"].any? %><p class="mt-4 text-xs text-muted-foreground">Foundational input problems cap this grade. <%= health.data["cap_reasons"].join(", ") %></p><% end %>
+        </div>
+        <div><% health.categories.each do |category| %><%= render "themes/health_category", health: health, category: category %><% end %></div>
+      </div>
+    <% else %>
+      <%= ui_card do %><%= ui_card_content do %>
+        <% if health.outdated? %>
+          <h3 class="font-heading text-lg font-medium">The theme has changed since its last check.</h3>
+          <p class="mt-2 text-xs leading-relaxed text-muted-foreground">The previous report belongs to an older commit, so its grade is not shown as the current theme’s rating. A new check is needed.</p>
+        <% elsif health.current? %>
+          <h3 class="font-heading text-lg font-medium">No grade could be measured.</h3>
+          <p class="mt-2 text-xs leading-relaxed text-muted-foreground"><%= health.summary %> This is a measurement limitation, not a failed theme.</p>
+          <div class="mt-5"><% health.categories.each do |category| %><%= render "themes/health_category", health: health, category: category %><% end %></div>
+        <% else %>
+          <h3 class="font-heading text-lg font-medium">Not checked yet.</h3>
+          <p class="mt-2 text-xs leading-relaxed text-muted-foreground">There is no supported report for this version of the theme. That is not a low grade or a failed check.</p>
+        <% end %>
+        <p class="mt-4 text-xs text-muted-foreground">The preview, palette and install command remain available as usual.</p>
+      <% end %><% end %>
+    <% end %>
+
+    <% if health.available? %>
+      <div class="mt-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 text-[10px] leading-relaxed text-muted-foreground">
+        <p><%= health.outdated? ? "Previous check" : "Checked" %> <%= time_tag health.checked_at, "#{health.checked_at.getutc.to_fs(:long)} UTC" %> · Commit <%= link_to health.data["commit"][0, 7], "#{theme.repo}/commit/#{health.data['commit']}", class: "underline underline-offset-2" %> · Theme Report <%= health.data["analyzer_version"] %> · Rules <%= health.data["ruleset_version"] %></p>
+        <% if health.current? %><%= link_to "Report JSON", theme_health_path(theme), class: "inline-flex min-h-8 items-center hover:text-foreground" %><% end %>
+      </div>
+      <details class="mt-6 border-t border-border pt-4">
+        <summary class="min-h-8 cursor-pointer text-xs text-muted-foreground">Measurement assumptions and provenance</summary>
+        <ul class="mt-3 flex flex-col gap-2 text-xs leading-relaxed text-muted-foreground"><% health.data["assumptions"].each do |assumption| %><li><%= assumption %></li><% end %></ul>
+        <dl class="mt-4 flex flex-col gap-2 text-[11px] text-muted-foreground">
+          <div><dt class="inline">Profile: </dt><dd class="inline break-all"><%= health.data["profile"] %></dd></div>
+          <div><dt class="inline">Omarchy revision: </dt><dd class="inline break-all"><%= link_to health.data["runtime_commit"], "https://github.com/omacom/omarchy/commit/#{health.data['runtime_commit']}", class: "underline underline-offset-2" %></dd></div>
+          <div><dt class="inline">Input fingerprint: </dt><dd class="inline break-all"><%= health.data["input_fingerprint"] %></dd></div>
+        </dl>
+      </details>
+    <% end %>
+  </div>
+</section>

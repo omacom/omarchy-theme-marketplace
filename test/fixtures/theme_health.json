@@ -1,0 +1,812 @@
+{
+  "schema_version": 1,
+  "commit": "1111111111111111111111111111111111111111",
+  "runtime_commit": "eeff52bcc5d3bb1929edac55a541e853fb9d158a",
+  "analyzer_version": "0.9.2",
+  "ruleset_version": "5-experimental",
+  "profile": "quattro-shell-2026-v1",
+  "input_fingerprint": "03e2a77c2b738e64b9ac45705a3b6d771af2d144458e70b95cf855c7f1e34139",
+  "checked_at": "2026-10-22T16:55:56.000Z",
+  "state": "ready",
+  "grade": "A",
+  "summary": "All checked areas look healthy.",
+  "cap_reasons": [],
+  "categories": [
+    {
+      "id": "validity",
+      "grade": "A",
+      "state": "ready",
+      "summary": "No problems found"
+    },
+    {
+      "id": "readability",
+      "grade": "A",
+      "state": "ready",
+      "summary": "No problems found"
+    },
+    {
+      "id": "semantic",
+      "grade": "A",
+      "state": "ready",
+      "summary": "No problems found"
+    },
+    {
+      "id": "shell",
+      "grade": "A",
+      "state": "ready",
+      "summary": "No problems found"
+    },
+    {
+      "id": "wallpaper",
+      "grade": "A",
+      "state": "ready",
+      "summary": "No problems found"
+    }
+  ],
+  "findings": [
+    {
+      "rule_id": "validity.palette",
+      "category": "validity",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "resolved-token",
+      "summary": "Palette parses as TOML",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "colors.toml",
+          "section": "",
+          "key": ""
+        }
+      ]
+    },
+    {
+      "rule_id": "validity.roles",
+      "category": "validity",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "resolved-token",
+      "summary": "Foundational roles resolve without transient state",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "colors.toml",
+          "section": "",
+          "key": ""
+        }
+      ]
+    },
+    {
+      "rule_id": "validity.shell",
+      "category": "validity",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "resolved-token",
+      "summary": "Known shell domains and generated tokens are valid",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "profile.defaults",
+          "section": "",
+          "key": ""
+        }
+      ]
+    },
+    {
+      "rule_id": "validity.backgrounds",
+      "category": "validity",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "bounded-media-decode",
+      "summary": "Wallpaper media parses and sampled frames decode",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "backgrounds/",
+          "section": "",
+          "key": ""
+        },
+        {
+          "file": "backgrounds/night.png",
+          "section": "",
+          "key": ""
+        }
+      ]
+    },
+    {
+      "rule_id": "readability.foundation",
+      "category": "readability",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "resolved-token",
+      "summary": "Foundational text contrast",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "colors.toml",
+          "section": "",
+          "key": ""
+        },
+        {
+          "file": "colors.toml",
+          "section": "",
+          "key": "foreground"
+        },
+        {
+          "file": "colors.toml",
+          "section": "",
+          "key": "background"
+        }
+      ],
+      "measurement": {
+        "kind": "contrast",
+        "value": 16.618188714085147,
+        "target": 4.5,
+        "foreground": "#f0f2f4",
+        "background": "#101315"
+      }
+    },
+    {
+      "rule_id": "readability.selection",
+      "category": "readability",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "resolved-token",
+      "summary": "Terminal selected text contrast",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "colors.toml",
+          "section": "",
+          "key": ""
+        },
+        {
+          "file": "colors.toml",
+          "section": "",
+          "key": "selection_foreground"
+        },
+        {
+          "file": "colors.toml",
+          "section": "",
+          "key": "selection_background"
+        }
+      ],
+      "measurement": {
+        "kind": "contrast",
+        "value": 9.552513183634966,
+        "target": 4.5,
+        "foreground": "#ffffff",
+        "background": "#34475b"
+      }
+    },
+    {
+      "rule_id": "readability.bar",
+      "category": "readability",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "resolved-token",
+      "summary": "bar text contrast",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "profile.defaults",
+          "section": "bar",
+          "key": "background"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "bar",
+          "key": "background-alpha"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "bar",
+          "key": "text"
+        }
+      ],
+      "measurement": {
+        "kind": "contrast",
+        "value": 16.618188714085147,
+        "target": 4.5,
+        "foreground": "#f0f2f4",
+        "background": "#101315"
+      }
+    },
+    {
+      "rule_id": "readability.popups",
+      "category": "readability",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "resolved-token",
+      "summary": "popups text contrast",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "profile.defaults",
+          "section": "popups",
+          "key": "background"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "popups",
+          "key": "background-alpha"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "popups",
+          "key": "text"
+        }
+      ],
+      "measurement": {
+        "kind": "contrast",
+        "value": 16.618188714085147,
+        "target": 4.5,
+        "foreground": "#f0f2f4",
+        "background": "#101315"
+      }
+    },
+    {
+      "rule_id": "readability.notifications",
+      "category": "readability",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "resolved-token",
+      "summary": "notifications text contrast",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "profile.defaults",
+          "section": "notifications",
+          "key": "background"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "notifications",
+          "key": "background-alpha"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "notifications",
+          "key": "text"
+        }
+      ],
+      "measurement": {
+        "kind": "contrast",
+        "value": 16.618188714085147,
+        "target": 4.5,
+        "foreground": "#f0f2f4",
+        "background": "#101315"
+      }
+    },
+    {
+      "rule_id": "readability.menu.selected",
+      "category": "readability",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "resolved-token",
+      "summary": "menu text contrast",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "profile.defaults",
+          "section": "menu",
+          "key": "background"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "menu",
+          "key": "background-alpha"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "menu",
+          "key": "selected-text"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "menu",
+          "key": "selected-background"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "menu",
+          "key": "selected-background-alpha"
+        }
+      ],
+      "measurement": {
+        "kind": "contrast",
+        "value": 7.796406419084601,
+        "target": 4.5,
+        "foreground": "#88bbff",
+        "background": "#222527"
+      }
+    },
+    {
+      "rule_id": "readability.launcher.selected",
+      "category": "readability",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "modeled-appearance",
+      "summary": "launcher text contrast",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "profile.defaults",
+          "section": "launcher",
+          "key": "background"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "launcher",
+          "key": "background-alpha"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "launcher",
+          "key": "selected-text"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "launcher",
+          "key": "selected-background"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "launcher",
+          "key": "selected-background-alpha"
+        }
+      ],
+      "measurement": {
+        "kind": "contrast",
+        "value": 7.261515759937704,
+        "target": 4.5,
+        "foreground": "#88bbff",
+        "background": "#272a2c"
+      }
+    },
+    {
+      "rule_id": "readability.polkit",
+      "category": "readability",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "resolved-token",
+      "summary": "polkit text contrast",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "profile.defaults",
+          "section": "polkit",
+          "key": "background"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "polkit",
+          "key": "background-alpha"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "polkit",
+          "key": "text"
+        }
+      ],
+      "measurement": {
+        "kind": "contrast",
+        "value": 16.618188714085147,
+        "target": 4.5,
+        "foreground": "#f0f2f4",
+        "background": "#101315"
+      }
+    },
+    {
+      "rule_id": "readability.lock",
+      "category": "readability",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "modeled-appearance",
+      "summary": "lock text contrast",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "profile.defaults",
+          "section": "lock",
+          "key": "background"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "lock",
+          "key": "background-alpha"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "lock",
+          "key": "text"
+        },
+        {
+          "file": "backgrounds/night.png",
+          "section": "",
+          "key": ""
+        }
+      ],
+      "measurement": {
+        "kind": "contrast",
+        "value": 16.618188714085147,
+        "target": 4.5,
+        "foreground": "#f0f2f4",
+        "background": "#101315"
+      }
+    },
+    {
+      "rule_id": "readability.tooltip",
+      "category": "readability",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "modeled-appearance",
+      "summary": "tooltip text contrast",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "profile.defaults",
+          "section": "tooltip",
+          "key": "background"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "tooltip",
+          "key": "background-alpha"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "tooltip",
+          "key": "text"
+        }
+      ],
+      "measurement": {
+        "kind": "contrast",
+        "value": 15.566428352972764,
+        "target": 4.5,
+        "foreground": "#f0f2f4",
+        "background": "#171a1c"
+      }
+    },
+    {
+      "rule_id": "semantic.accent",
+      "category": "semantic",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "resolved-token",
+      "summary": "Accent indicator contrasts with the foundation",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "colors.toml",
+          "section": "",
+          "key": ""
+        },
+        {
+          "file": "colors.toml",
+          "section": "",
+          "key": "accent"
+        },
+        {
+          "file": "colors.toml",
+          "section": "",
+          "key": "background"
+        }
+      ],
+      "measurement": {
+        "kind": "contrast",
+        "value": 9.412868132348043,
+        "target": 3,
+        "foreground": "#88bbff",
+        "background": "#101315"
+      }
+    },
+    {
+      "rule_id": "semantic.error-indicator",
+      "category": "semantic",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "resolved-token",
+      "summary": "Error indicator contrasts with the foundation",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "colors.toml",
+          "section": "",
+          "key": ""
+        },
+        {
+          "file": "colors.toml",
+          "section": "",
+          "key": "red"
+        },
+        {
+          "file": "colors.toml",
+          "section": "",
+          "key": "background"
+        }
+      ],
+      "measurement": {
+        "kind": "contrast",
+        "value": 7.244266804303173,
+        "target": 3,
+        "foreground": "#ff7777",
+        "background": "#101315"
+      }
+    },
+    {
+      "rule_id": "semantic.selection",
+      "category": "semantic",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "resolved-token",
+      "summary": "Terminal selection differs from ordinary surface",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "colors.toml",
+          "section": "",
+          "key": ""
+        },
+        {
+          "file": "colors.toml",
+          "section": "",
+          "key": "selection_background"
+        }
+      ],
+      "measurement": {
+        "kind": "distance",
+        "value": 0.2092351984230243,
+        "target": 0.05,
+        "foreground": "#34475b",
+        "background": "#101315"
+      }
+    },
+    {
+      "rule_id": "shell.selected-fill",
+      "category": "shell",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "modeled-appearance",
+      "summary": "Shared selected fill provides a modeled cue",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "profile.defaults",
+          "section": "controls",
+          "key": "normal-color"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "controls",
+          "key": "normal-fill-alpha"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "controls",
+          "key": "selected-color"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "controls",
+          "key": "selected-fill-alpha"
+        }
+      ],
+      "measurement": {
+        "kind": "distance",
+        "value": 0.12707429692980418,
+        "target": 0.02,
+        "foreground": "#383b3d",
+        "background": "#191c1e"
+      }
+    },
+    {
+      "rule_id": "shell.focus-fill",
+      "category": "shell",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "modeled-appearance",
+      "summary": "Shared focus fill provides a modeled cue",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "profile.defaults",
+          "section": "controls",
+          "key": "normal-color"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "controls",
+          "key": "normal-fill-alpha"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "controls",
+          "key": "focus-color"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "controls",
+          "key": "focus-fill-alpha"
+        }
+      ],
+      "measurement": {
+        "kind": "distance",
+        "value": 0.03781126513154785,
+        "target": 0.02,
+        "foreground": "#222527",
+        "background": "#191c1e"
+      }
+    },
+    {
+      "rule_id": "shell.popup-border",
+      "category": "shell",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "modeled-appearance",
+      "summary": "Popup border separates from its surface",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "profile.defaults",
+          "section": "popups",
+          "key": "border"
+        }
+      ],
+      "measurement": {
+        "kind": "contrast",
+        "value": 9.412868132348043,
+        "target": 3,
+        "foreground": "#88bbff",
+        "background": "#101315"
+      }
+    },
+    {
+      "rule_id": "wallpaper.lock-model",
+      "category": "wallpaper",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "modeled-appearance",
+      "summary": "lock text under the fixed wallpaper stress model",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "profile.defaults",
+          "section": "lock",
+          "key": "background"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "lock",
+          "key": "background-alpha"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "lock",
+          "key": "text"
+        },
+        {
+          "file": "backgrounds/night.png",
+          "section": "",
+          "key": ""
+        }
+      ],
+      "measurement": {
+        "kind": "contrast",
+        "value": 16.618188714085147,
+        "target": 4.5,
+        "foreground": "#f0f2f4",
+        "background": "#101315"
+      }
+    },
+    {
+      "rule_id": "wallpaper.launcher-model",
+      "category": "wallpaper",
+      "severity": "pass",
+      "scored": true,
+      "assessment_status": "assessed",
+      "policy_suppressed": false,
+      "method": "modeled-appearance",
+      "summary": "launcher text under the fixed wallpaper stress model",
+      "remediation": "No change needed.",
+      "sources": [
+        {
+          "file": "profile.defaults",
+          "section": "launcher",
+          "key": "background"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "launcher",
+          "key": "background-alpha"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "launcher",
+          "key": "selected-text"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "launcher",
+          "key": "selected-background"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "launcher",
+          "key": "selected-background-alpha"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "launcher",
+          "key": "scrim"
+        },
+        {
+          "file": "profile.defaults",
+          "section": "launcher",
+          "key": "scrim-alpha"
+        },
+        {
+          "file": "backgrounds/night.png",
+          "section": "",
+          "key": ""
+        }
+      ],
+      "measurement": {
+        "kind": "contrast",
+        "value": 7.796406419084601,
+        "target": 4.5,
+        "foreground": "#88bbff",
+        "background": "#222527"
+      }
+    }
+  ],
+  "assumptions": [
+    "Resolved-token checks do not reproduce runtime pixels or transient palette state.",
+    "Translucent application-backed surfaces use 17 reference gray backgrounds; grades describe sampled stress resilience, not live window pixels.",
+    "Wallpaper rules are fixed unblurred wallpaper stress models, not lock/launcher runtime accessibility claims.",
+    "Video uses five deterministic temporal samples of 8-bit SDR media, not every frame; decoder identity participates in the fingerprint.",
+    "Experimental semantic/state thresholds are published policy, not universal accessibility standards."
+  ]
+}
